@@ -100,20 +100,21 @@ function FlipCard({ member }: { member: RosterMember }) {
  *  card and reveal the archive-photo (or vintage-toned) reverse side. */
 export default function AmyRosterGrid() {
   return (
-    <div className="h-full min-h-full flex flex-col bg-gradient-to-b from-[#241b3d] to-[#140f28] p-3.5 sm:p-4">
-      <p className="text-center font-display font-extrabold text-sm text-white tracking-tight">THE 27 CLUB</p>
-      <p className="text-center text-[9px] font-semibold uppercase tracking-widest text-pearl-gold/80 mb-3">11 ICONS. ONE LEGACY.</p>
-      {/* flex-1 + centered content — the grid fills whatever height the
-          phone screen actually renders at instead of leaving the phone's
-          own white background exposed below a short, top-anchored block. */}
+    <div className="h-full min-h-full flex flex-col bg-gradient-to-b from-[#241b3d] to-[#140f28] p-2 sm:p-2.5">
+      <p className="text-center font-display font-extrabold text-xs text-white tracking-tight">THE 27 CLUB</p>
+      <p className="text-center text-[7.5px] font-semibold uppercase tracking-widest text-pearl-gold/80 mb-1.5">11 ICONS. ONE LEGACY.</p>
+      {/* flex-1 + centered content, tighter gaps and outer padding than
+          before so the portraits themselves get as much of the phone
+          screen as possible rather than reading as small thumbnails
+          swimming in dark chrome. */}
       <div className="flex-1 flex flex-col justify-center">
-        <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
+        <div className="grid grid-cols-3 gap-1.5">
           {ROSTER.map((m) => (
             <FlipCard key={m.name} member={m} />
           ))}
         </div>
       </div>
-      <p className="text-center text-[8px] text-white/40 pt-2">Hover or tap a card to flip</p>
+      <p className="text-center text-[7px] text-white/40 pt-1.5">Hover or tap a card to flip</p>
     </div>
   )
 }

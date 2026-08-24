@@ -5,7 +5,7 @@
 
 export function GoldCoin({ size = 34, className = '' }: { size?: number; className?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 40 40" className={className}>
+    <svg width={size} height={size} viewBox="0 0 40 40" className={className} style={{ filter: 'drop-shadow(0 3px 5px rgba(120,80,20,0.4))' }}>
       <defs>
         <radialGradient id="coinGrad" cx="35%" cy="30%" r="75%">
           <stop offset="0%" stopColor="#fff3d0" />
@@ -24,7 +24,7 @@ export function GoldCoin({ size = 34, className = '' }: { size?: number; classNa
 
 export function MusicNote({ size = 26, className = '', color = '#ffffff' }: { size?: number; className?: string; color?: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className} style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.35))' }}>
       <path
         d="M9 18V5.5L20 3v12.5M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm11-2.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
         stroke={color}
@@ -37,9 +37,19 @@ export function MusicNote({ size = 26, className = '', color = '#ffffff' }: { si
 }
 
 export function HeartIcon({ size = 20, className = '', color = '#c23b3b' }: { size?: number; className?: string; color?: string }) {
+  const gid = `heartHi-${color.replace('#', '')}`
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} className={className}>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} className={className} style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.35))' }}>
       <path d="M12 21s-7.2-4.6-9.9-9.1C.4 8.6 1.6 5 5 3.9c2-.7 4 .1 5 1.9 1-1.8 3-2.6 5-1.9 3.4 1.1 4.6 4.7 2.9 8-2.7 4.5-9.9 9.1-9.9 9.1Z" />
+      {/* Small glossy highlight on the left lobe for a rounded, embossed
+          read instead of a flat silhouette */}
+      <defs>
+        <radialGradient id={gid} cx="35%" cy="30%" r="60%">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <path d="M12 21s-7.2-4.6-9.9-9.1C.4 8.6 1.6 5 5 3.9c2-.7 4 .1 5 1.9 1-1.8 3-2.6 5-1.9 3.4 1.1 4.6 4.7 2.9 8-2.7 4.5-9.9 9.1-9.9 9.1Z" fill={`url(#${gid})`} />
     </svg>
   )
 }
@@ -127,13 +137,29 @@ export function VinylRecord({ size = 64, className = '' }: { size?: number; clas
   )
 }
 
+/** A gold-foiled swallow with a metallic gradient body, a soft specular
+ *  highlight along the top wing and a grounding drop-shadow — reads as a
+ *  small embossed/sculpted ornament rather than a flat silhouette icon. */
 export function GoldSwallow({ size = 44, className = '' }: { size?: number; className?: string }) {
+  const gid = 'swallowGrad'
   return (
-    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className}>
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className} style={{ filter: 'drop-shadow(0 3px 5px rgba(120,80,20,0.45))' }}>
+      <defs>
+        <linearGradient id={gid} x1="6" y1="8" x2="42" y2="40" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#fff3d0" />
+          <stop offset="45%" stopColor="#e2c07f" />
+          <stop offset="100%" stopColor="#8a641f" />
+        </linearGradient>
+      </defs>
       <path
         d="M24 20c-4-7-12-10-20-8 5 2 8 5 9 9-5 0-9 3-11 7 5-1 9 0 12 3-3 3-4 7-3 11 3-3 6-4 9-3-1 5 1 9 5 11-1-4 0-8 3-11 3 3 7 4 11 3-4-2-6-5-6-9 4 1 8 0 11-3-4-1-8-4-9-8 4-1 7-4 9-8-6 1-11 5-13 10-2-3-4-6-7-4Z"
-        fill="#c9a15a"
+        fill={`url(#${gid})`}
+        stroke="#6b4a17"
+        strokeWidth="0.6"
+        strokeOpacity="0.5"
       />
+      {/* Specular highlight along the leading wing edge */}
+      <path d="M8 13c4 1 7 4 8 8-3-1-6 0-8 2 1-4 1-7 0-10Z" fill="#fffaf0" opacity="0.55" />
     </svg>
   )
 }

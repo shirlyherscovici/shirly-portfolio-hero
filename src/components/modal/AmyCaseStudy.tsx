@@ -1,12 +1,10 @@
-import { useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { Users, Eye, ThumbsUp, PenTool, Palette, Target, Joystick } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import PhoneMockup from '../ui/PhoneMockup'
 import CTAButton from '../ui/CTAButton'
 import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
-import { GoldCoin, GoldSwallow, HeartIcon, MusicNote, TreasureChest, VinylRecord } from '../ui/decor'
+import { GoldCoin, GoldSwallow, HeartIcon, MusicNote, TreasureChest } from '../ui/decor'
 import AmyRosterGrid from './AmyRosterGrid'
 import AmyBeforeAfterPhone from './AmyBeforeAfterPhone'
 import { useCountUp } from '../../lib/useCountUp'
@@ -17,62 +15,6 @@ const ASSETS = {
 }
 
 /* -------------------------- Hero figure composition -------------------------- */
-
-/** The vinyl companion accent — idles with a slow spin, speeds up on
- *  hover, and drifts a few px toward the cursor (pointer parallax) rather
- *  than a single canned hover animation. */
-function InteractiveVinyl() {
-  const ref = useRef<HTMLDivElement>(null)
-  const px = useMotionValue(0)
-  const py = useMotionValue(0)
-  const springX = useSpring(px, { stiffness: 200, damping: 20 })
-  const springY = useSpring(py, { stiffness: 200, damping: 20 })
-  const rotate = useTransform(springX, [-8, 8], [-6, 6])
-
-  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = ref.current?.getBoundingClientRect()
-    if (!rect) return
-    const cx = e.clientX - (rect.left + rect.width / 2)
-    const cy = e.clientY - (rect.top + rect.height / 2)
-    px.set(Math.max(-8, Math.min(8, cx / 4)))
-    py.set(Math.max(-8, Math.min(8, cy / 4)))
-  }
-  const onMouseLeave = () => {
-    px.set(0)
-    py.set(0)
-  }
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      style={{ x: springX, y: springY, rotate }}
-      // Continuous idle float so it reads as "alive" even before any
-      // interaction, then a clear scale-up + brighter glow on hover in
-      // addition to the parallax drift above.
-      animate={{ y: [0, -10, 0] }}
-      transition={{ y: { duration: 4, repeat: Infinity, ease: 'easeInOut' } }}
-      whileHover={{ scale: 1.12, filter: 'drop-shadow(0 12px 28px rgba(0,0,0,0.5)) drop-shadow(0 0 24px rgba(176,42,58,0.35))' }}
-      className="absolute bottom-[18%] -left-8 sm:-left-14 z-20 drop-shadow-xl cursor-default"
-      initial="rest"
-    >
-      {/* Two speeds: a slow ambient spin always running, snapping to a much
-          faster spin the instant the pointer is over the record. */}
-      <motion.div
-        variants={{
-          spin: { rotate: 360, transition: { duration: 8, repeat: Infinity, ease: 'linear' } },
-          spinFast: { rotate: 360, transition: { duration: 1.4, repeat: Infinity, ease: 'linear' } },
-        }}
-        animate="spin"
-        whileHover="spinFast"
-      >
-        <VinylRecord size={100} className="sm:hidden" />
-        <VinylRecord size={150} className="hidden sm:block" />
-      </motion.div>
-    </motion.div>
-  )
-}
 
 function AmyHeroFigure() {
   return (
@@ -92,8 +34,6 @@ function AmyHeroFigure() {
           <span className="font-display font-black text-lg text-[#5a3a12] leading-none">27</span>
           <span className="text-[6px] font-bold text-[#5a3a12]/80 uppercase tracking-wide">Forever</span>
         </div>
-
-        <InteractiveVinyl />
       </div>
 
       <FloatingElement delay={1.4} distance={8} className="absolute bottom-[6%] -left-4">
@@ -108,13 +48,24 @@ function AmyHeroFigure() {
 function ChestBadge() {
   const growth = useCountUp('+74%')
   return (
-    <div className="relative flex-1 rounded-2xl glass-pearl-soft p-3.5 text-center overflow-hidden">
+    <div
+      className="relative flex-1 rounded-2xl glass-pearl-soft border border-pearl-gold/40 p-3.5 text-center overflow-hidden"
+      style={{ boxShadow: '0 10px 24px -8px rgba(176,42,58,0.28), 0 2px 6px rgba(35,31,44,0.08)' }}
+    >
+      {/* Bonus-reward pill, matching the mockup's bold gold tag above the
+          chest — makes the badge read as a callout, not a plain stat. */}
+      <span
+        className="inline-block px-2.5 py-0.5 rounded-full text-[7px] font-black uppercase tracking-widest text-white mb-1"
+        style={{ background: 'linear-gradient(135deg, #c9576b, #8f1f2d)' }}
+      >
+        Bonus Reward
+      </span>
       {/* 3D treasure chest stands in for the old text badge — a synthetic
           pop-art ornament (no real "bonus reward" asset exists), gold/red
           to match the gift box & roses. */}
-      <TreasureChest size={44} className="mx-auto drop-shadow-md" />
+      <TreasureChest size={52} className="mx-auto drop-shadow-lg" />
       <p
-        className="font-display font-black text-4xl text-pearl-red leading-none tabular-nums mt-1"
+        className="font-display font-black text-4xl text-pearl-red leading-none tabular-nums mt-1.5"
         style={{ textShadow: '0 0 18px rgba(176,42,58,0.45), 0 0 36px rgba(176,42,58,0.22)' }}
       >
         {growth}
@@ -127,18 +78,30 @@ function ChestBadge() {
 function RingBadge() {
   const pct = useCountUp('+40%')
   return (
-    <div className="relative flex-1 rounded-2xl glass-pearl-soft p-3.5 text-center overflow-hidden">
+    <div
+      className="relative flex-1 rounded-2xl glass-pearl-soft border border-pearl-gold/40 p-3.5 text-center overflow-hidden"
+      style={{ boxShadow: '0 10px 24px -8px rgba(176,42,58,0.28), 0 2px 6px rgba(35,31,44,0.08)' }}
+    >
       <span className="text-[8px] font-bold uppercase tracking-widest text-pearl-gold2">Engagement Boost</span>
-      {/* 3D metallic gold + red ring — layered conic gradient (gold arc on
-          a deep red track) plus inset highlight/shadow rings for a
-          dimensional, polished-metal read instead of a flat 2-tone donut. */}
+      {/* 3D metallic gold + red ring — a thicker track (the inner cutout is
+          a smaller % of the outer circle than before) reads as a real
+          embossed dial rather than a thin donut, layered with an outer
+          drop-shadow for lift, an inset shadow on the track for a grooved
+          edge, and a soft top-left specular highlight to sell a polished,
+          domed metal surface. */}
       <div
-        className="mx-auto mt-1.5 w-16 h-16 rounded-full flex items-center justify-center shadow-[0_4px_10px_rgba(176,42,58,0.4)]"
+        className="relative mx-auto mt-1.5 w-[4.5rem] h-[4.5rem] rounded-full flex items-center justify-center"
         style={{
           background: 'conic-gradient(from -90deg, #fff3d0 0%, #e2c07f 18%, #a3762f 40deg, #8f1f2d 40% 100%)',
+          boxShadow: '0 6px 14px rgba(176,42,58,0.45), 0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.5), inset 0 -2px 3px rgba(0,0,0,0.25)',
         }}
       >
-        <div className="w-[85%] h-[85%] rounded-full bg-gradient-to-br from-[#fdf9f4] to-[#f3e8da] flex items-center justify-center shadow-inner">
+        {/* Specular highlight arc */}
+        <div
+          className="absolute inset-0 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle at 32% 26%, rgba(255,255,255,0.55) 0%, transparent 45%)' }}
+        />
+        <div className="w-[76%] h-[76%] rounded-full bg-gradient-to-br from-[#fdf9f4] to-[#f3e8da] flex items-center justify-center shadow-inner">
           <p
             className="font-display font-black text-xl text-pearl-red leading-none tabular-nums"
             style={{ textShadow: '0 0 12px rgba(176,42,58,0.35)' }}
@@ -160,11 +123,11 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
   const feedback = useCountUp('+85%')
 
   return (
-    // Light, creamy gradient background — matches the approved dashboard
-    // mockup's warm cream/blush panel rather than a heavily-blurred glass
-    // sheet (the backdrop-blur is dialed down to just enough to soften the
-    // panel's own edge, the fill itself is a near-opaque cream gradient).
-    <div className="bg-gradient-to-br from-[#fdfaf7] via-[#faf3ee] to-[#f3ecf5] backdrop-blur-2xl border border-white/70 shadow-2xl rounded-[28px] sm:rounded-[32px]">
+    // Translucent glass panel — a soft cream tint over a real
+    // backdrop-blur so the page behind genuinely shows through, matching
+    // the approved dashboard mockup's glassy read rather than a flat
+    // opaque card.
+    <div className="bg-gradient-to-br from-[#fdfaf7]/55 via-[#faf3ee]/45 to-[#f3ecf5]/55 backdrop-blur-2xl border border-white/70 shadow-2xl rounded-[28px] sm:rounded-[32px]">
       <CaseStudyHeader
         id="modal-amy-title"
         stageLabel="01"
@@ -200,8 +163,17 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
             <div className="grid grid-cols-1 sm:grid-cols-[1.5fr_1fr] gap-5 items-stretch">
               <AmyBeforeAfterPhone />
 
-              <div className="flex justify-center">
-                <PhoneMockup label="The 27 Club — Hover or tap to flip" className="!max-w-[210px]" wide scroll>
+              <div className="flex justify-center items-center" style={{ perspective: 1200 }}>
+                {/* Tilted in 3D (perspective + rotateY/rotateX) rather than
+                    presented flat-on, matching the approved mockup's
+                    angled device shot. */}
+                <PhoneMockup
+                  label="The 27 Club — Hover or tap to flip"
+                  className="!max-w-[240px] drop-shadow-2xl"
+                  frameClassName="border-[#1a1a1a] [transform:rotateY(-16deg)_rotateX(4deg)] [transform-style:preserve-3d]"
+                  wide
+                  scroll
+                >
                   <AmyRosterGrid />
                 </PhoneMockup>
               </div>
