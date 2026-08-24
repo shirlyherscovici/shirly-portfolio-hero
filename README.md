@@ -1,6 +1,6 @@
 # Shirly Herscovici — Interactive Portfolio
 
-A dual-system portfolio built with **React + TypeScript + Tailwind CSS + Framer Motion**, featuring two fully realized display modes and a tabbed "stage switcher" architecture across four project disciplines.
+A portfolio built with **React + TypeScript + Tailwind CSS + Framer Motion**: a homepage hub of four project cards that each open into a full-screen case-study modal.
 
 ## Run it
 
@@ -18,18 +18,19 @@ npm run preview  # preview the production build
 
 ## Structure
 
-- `src/context/ModeContext.tsx` — Studio / Gaming HUD mode state, applied via `data-mode` on `<html>`.
-- `src/components/Header.tsx` — top nav with the mode toggle switch.
-- `src/components/Hero.tsx` — title, subtitle, and the 4 stage-selector cards.
-- `src/components/StageSidebar.tsx` — sticky vertical stage indicator (desktop, `lg:` and up).
-- `src/components/stages/` — one file per stage:
-  - `AmyStage.tsx` — 3D-tilt album sleeve with sliding vinyl, tabbed print assets.
-  - `GalgalatzStage.tsx` — phone mockup, live schedule, fully interactive audio player + equalizer.
-  - `NavigatorStage.tsx` — native `<video controls>` element (no blocking overlays) + prompt spec cards + gaming-only radar HUD.
-  - `PreplayStage.tsx` — animated AE-style keyframe timeline, scrubber, and expression console.
+- `src/components/hub/PortfolioHub.tsx` — the homepage hub: header, nav, and the four project cards.
+- `src/components/hub/ProjectModules.tsx` — the card content for each of the four disciplines (Amy, Galgalatz, AI Rescue, People In Motion).
+- `src/components/modal/` — one full-screen case-study component per project:
+  - `AmyCaseStudy.tsx` / `AmyRosterGrid.tsx` / `AmyBeforeAfterPhone.tsx` — album art restoration case study.
+  - `GalgalatzCaseStudy.tsx` — radio station key-art & UX case study.
+  - `AiRescueCaseStudy.tsx` — AI-assisted rescue-film case study.
+  - `PeopleMotionCaseStudy.tsx` — motion/rigging case study.
+- `src/lib/asset.ts` — prefixes `/public` asset paths with Vite's configured `base`, since `base` only rewrites bundler-processed imports, not plain string-literal `src`/`href` values.
+
+## Deployment
+
+Pushing to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds the site and deploys `dist/` to GitHub Pages at `https://shirlyherscovici.github.io/shirly-portfolio-hero/`. This requires the repo's **Settings → Pages → Build and deployment → Source** to be set to **GitHub Actions**.
 
 ## Notes
 
-- Both modes share all interactive logic — only the visual skin (`isGaming` from `useMode()`) changes per component.
-- The Navigator video uses a small public-domain MP4 as a stand-in for the real short film; swap `VIDEO_SRC` in `NavigatorStage.tsx` for the final asset.
-- All album art / app mockups / print assets are CSS/SVG-generated placeholders — swap in real production imagery when available.
+- All public assets referenced via string literals (not bundler imports) must be wrapped in the `asset()` helper from `src/lib/asset.ts` so they resolve correctly under the `/shirly-portfolio-hero/` base path on GitHub Pages.
