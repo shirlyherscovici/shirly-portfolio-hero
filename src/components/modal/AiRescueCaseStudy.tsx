@@ -279,11 +279,16 @@ export function AiRescueBreakout() {
   return (
     <>
       {/* Anchored at the panel's own top-right corner, breaking the frame
-          boundary exactly as the mockup shows. A single continuous
-          easeInOut loop (no held pauses between keyframes) drifts it along
-          a wide diagonal for constant, non-stuttering motion — it never
-          fully stops. Sits at z-30, one level below CaseStudyHeader's
-          z-40: this lets it visually cross behind the breadcrumb/title/meta
+          boundary exactly as the mockup shows. The offset at each
+          breakpoint is capped to that breakpoint's own ProjectModal
+          wrapper padding (p-3/p-6/p-10, one step less at lg so there's
+          always a little headroom) so the plane's top edge can never be
+          pushed past the actual viewport edge and clipped, regardless of
+          how tall the modal itself renders. A single continuous easeInOut
+          loop (no held pauses between keyframes) drifts it along a wide
+          diagonal for constant, non-stuttering motion — it never fully
+          stops. Sits at z-30, one level below CaseStudyHeader's z-40:
+          this lets it visually cross behind the breadcrumb/title/meta
           text exactly at the corner where the two would otherwise overlap,
           so the frame-breaking pose stays dramatic without ever making
           that copy unreadable. */}
@@ -296,7 +301,7 @@ export function AiRescueBreakout() {
           rotate: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
           opacity: { duration: 0.6 },
         }}
-        className="absolute -top-12 -right-12 z-30 w-64 pointer-events-none drop-shadow-2xl"
+        className="absolute -top-3 sm:-top-6 lg:-top-8 -right-3 sm:-right-6 lg:-right-8 z-30 w-40 sm:w-52 lg:w-64 pointer-events-none drop-shadow-2xl"
       >
         <img
           src={AIRPLANE_SRC}
