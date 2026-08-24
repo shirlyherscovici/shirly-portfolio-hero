@@ -60,9 +60,11 @@ function ChestBadge() {
         Bonus Reward
       </span>
       {/* 3D treasure chest stands in for the old text badge — a synthetic
-          pop-art ornament (no real "bonus reward" asset exists), gold/red
-          to match the gift box & roses. */}
-      <TreasureChest size={52} className="mx-auto drop-shadow-lg" />
+          pop-art ornament (no real "bonus reward" asset exists yet: a
+          3d-treasure-chest.png was requested but isn't in the project, so
+          this SVG stays in place with the requested crimson glow until a
+          real render is provided), gold/red to match the gift box & roses. */}
+      <TreasureChest size={52} className="mx-auto" style={{ filter: 'drop-shadow(0px 8px 16px rgba(208,44,58,0.35))' }} />
       <p
         className="font-display font-black text-4xl text-pearl-red leading-none tabular-nums mt-1.5"
         style={{ textShadow: '0 0 18px rgba(176,42,58,0.45), 0 0 36px rgba(176,42,58,0.22)' }}
@@ -82,18 +84,13 @@ function RingBadge() {
       style={{ boxShadow: '0 10px 24px -8px rgba(176,42,58,0.28), 0 2px 6px rgba(35,31,44,0.08)' }}
     >
       <span className="text-[8px] font-bold uppercase tracking-widest text-pearl-gold2">Engagement Boost</span>
-      {/* 3D metallic gold + red ring — a thicker track (the inner cutout is
-          a smaller % of the outer circle than before) reads as a real
-          embossed dial rather than a thin donut, layered with an outer
-          drop-shadow for lift, an inset shadow on the track for a grooved
-          edge, and a soft top-left specular highlight to sell a polished,
-          domed metal surface. */}
+      {/* Thick 3D metallic + glass donut badge: a heavy gold rim frame,
+          crimson/champagne conic progress split, deep outer shadow paired
+          with a bright inset top-edge highlight for real bevel depth, and
+          a soft specular arc for rim lighting. */}
       <div
-        className="relative mx-auto mt-1.5 w-[4.5rem] h-[4.5rem] rounded-full flex items-center justify-center"
-        style={{
-          background: 'conic-gradient(from -90deg, #fff3d0 0%, #e2c07f 18%, #a3762f 40deg, #8f1f2d 40% 100%)',
-          boxShadow: '0 6px 14px rgba(176,42,58,0.45), 0 2px 4px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.5), inset 0 -2px 3px rgba(0,0,0,0.25)',
-        }}
+        className="relative mx-auto mt-1.5 w-[4.5rem] h-[4.5rem] rounded-full flex items-center justify-center border-[7px] border-[#d4af37]/40 shadow-[0_10px_20px_rgba(198,40,40,0.3),inset_0_2px_4px_rgba(255,255,255,0.8)]"
+        style={{ background: 'conic-gradient(#c62828 0% 40%, #e6ca91 40% 100%)' }}
       >
         {/* Specular highlight arc */}
         <div
@@ -102,8 +99,8 @@ function RingBadge() {
         />
         <div className="w-[76%] h-[76%] rounded-full bg-gradient-to-br from-[#fdf9f4] to-[#f3e8da] flex items-center justify-center shadow-inner">
           <p
-            className="font-display font-black text-xl text-pearl-red leading-none tabular-nums"
-            style={{ textShadow: '0 0 12px rgba(176,42,58,0.35)' }}
+            className="font-display font-black text-xl text-[#c62828] leading-none tabular-nums"
+            style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
           >
             {pct}
           </p>

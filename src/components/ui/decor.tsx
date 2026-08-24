@@ -2,6 +2,7 @@
  *  breaking accents throughout the hub and case studies (coins, music notes,
  *  a rose, a swallow). These are generic UI ornaments, not stand-ins for any
  *  real project deliverable. */
+import type { CSSProperties } from 'react'
 
 export function GoldCoin({ size = 34, className = '' }: { size?: number; className?: string }) {
   return (
@@ -72,9 +73,9 @@ export function GoldRose({ size = 44, className = '' }: { size?: number; classNa
  *  "bonus reward" motif, so this is a synthetic pop-art ornament matching
  *  the gold/red palette (open lid, spilling coins), not a stand-in for any
  *  real deliverable. */
-export function TreasureChest({ size = 56, className = '' }: { size?: number; className?: string }) {
+export function TreasureChest({ size = 56, className = '', style }: { size?: number; className?: string; style?: CSSProperties }) {
   return (
-    <svg width={size} height={size * 0.82} viewBox="0 0 56 46" className={className}>
+    <svg width={size} height={size * 0.82} viewBox="0 0 56 46" className={className} style={style}>
       <defs>
         <linearGradient id="chestWood" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#c9576b" />
