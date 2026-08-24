@@ -80,11 +80,14 @@ function FlipCard({ member }: { member: RosterMember }) {
           className="absolute inset-0 rounded-xl overflow-hidden border-2 border-pearl-gold/40 shadow-md bg-black"
           style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
         >
+          {/* object-top (not the default center crop) — several archive
+              photos are full torso/waist-up shots, and a center crop was
+              cutting off the face and showing chest/shoulders instead. */}
           <img
             src={member.back ?? member.front}
             alt=""
             aria-hidden
-            className={`w-full h-full object-cover ${hasArchive ? '' : 'grayscale sepia contrast-125 brightness-90'}`}
+            className={`w-full h-full object-cover object-top ${hasArchive ? '' : 'grayscale sepia contrast-125 brightness-90'}`}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
           <span className="absolute top-1 left-1 text-[6px] font-bold uppercase tracking-widest text-pearl-gold bg-black/50 px-1 py-0.5 rounded">

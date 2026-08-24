@@ -170,7 +170,7 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
             <PhoneMockup
               label="The 27 Club — Hover or tap to flip"
               className="!max-w-[240px] drop-shadow-2xl"
-              frameClassName="border-[#1a1a1a] [transform:rotate(-3deg)]"
+              frameClassName="border-[#f1e6d6] [transform:rotate(-6deg)]"
               wide
               scroll
             >
