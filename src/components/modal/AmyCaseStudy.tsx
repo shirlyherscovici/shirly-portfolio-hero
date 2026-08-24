@@ -1,7 +1,6 @@
-import { Users, Eye, ThumbsUp, PenTool, Palette, Target, Joystick } from 'lucide-react'
+import { Users, Eye, ThumbsUp, PenTool, Palette, Target } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import PhoneMockup from '../ui/PhoneMockup'
-import CTAButton from '../ui/CTAButton'
 import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
 import { GoldCoin, GoldSwallow, HeartIcon, MusicNote, TreasureChest } from '../ui/decor'
@@ -123,11 +122,12 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
   const feedback = useCountUp('+85%')
 
   return (
-    // Translucent glass panel — a soft cream tint over a real
-    // backdrop-blur so the page behind genuinely shows through, matching
-    // the approved dashboard mockup's glassy read rather than a flat
-    // opaque card.
-    <div className="bg-gradient-to-br from-[#fdfaf7]/55 via-[#faf3ee]/45 to-[#f3ecf5]/55 backdrop-blur-2xl border border-white/70 shadow-2xl rounded-[28px] sm:rounded-[32px]">
+    // Warm, semi-transparent pink-tinted glass — matches the approved
+    // mockup's tint exactly (the internal sections below keep their own
+    // px-5 sm:px-8 rhythm rather than an outer p-8, since CaseStudyHeader
+    // already manages its own edge padding and doubling both would blow
+    // out the spacing).
+    <div className="bg-[#f9ece8]/90 backdrop-blur-2xl rounded-[32px] border border-white/80 shadow-2xl">
       <CaseStudyHeader
         id="modal-amy-title"
         stageLabel="01"
@@ -142,47 +142,44 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
         ]}
       />
 
-      {/* Dashboard grid — two main columns (left: Amy's box graphic, right:
-          everything else), the right column itself split into a top row
-          (the two stat circles) and a bottom row (Before/After + the 27
-          Club phone, side by side) via CSS Grid rows, matching the
-          approved mockup's structure exactly rather than the previous
-          3-column layout. */}
+      {/* Dashboard grid — three explicit columns matching the approved
+          mockup: left (Amy's box graphic), center (the two stat badges
+          stacked above Before/After), right (the 27 Club phone on its
+          own, not squeezed alongside Before/After). */}
       <div className="px-5 sm:px-8 pb-6">
-        <div className="grid lg:grid-cols-[0.9fr_1.5fr] gap-5 sm:gap-7">
-          <AmyHeroFigure />
+        <div className="grid lg:grid-cols-12 gap-5 sm:gap-7">
+          <div className="lg:col-span-5">
+            <AmyHeroFigure />
+          </div>
 
-          <div className="grid grid-rows-[auto_1fr] gap-4">
-            {/* Top: the two stat circles */}
+          <div className="lg:col-span-4 flex flex-col gap-4">
             <div className="flex gap-3.5">
               <ChestBadge />
               <RingBadge />
             </div>
+            <AmyBeforeAfterPhone />
+          </div>
 
-            {/* Bottom: Before/After (wider) + 27 Club phone (narrower), side by side */}
-            <div className="grid grid-cols-1 sm:grid-cols-[1.5fr_1fr] gap-5 items-stretch">
-              <AmyBeforeAfterPhone />
-
-              <div className="flex justify-center items-center" style={{ perspective: 1200 }}>
-                {/* Tilted in 3D (perspective + rotateY/rotateX) rather than
-                    presented flat-on, matching the approved mockup's
-                    angled device shot. */}
-                <PhoneMockup
-                  label="The 27 Club — Hover or tap to flip"
-                  className="!max-w-[240px] drop-shadow-2xl"
-                  frameClassName="border-[#1a1a1a] [transform:rotateY(-16deg)_rotateX(4deg)] [transform-style:preserve-3d]"
-                  wide
-                  scroll
-                >
-                  <AmyRosterGrid />
-                </PhoneMockup>
-              </div>
-            </div>
+          <div className="lg:col-span-3 flex justify-center items-center" style={{ perspective: 1200 }}>
+            {/* Tilted in 3D (perspective + rotateY/rotateX) rather than
+                presented flat-on, matching the approved mockup's angled
+                device shot. */}
+            <PhoneMockup
+              label="The 27 Club — Hover or tap to flip"
+              className="!max-w-[240px] drop-shadow-2xl"
+              frameClassName="border-[#1a1a1a] [transform:rotateY(-16deg)_rotateX(4deg)] [transform-style:preserve-3d]"
+              wide
+              scroll
+            >
+              <AmyRosterGrid />
+            </PhoneMockup>
           </div>
         </div>
       </div>
 
-      {/* Footer bar — campaign impact, role, CTA */}
+      {/* Footer bar — campaign impact (left) / my role (right). No CTA
+          here: this modal already IS the case study, so a "Play Case
+          Study" button re-pointing at itself was redundant. */}
       <div className="px-5 sm:px-8 py-5 border-t border-pearl-ink/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
         <div>
           <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub mb-1.5">Campaign Impact</p>
@@ -197,18 +194,14 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
           />
         </div>
 
-        <div>
+        <div className="md:text-right">
           <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub mb-1.5">My Role</p>
-          <div className="flex items-center gap-3 text-pearl-sub">
+          <div className="flex items-center gap-3 text-pearl-sub md:justify-end">
             <span title="Art Direction"><PenTool size={16} /></span>
             <span title="Visual Design"><Palette size={16} /></span>
             <span title="Campaign Strategy"><Target size={16} /></span>
           </div>
         </div>
-
-        <CTAButton variant="red" icon onClick={onClose} className="self-center">
-          <Joystick size={13} /> Play Case Study
-        </CTAButton>
       </div>
     </div>
   )
