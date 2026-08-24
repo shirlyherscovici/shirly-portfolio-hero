@@ -6,14 +6,15 @@ import PhoneMockup from '../ui/PhoneMockup'
 import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
 import { GoldCoin, MusicNote } from '../ui/decor'
+import { asset } from '../../lib/asset'
 
 const ASSETS = {
-  keyArt: '/assets/galgalatz/banner-cover.jpg',
-  rank1: '/assets/galgalatz/rank-01.png',
-  rank2: '/assets/galgalatz/rank-02.png',
-  rank3: '/assets/galgalatz/rank-03.png',
-  top50: '/assets/galgalatz/rank-31-50.jpg',
-  neonBox: '/assets/galgalatz/neon-box-tight.png',
+  keyArt: asset('/assets/galgalatz/banner-cover.jpg'),
+  rank1: asset('/assets/galgalatz/rank-01.png'),
+  rank2: asset('/assets/galgalatz/rank-02.png'),
+  rank3: asset('/assets/galgalatz/rank-03.png'),
+  top50: asset('/assets/galgalatz/rank-31-50.jpg'),
+  neonBox: asset('/assets/galgalatz/neon-box-tight.png'),
 }
 
 const FRAMES = [

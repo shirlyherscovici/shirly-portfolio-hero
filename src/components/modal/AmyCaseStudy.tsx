@@ -10,9 +10,10 @@ import { GoldCoin, GoldSwallow, HeartIcon, MusicNote, TreasureChest, VinylRecord
 import AmyRosterGrid from './AmyRosterGrid'
 import AmyBeforeAfterPhone from './AmyBeforeAfterPhone'
 import { useCountUp } from '../../lib/useCountUp'
+import { asset } from '../../lib/asset'
 
 const ASSETS = {
-  figure: '/assets/amy/amy-figure-birds-gems.png',
+  figure: asset('/assets/amy/amy-figure-birds-gems.png'),
 }
 
 /* -------------------------- Hero figure composition -------------------------- */

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Download, Mail, PenTool, Film, Sparkles, Code2 } from 'lucide-react'
 import { AmyModule, GalgalatzModule, AiModule, MotionModule } from './ProjectModules'
 import type { ProjectId } from '../../types'
+import { asset } from '../../lib/asset'
 
 const NAV_ITEMS = [
   { label: 'Design Strategy', icon: PenTool, glow: 'rgba(201,161,90,0.6)' },
@@ -36,7 +37,7 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
             </span>
           </a>
           <a
-            href="/resume.pdf"
+            href={asset('/resume.pdf')}
             download
             className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-pearl-sub hover:text-pearl-ink transition-colors px-3 py-1.5 rounded-full border border-transparent hover:border-pearl-sub/20"
           >

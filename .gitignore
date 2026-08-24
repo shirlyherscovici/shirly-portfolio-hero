@@ -9,6 +9,11 @@ dist-ssr
 # TypeScript incremental build info
 *.tsbuildinfo
 
+# Derived output from the composite tsconfig.node.json project reference
+# (tsc -b transpiles vite.config.ts into these on every `npm run build`)
+vite.config.js
+vite.config.d.ts
+
 # Env files
 .env
 .env.*

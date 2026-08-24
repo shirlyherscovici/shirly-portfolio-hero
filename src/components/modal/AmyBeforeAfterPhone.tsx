@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import CompareSlider from '../CompareSlider'
+import { asset } from '../../lib/asset'
 
 /** The banner design's own evolution — an early black-and-white concept
  *  draft (OLD3 / concept-3.png) against the final full-color key art
  *  (hero-banner.png), two genuinely different files. This is the one
  *  comparison the dashboard shows (matching the approved mockup, which
  *  presents a single fixed Before/After panel, not a cycling carousel). */
-const BEFORE_SRC = '/assets/amy/concept-3.png'
-const AFTER_SRC = '/assets/amy/hero-banner.png'
+const BEFORE_SRC = asset('/assets/amy/concept-3.png')
+const AFTER_SRC = asset('/assets/amy/hero-banner.png')
 
 /** A static Before/After comparison panel — still interactively
  *  draggable (the split itself is real), but no longer a multi-pair

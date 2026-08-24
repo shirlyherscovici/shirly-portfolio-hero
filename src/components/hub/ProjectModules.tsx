@@ -4,6 +4,7 @@ import { Gift, Gamepad2, Clapperboard, ArrowUpRight } from 'lucide-react'
 import { GoldCoin, MusicNote, HeartIcon } from '../ui/decor'
 import { useParticleBurst } from '../ui/ParticleBurst'
 import { playGuitarPluck, playArcadeBlip } from '../../lib/sfx'
+import { asset } from '../../lib/asset'
 import ComputerMonitorFrame from '../ui/ComputerMonitorFrame'
 
 const tilt = { stiffness: 260, damping: 22 }
@@ -77,7 +78,7 @@ export function AmyModule({ onClick, hidden = false }: { onClick: () => void; hi
             pops further out and up — a real breakout reaction, not a
             barely-there nudge. */}
         <img
-          src="/assets/amy/amy-figure-birds-gems.png"
+          src={asset('/assets/amy/amy-figure-birds-gems.png')}
           alt=""
           aria-hidden
           className="pointer-events-none absolute -top-8 -right-4 w-[58%] max-w-[186px] h-auto object-contain drop-shadow-xl transition-transform duration-300 group-hover:-translate-y-3 group-hover:scale-110"
@@ -237,7 +238,7 @@ export function GalgalatzModule({ onClick, hidden = false }: { onClick: () => vo
           className="pointer-events-none absolute -bottom-4 -right-3 w-[78%] max-w-[230px] aspect-[1002/1133] transition-transform duration-300 group-hover:scale-[1.04]"
         >
           <img
-            src="/assets/galgalatz/game-uiux-tight.png"
+            src={asset('/assets/galgalatz/game-uiux-tight.png')}
             alt=""
             aria-hidden
             className="absolute inset-0 w-full h-full object-contain drop-shadow-2xl transition-[filter] duration-300 group-hover:[filter:drop-shadow(0_0_18px_rgba(168,85,247,0.8))_drop-shadow(0_0_32px_rgba(79,216,255,0.45))]"
@@ -324,7 +325,7 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
             object-cover crop of it is safe. */}
         <div className="absolute inset-0 rounded-[26px] overflow-hidden">
           <img
-            src="/assets/navigator/poster-ai-homepage-card.png"
+            src={asset('/assets/navigator/poster-ai-homepage-card.png')}
             alt=""
             aria-hidden
             className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
@@ -354,7 +355,7 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
             subtle x/rotate parallax on hover reads as a tactical step
             forward. */}
         <motion.img
-          src="/assets/navigator/pilot-cutout-tight.png"
+          src={asset('/assets/navigator/pilot-cutout-tight.png')}
           alt=""
           aria-hidden
           initial={{ x: '-50%', y: '-50%', rotate: 0, opacity: 1 }}
@@ -554,7 +555,7 @@ export function MotionModule({ onClick, hidden = false }: { onClick: () => void;
             panel. */}
         <div className="relative z-10 flex-1 ml-3 mb-3 -mr-1.5 sm:ml-4 sm:mb-4 sm:-mr-2 rounded-2xl overflow-hidden bg-gradient-to-b from-[#e88a9a] to-[#c9576b] border border-white/50 shadow-lg flex items-center px-3 sm:px-4">
           <ComputerMonitorFrame compact>
-            <img src="/assets/motion/aca-anashim-poster.jpg" alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover" />
+            <img src={asset('/assets/motion/aca-anashim-poster.jpg')} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover" />
           </ComputerMonitorFrame>
         </div>
       </motion.div>

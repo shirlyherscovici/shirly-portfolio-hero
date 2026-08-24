@@ -3,10 +3,11 @@ import { motion } from 'framer-motion'
 import { Play, Pause, Crosshair, Zap, Eye, Users2, Captions, Joystick, Cpu, Network } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import FloatingElement from '../ui/FloatingElement'
+import { asset } from '../../lib/asset'
 
-const VIDEO_SRC = '/assets/navigator/main-film.mp4'
-const AIRPLANE_SRC = '/assets/navigator/c13-airplane-tight.png'
-const PILOT_SRC = '/assets/navigator/pilot-cutout-tight.png'
+const VIDEO_SRC = asset('/assets/navigator/main-film.mp4')
+const AIRPLANE_SRC = asset('/assets/navigator/c13-airplane-tight.png')
+const PILOT_SRC = asset('/assets/navigator/pilot-cutout-tight.png')
 
 /** Caps the video panel's rendered width so a 16:9 box never exceeds 52% of
  *  the viewport's height — applied via an explicit calc() (not an
@@ -127,7 +128,7 @@ function VideoPanel() {
         onEnded={() => setPlaying(false)}
         className="absolute inset-0 w-full h-full object-contain bg-black"
       >
-        <track ref={trackRef} kind="subtitles" src="/assets/navigator/captions-en.vtt" srcLang="en" label="English" />
+        <track ref={trackRef} kind="subtitles" src={asset('/assets/navigator/captions-en.vtt')} srcLang="en" label="English" />
       </video>
 
       {!playing && <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-black/50" />}

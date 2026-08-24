@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useParticleBurst } from '../ui/ParticleBurst'
 import { playGuitarPluck } from '../../lib/sfx'
+import { asset } from '../../lib/asset'
 
 interface RosterMember {
   name: string
@@ -25,7 +26,7 @@ const ROSTER: RosterMember[] = [
   { name: 'Cecilia', front: '/assets/amy/before-after/009-after.jpg', back: '/assets/amy/before-after/009-before.jpg' },
   { name: 'Alan Wilson', front: '/assets/amy/before-after/010-after.jpg', back: '/assets/amy/before-after/010-before.jpg' },
   { name: 'Kurt Cobain', front: '/assets/amy/before-after/011-after.jpg', back: '/assets/amy/before-after/011-before.jpg' },
-]
+].map((m) => ({ ...m, front: asset(m.front), back: m.back ? asset(m.back) : undefined }))
 
 function FlipCard({ member }: { member: RosterMember }) {
   const [pinned, setPinned] = useState(false)

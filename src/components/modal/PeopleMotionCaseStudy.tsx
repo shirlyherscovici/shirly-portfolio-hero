@@ -4,9 +4,10 @@ import CaseStudyHeader from './CaseStudyHeader'
 import FloatingElement from '../ui/FloatingElement'
 import { GoldCoin, HeartIcon, MusicNote } from '../ui/decor'
 import ComputerMonitorFrame from '../ui/ComputerMonitorFrame'
+import { asset } from '../../lib/asset'
 
-const VIDEO_SRC = '/assets/motion/aca-anashim.mp4'
-const POSTER_SRC = '/assets/motion/aca-anashim-poster.jpg'
+const VIDEO_SRC = asset('/assets/motion/aca-anashim.mp4')
+const POSTER_SRC = asset('/assets/motion/aca-anashim-poster.jpg')
 
 const SPECS = [
   { icon: Smartphone, label: 'Responsive Format: Mobile 9:16 & Desktop 16:9' },
