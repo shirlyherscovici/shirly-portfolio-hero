@@ -157,14 +157,20 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
             <AmyBeforeAfterPhone />
           </div>
 
-          <div className="lg:col-span-3 flex justify-center items-center" style={{ perspective: 1200 }}>
-            {/* Tilted in 3D (perspective + rotateY/rotateX) rather than
-                presented flat-on, matching the approved mockup's angled
-                device shot. */}
+          <div className="lg:col-span-3 flex justify-center items-center">
+            {/* A real perspective(rotateY/rotateX) 3D tilt here broke
+                pointer hit-testing on the far side of the phone — the
+                painted position of the right-column cards diverged from
+                their hit-test box, so hover silently stopped working on
+                that whole column (confirmed via elementFromPoint before
+                and after removing the transform). A flat 2D rotate has no
+                such divergence (no 3D rendering context is created), so
+                it keeps the dynamic angled feel without breaking
+                interactivity. */}
             <PhoneMockup
               label="The 27 Club — Hover or tap to flip"
               className="!max-w-[240px] drop-shadow-2xl"
-              frameClassName="border-[#1a1a1a] [transform:rotateY(-16deg)_rotateX(4deg)] [transform-style:preserve-3d]"
+              frameClassName="border-[#1a1a1a] [transform:rotate(-3deg)]"
               wide
               scroll
             >
