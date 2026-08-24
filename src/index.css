@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: #faf6f2;
+  color: #231f2c;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #c9a15a;
+  color: #231f2c;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(35, 31, 44, 0.15);
+  border-radius: 8px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Backgrounds                                                            */
+/* ---------------------------------------------------------------------- */
+
+.bg-hub {
+  background:
+    radial-gradient(ellipse 60% 40% at 12% -8%, rgba(201, 161, 90, 0.14), transparent),
+    radial-gradient(ellipse 55% 40% at 92% 6%, rgba(176, 42, 58, 0.08), transparent),
+    radial-gradient(ellipse 60% 50% at 50% 105%, rgba(230, 223, 242, 0.6), transparent),
+    linear-gradient(180deg, #fdfaf7 0%, #f7f0ec 55%, #f3ecf5 100%);
+}
+
+.bg-cine {
+  background:
+    radial-gradient(ellipse 70% 50% at 15% -10%, rgba(75, 46, 131, 0.35), transparent),
+    radial-gradient(ellipse 60% 45% at 100% 10%, rgba(79, 216, 255, 0.09), transparent),
+    radial-gradient(ellipse 55% 45% at 80% 100%, rgba(255, 95, 160, 0.08), transparent),
+    linear-gradient(180deg, #14101f 0%, #14162399 40%, #0e0f18 100%);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Glass materials                                                        */
+/* ---------------------------------------------------------------------- */
+
+/* Light / pearl glass — homepage cards, Amy & People-in-Motion modal chrome */
+.glass-pearl {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.5));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 1px 1px rgba(35, 31, 44, 0.04), 0 12px 28px -6px rgba(35, 31, 44, 0.1), 0 32px 64px -16px rgba(35, 31, 44, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  position: relative;
+}
+
+.glass-pearl-soft {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.28));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 24px -8px rgba(35, 31, 44, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+/* Dark / cinematic glass — Galgalatz & AI Rescue modal chrome */
+.glass-cine {
+  background: linear-gradient(135deg, rgba(48, 45, 74, 0.6), rgba(20, 19, 32, 0.42));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), 0 20px 48px -12px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  position: relative;
+}
+
+.glass-cine-soft {
+  background: linear-gradient(135deg, rgba(60, 56, 92, 0.4), rgba(15, 14, 26, 0.32));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Glossy top-highlight sheen shared by both glass families */
+.glass-sheen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 26%, transparent 50%);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Text gradients                                                         */
+/* ---------------------------------------------------------------------- */
+
+.text-gradient-gold {
+  background: linear-gradient(90deg, #b8863b, #c9a15a 55%, #e2c07f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-cine {
+  background: linear-gradient(90deg, #4fd8ff, #b98cff 55%, #ff5fa0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Misc decorative                                                        */
+/* ---------------------------------------------------------------------- */
+
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.radar-sweep {
+  background: conic-gradient(from 0deg, rgba(79, 216, 255, 0.35), transparent 30%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
