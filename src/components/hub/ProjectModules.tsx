@@ -66,13 +66,7 @@ export function AmyModule({ onClick, hidden = false }: { onClick: () => void; hi
       tabIndex={hidden ? -1 : 0}
     >
       <motion.div
-        // The 3D rotateX/rotateY tilt under `perspective` can make Chrome
-        // rasterize this element's border-radius + box-shadow combo with
-        // stray straight edges bleeding past the rounded corners on hover
-        // (a known Chromium compositing quirk). Forcing a mask forces it to
-        // recompute the shape correctly instead — purely a rendering fix,
-        // no visual/layout change of its own.
-        style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d', WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}
+        style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d' }}
         className="relative w-full h-full rounded-[26px] overflow-visible glass-pearl glass-sheen border-2 border-white/70 shadow-2xl transition-all duration-300 group-hover:shadow-glow-gold group-hover:border-white"
       >
         <div className="absolute inset-0 rounded-[26px] overflow-hidden bg-gradient-to-br from-stone-100 via-[#F9F6F0] to-amber-50" />
@@ -221,9 +215,7 @@ export function GalgalatzModule({ onClick, hidden = false }: { onClick: () => vo
       tabIndex={hidden ? -1 : 0}
     >
       <motion.div
-        // See the AmyModule card above for why this mask-image is here —
-        // same rotateX/rotateY-under-hover Chrome corner artifact fix.
-        style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d', WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}
+        style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d' }}
         className="relative w-full h-full rounded-[26px] overflow-visible bg-[#171426] border-2 border-white/10 shadow-2xl transition-all duration-300 group-hover:shadow-glow-magenta group-hover:border-cine-magenta/60"
       >
         <div className="absolute inset-0 rounded-[26px] overflow-hidden">
@@ -314,9 +306,7 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
       tabIndex={hidden ? -1 : 0}
     >
       <motion.div
-        // See the AmyModule card above for why this mask-image is here —
-        // same rotateX/rotateY-under-hover Chrome corner artifact fix.
-        style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d', WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}
+        style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d' }}
         className="relative w-full h-full rounded-[26px] overflow-visible bg-black border-2 border-white/10 shadow-2xl transition-all duration-300 group-hover:shadow-glow-cyan group-hover:border-cine-cyan/60"
       >
         {/* Static poster (no autoplaying video on the hub — the real film
@@ -530,9 +520,7 @@ export function MotionModule({ onClick, hidden = false }: { onClick: () => void;
       tabIndex={hidden ? -1 : 0}
     >
       <motion.div
-        // See the AmyModule card above for why this mask-image is here —
-        // same rotateX/rotateY-under-hover Chrome corner artifact fix.
-        style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d', background: 'linear-gradient(135deg, #FFF0EB, #FCE7F3)', WebkitMaskImage: '-webkit-radial-gradient(white, black)' }}
+        style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d', background: 'linear-gradient(135deg, #FFF0EB, #FCE7F3)' }}
         className="relative w-full h-full rounded-[26px] overflow-visible glass-sheen backdrop-blur-xl border-2 border-white/70 shadow-2xl flex flex-col transition-all duration-300 group-hover:shadow-glow-gold group-hover:border-white"
       >
         {/* Fleeing coins & hearts — rest astride the card's own border,
