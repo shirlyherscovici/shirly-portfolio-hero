@@ -124,7 +124,7 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
     // px-5 sm:px-8 rhythm rather than an outer p-8, since CaseStudyHeader
     // already manages its own edge padding and doubling both would blow
     // out the spacing).
-    <div className="bg-[#f9ece8]/90 backdrop-blur-2xl rounded-[32px] border border-white/80 shadow-2xl">
+    <div className="bg-[#EFE3DD]/60 backdrop-blur-2xl rounded-[32px] border border-white/80 shadow-2xl">
       <CaseStudyHeader
         id="modal-amy-title"
         stageLabel="01"
@@ -170,7 +170,7 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
             <PhoneMockup
               label="The 27 Club — Hover or tap to flip"
               className="!max-w-[240px] drop-shadow-2xl"
-              frameClassName="border-[#f1e6d6] [transform:rotate(-6deg)]"
+              frameClassName="border-[#f1e6d6] [transform:rotate(6deg)]"
               wide
               scroll
             >
