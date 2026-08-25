@@ -2,7 +2,6 @@ import { useState, type ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, ChevronDown, ChevronLeft, ChevronRight, Home, Search, Heart, User, Trophy, Joystick } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
-import PhoneMockup from '../ui/PhoneMockup'
 import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
 import { GoldCoin, MusicNote } from '../ui/decor'
@@ -249,14 +248,25 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
           </div>
           <div className="flex justify-center">
             <div className="relative">
-              <PhoneMockup
-                frameClassName="border-[#0a0a0a] !border-[9px] sm:!border-[10px]"
-                className="!max-w-[200px] sm:!max-w-[224px]"
-                label="N12 × Galgalatz — Production Voting"
-                wide
-              >
-                <PhoneScreen frame={FRAMES[active].key} />
-              </PhoneMockup>
+              {/* The real photographed phone replaces the hand-built
+                  PhoneMockup frame — same technique as the Amy case study's
+                  27 Club phone: the asset is one wide canvas with a lot of
+                  transparent padding, so this crops in on just the phone
+                  (an oversized absolutely-positioned img offset by negative
+                  %) and overlays PhoneScreen in a plain (non-rotated,
+                  non-3D) rectangle positioned over the photographed screen. */}
+              <div className="relative w-[200px] sm:w-[224px]" style={{ aspectRatio: '617 / 1326' }}>
+                <img
+                  src={asset('/assets/galgalatz/glaglatz-phones.png')}
+                  alt=""
+                  aria-hidden
+                  className="absolute pointer-events-none select-none"
+                  style={{ width: '176.1%', maxWidth: 'none', left: '-40%', top: '-1%' }}
+                />
+                <div className="absolute overflow-hidden rounded-[8px]" style={{ left: '19%', top: '12%', width: '62%', height: '56%' }}>
+                  <PhoneScreen frame={FRAMES[active].key} />
+                </div>
+              </div>
 
               {/* Screen nav arrows — cycle through the same FRAMES the
                   filmstrip below controls, so the phone can be browsed
@@ -277,6 +287,7 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
               >
                 <ChevronRight size={16} />
               </button>
+              <p className="text-center mt-2.5 text-[10px] font-semibold uppercase tracking-wide opacity-60">N12 × Galgalatz — Production Voting</p>
             </div>
           </div>
         </div>

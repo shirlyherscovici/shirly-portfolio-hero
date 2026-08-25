@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Joystick } from 'lucide-react'
+import { X } from 'lucide-react'
+import { asset } from '../../lib/asset'
 
 interface ProjectModalProps {
   open: boolean
@@ -83,9 +84,9 @@ export default function ProjectModal({ open, onClose, theme, children, labelledB
             {arcadeChrome && (
               <div
                 aria-hidden
-                className="absolute top-3 left-3 sm:top-4 sm:left-4 z-[90] w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/80 border border-white shadow-pearl-sm flex items-center justify-center text-pearl-red"
+                className="absolute top-3 left-3 sm:top-4 sm:left-4 z-[90] w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/80 border border-white shadow-pearl-sm flex items-center justify-center overflow-hidden p-1"
               >
-                <Joystick size={18} />
+                <img src={asset('/assets/amy/joystick-amy.png')} alt="" className="w-full h-full object-contain" />
               </div>
             )}
 

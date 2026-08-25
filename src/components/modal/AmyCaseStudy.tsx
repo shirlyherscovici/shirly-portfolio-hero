@@ -1,9 +1,8 @@
-import { Users, Eye, ThumbsUp, PenTool, Palette, Target } from 'lucide-react'
+import { Users, Eye, ThumbsUp, PenTool, Palette } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
-import PhoneMockup from '../ui/PhoneMockup'
 import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
-import { GoldCoin, GoldSwallow, HeartIcon, MusicNote, TreasureChest } from '../ui/decor'
+import { GoldCoin, GoldSwallow, HeartIcon, MusicNote, TreasureChest, VinylRecord } from '../ui/decor'
 import AmyRosterGrid from './AmyRosterGrid'
 import AmyBeforeAfterPhone from './AmyBeforeAfterPhone'
 import { useCountUp } from '../../lib/useCountUp'
@@ -37,6 +36,13 @@ function AmyHeroFigure() {
 
       <FloatingElement delay={1.4} distance={8} className="absolute bottom-[6%] -left-4">
         <GoldCoin size={30} />
+      </FloatingElement>
+
+      {/* Real vinyl disc render — a companion accent beside the figure,
+          not a re-animation of the record already baked into the source
+          artwork. */}
+      <FloatingElement delay={0.4} distance={10} className="absolute bottom-[32%] -left-8 sm:-left-12 z-20">
+        <VinylRecord size={72} />
       </FloatingElement>
     </div>
   )
@@ -84,27 +90,17 @@ function RingBadge() {
       style={{ boxShadow: '0 10px 24px -8px rgba(176,42,58,0.28), 0 2px 6px rgba(35,31,44,0.08)' }}
     >
       <span className="text-[8px] font-bold uppercase tracking-widest text-pearl-gold2">Engagement Boost</span>
-      {/* Thick 3D metallic + glass donut badge: a heavy gold rim frame,
-          crimson/champagne conic progress split, deep outer shadow paired
-          with a bright inset top-edge highlight for real bevel depth, and
-          a soft specular arc for rim lighting. */}
-      <div
-        className="relative mx-auto mt-1.5 w-[4.5rem] h-[4.5rem] rounded-full flex items-center justify-center border-[7px] border-[#d4af37]/40 shadow-[0_10px_20px_rgba(198,40,40,0.3),inset_0_2px_4px_rgba(255,255,255,0.8)]"
-        style={{ background: 'conic-gradient(#c62828 0% 40%, #e6ca91 40% 100%)' }}
-      >
-        {/* Specular highlight arc */}
-        <div
-          className="absolute inset-0 rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle at 32% 26%, rgba(255,255,255,0.55) 0%, transparent 45%)' }}
-        />
-        <div className="w-[76%] h-[76%] rounded-full bg-gradient-to-br from-[#fdf9f4] to-[#f3e8da] flex items-center justify-center shadow-inner">
-          <p
-            className="font-display font-black text-xl text-[#c62828] leading-none tabular-nums"
-            style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
-          >
-            {pct}
-          </p>
-        </div>
+      {/* Real rendered 3D ring badge (gold / crimson / black), replacing
+          the earlier hand-built CSS conic-gradient donut — the percentage
+          sits in the ring's own transparent center hole. */}
+      <div className="relative mx-auto mt-1.5 w-[4.5rem] h-[4.5rem] flex items-center justify-center">
+        <img src={asset('/assets/amy/pie.png')} alt="" className="absolute inset-0 w-full h-full object-contain drop-shadow-lg" />
+        <p
+          className="relative font-display font-black text-xl text-[#c62828] leading-none tabular-nums"
+          style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
+        >
+          {pct}
+        </p>
       </div>
       <p className="mt-1.5 text-[10px] font-bold uppercase tracking-wide text-pearl-ink">Increased Engagement</p>
     </div>
@@ -157,25 +153,32 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
             <AmyBeforeAfterPhone />
           </div>
 
-          <div className="lg:col-span-3 flex justify-center items-center">
-            {/* A real perspective(rotateY/rotateX) 3D tilt here broke
-                pointer hit-testing on the far side of the phone — the
-                painted position of the right-column cards diverged from
-                their hit-test box, so hover silently stopped working on
-                that whole column (confirmed via elementFromPoint before
-                and after removing the transform). A flat 2D rotate has no
-                such divergence (no 3D rendering context is created), so
-                it keeps the dynamic angled feel without breaking
-                interactivity. */}
-            <PhoneMockup
-              label="The 27 Club — Hover or tap to flip"
-              className="!max-w-[240px] drop-shadow-2xl"
-              frameClassName="border-[#f1e6d6] [transform:rotate(6deg)]"
-              wide
-              scroll
-            >
-              <AmyRosterGrid />
-            </PhoneMockup>
+          <div className="lg:col-span-3 flex flex-col justify-center items-center">
+            {/* The real photographed phone (rose-gold, angled) replaces the
+                hand-built PhoneMockup frame. It's one wide asset with a lot
+                of transparent padding, so the outer box crops in on just
+                the phone (an oversized absolutely-positioned img offset by
+                negative %) rather than rendering the whole sparse canvas.
+                The 27 Club grid sits in a plain 2D-rotated rectangle
+                positioned over the photographed screen — NOT a 3D
+                perspective transform, since that broke pointer
+                hit-testing on one side last time (see git history). */}
+            <div className="relative w-full max-w-[290px]" style={{ aspectRatio: '600 / 944' }}>
+              <img
+                src={asset('/assets/amy/amy-phones.png')}
+                alt=""
+                aria-hidden
+                className="absolute pointer-events-none select-none"
+                style={{ width: '263%', maxWidth: 'none', left: '-90%', top: '-2%' }}
+              />
+              <div
+                className="absolute overflow-y-auto no-scrollbar rounded-[10px]"
+                style={{ left: '20.5%', top: '18%', width: '56%', height: '61%' }}
+              >
+                <AmyRosterGrid />
+              </div>
+            </div>
+            <p className="text-center mt-2.5 text-[10px] font-semibold uppercase tracking-wide opacity-60">The 27 Club — Hover or tap to flip</p>
           </div>
         </div>
       </div>
@@ -202,7 +205,7 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
           <div className="flex items-center gap-3 text-pearl-sub md:justify-end">
             <span title="Art Direction"><PenTool size={16} /></span>
             <span title="Visual Design"><Palette size={16} /></span>
-            <span title="Campaign Strategy"><Target size={16} /></span>
+            <span title="Campaign Strategy"><img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-4 h-4 object-contain" /></span>
           </div>
         </div>
       </div>
