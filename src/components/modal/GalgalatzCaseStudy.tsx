@@ -37,7 +37,7 @@ function GlassDisplayCase({ highlighted }: { highlighted: boolean }) {
             : 'drop-shadow(0 0 18px rgba(79,216,255,0.18))',
         }}
         transition={{ duration: 0.4 }}
-        className="relative flex items-center justify-center aspect-[4/5] sm:aspect-[3/5] h-[42vh] sm:h-[46vh] max-h-[440px]"
+        className="relative flex items-center justify-center aspect-[4/5] sm:aspect-[3/5] h-[46vh] sm:h-[50vh] max-h-[480px]"
       >
         {/* Real 3D glass display case render — neon "Music From The Screen"
             key art, popcorn, film strip & clapperboard already baked in. */}
@@ -251,7 +251,12 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
                   (an oversized absolutely-positioned img offset by negative
                   %) and overlays PhoneScreen in a plain (non-rotated,
                   non-3D) rectangle positioned over the photographed screen. */}
-              <div className="relative w-[200px] sm:w-[224px]" style={{ aspectRatio: '617 / 1326' }}>
+              {/* Sized down from 200/224px — measured against the mockup
+                  file, the cabinet:phone width ratio there is ~1.6:1; this
+                  implementation's cabinet was already close to correct in
+                  absolute size, but the phone was noticeably oversized
+                  relative to it (ratio was ~1.17:1). */}
+              <div className="relative w-[135px] sm:w-[150px]" style={{ aspectRatio: '617 / 1326' }}>
                 <img
                   src={asset('/assets/galgalatz/glaglatz-phones.png')}
                   alt=""
