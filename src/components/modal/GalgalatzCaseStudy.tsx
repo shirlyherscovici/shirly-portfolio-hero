@@ -2,7 +2,6 @@ import { useState, type ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, ChevronDown, ChevronLeft, ChevronRight, Home, Search, Heart, User, Trophy } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
-import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
 import { GoldCoin, MusicNote } from '../ui/decor'
 import { asset } from '../../lib/asset'
@@ -344,16 +343,22 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
         </div>
       </div>
 
+      {/* Mockup's bottom bar is plain "LABEL: value" text triplets in one
+          bordered pill — not the icon+big-number StatStrip used elsewhere.
+          Matched exactly (down to reusing the same label/value type scale
+          as the header's own inline meta line) rather than the generic
+          stat-block component. */}
       <div className="px-5 sm:px-8 py-4 border-t border-white/10">
-        <div className="rounded-2xl glass-cine-soft px-4 py-3.5">
-          <StatStrip
-            theme="dark"
-            stats={[
-              { value: '+8.5K', label: 'Impact · Voters' },
-              { value: '+700%', label: 'Engagement · Mobile Boost' },
-              { value: '100%', label: 'Visuals · Custom Craft' },
-            ]}
-          />
+        <div className="rounded-2xl glass-cine-soft px-4 py-3.5 flex flex-wrap justify-center gap-x-6 gap-y-1.5 text-[11px] sm:text-xs text-cine-sub">
+          {[
+            { label: 'Impact', value: '+8.5K Voters' },
+            { label: 'Engagement', value: '700% Mobile Boost' },
+            { label: 'Visuals', value: '100% Custom Craft' },
+          ].map((m) => (
+            <p key={m.label}>
+              <span className="font-bold text-white">{m.label}:</span> {m.value}
+            </p>
+          ))}
         </div>
       </div>
     </div>

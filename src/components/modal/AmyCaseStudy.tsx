@@ -1,4 +1,4 @@
-import { Users, Eye, ThumbsUp, PenTool, Palette, Joystick } from 'lucide-react'
+import { Users, TrendingUp, Heart, PenTool, Palette, Joystick, Target } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import CTAButton from '../ui/CTAButton'
 import StatStrip from '../ui/StatStrip'
@@ -193,27 +193,45 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* Footer bar — campaign impact / my role / CTA, matching the
-          approved mockup's three-part footer exactly. */}
+          approved mockup's three-part footer exactly. Icons corrected
+          against the mockup: Impressions uses a trend-up chart glyph
+          (was an eye), Positive Feedback uses a heart (was a thumbs-up)
+          — both checked directly against the reference file. */}
       <div className="px-5 sm:px-8 py-5 border-t border-pearl-ink/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
-        <div>
-          <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub mb-1.5">Campaign Impact</p>
-          <StatStrip
-            theme="light"
-            size="lg"
-            stats={[
-              { icon: <Users size={14} />, value: engaged, label: 'Engaged Users' },
-              { icon: <Eye size={14} />, value: impressions, label: 'Impressions' },
-              { icon: <ThumbsUp size={14} />, value: feedback, label: 'Positive Feedback' },
-            ]}
-          />
+        <div className="flex items-center gap-2.5">
+          <Target size={18} className="text-pearl-red shrink-0" />
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub mb-1.5">Campaign Impact</p>
+            <StatStrip
+              theme="light"
+              size="lg"
+              stats={[
+                { icon: <Users size={14} />, value: engaged, label: 'Engaged Users' },
+                { icon: <TrendingUp size={14} />, value: impressions, label: 'Impressions' },
+                { icon: <Heart size={14} />, value: feedback, label: 'Positive Feedback' },
+              ]}
+            />
+          </div>
         </div>
 
         <div>
           <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub mb-1.5">My Role</p>
-          <div className="flex items-center gap-3 text-pearl-sub">
-            <span title="Art Direction"><PenTool size={16} /></span>
-            <span title="Visual Design"><Palette size={16} /></span>
-            <span title="Campaign Strategy"><img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-4 h-4 object-contain" /></span>
+          {/* Each icon gets its own small caption below it, matching the
+              mockup — a title-attribute tooltip alone (the previous
+              version) isn't visible without hovering. */}
+          <div className="flex items-start gap-4 text-pearl-sub">
+            <span className="flex flex-col items-center gap-1">
+              <PenTool size={16} />
+              <span className="text-[7px] font-bold uppercase tracking-wide text-pearl-sub/80">Art Direction</span>
+            </span>
+            <span className="flex flex-col items-center gap-1">
+              <Palette size={16} />
+              <span className="text-[7px] font-bold uppercase tracking-wide text-pearl-sub/80">Visual Design</span>
+            </span>
+            <span className="flex flex-col items-center gap-1">
+              <img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-4 h-4 object-contain" />
+              <span className="text-[7px] font-bold uppercase tracking-wide text-pearl-sub/80 text-center">Campaign Strategy</span>
+            </span>
           </div>
         </div>
 

@@ -25,6 +25,11 @@ interface ProjectModalProps {
    *  dark/metallic rather than Amy's red-topped one, and doesn't swap the
    *  close button style. */
   joystickBadgeSrc?: string
+  /** Swaps the glass pill for a plain outlined square button (border only,
+   *  no fill, small centered X) — matches the approved Galgalatz mockup's
+   *  close control, distinct from both the default glass pill and Amy's
+   *  solid red arcade square. Galgalatz only. */
+  outlineClose?: boolean
   /** Shared with the originating homepage card's own `layoutId` — Framer
    *  Motion animates the FLIP between the card's last known rect and this
    *  panel's rect, so opening a project reads as "the card expands into
@@ -49,6 +54,7 @@ export default function ProjectModal({
   breakout,
   arcadeChrome = false,
   joystickBadgeSrc,
+  outlineClose = false,
   layoutId,
   maxWidthClass = 'max-w-[1180px]',
 }: ProjectModalProps) {
@@ -120,7 +126,7 @@ export default function ProjectModal({
             {joystickBadgeSrc && (
               <div
                 aria-hidden
-                className="absolute top-3 right-14 sm:top-4 sm:right-16 z-[90] w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-black/40 border border-white/15 backdrop-blur-md flex items-center justify-center overflow-hidden p-1.5"
+                className="absolute -top-3 right-14 sm:-top-4 sm:right-16 z-[90] w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center overflow-visible drop-shadow-[0_6px_10px_rgba(0,0,0,0.5)]"
               >
                 <img src={joystickBadgeSrc} alt="" className="w-full h-full object-contain" />
               </div>
@@ -138,6 +144,17 @@ export default function ProjectModal({
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.94 }}
                 className="absolute top-3 right-3 sm:top-4 sm:right-4 z-[100] pointer-events-auto w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-b from-[#d34f4f] to-[#8f1f2d] border border-white/20 shadow-[0_3px_0_#5e1319,0_6px_14px_-2px_rgba(143,31,45,0.55)] flex items-center justify-center text-white"
+              >
+                <X size={16} strokeWidth={2.5} />
+              </motion.button>
+            ) : outlineClose ? (
+              <motion.button
+                type="button"
+                onClick={onClose}
+                aria-label="Close case study"
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.94 }}
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 z-[100] pointer-events-auto w-9 h-9 sm:w-10 sm:h-10 rounded-lg border-2 border-white/40 hover:border-white/70 hover:bg-white/10 transition-colors flex items-center justify-center text-white"
               >
                 <X size={16} strokeWidth={2.5} />
               </motion.button>
