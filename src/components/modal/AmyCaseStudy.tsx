@@ -3,7 +3,7 @@ import CaseStudyHeader from './CaseStudyHeader'
 import CTAButton from '../ui/CTAButton'
 import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
-import { GoldCoin, GoldSwallow, HeartIcon, MusicNote, TreasureChest, VinylRecord } from '../ui/decor'
+import { GoldCoin, HeartIcon, MusicNote, TreasureChest } from '../ui/decor'
 import AmyRosterGrid from './AmyRosterGrid'
 import AmyBeforeAfterPhone from './AmyBeforeAfterPhone'
 import { useCountUp } from '../../lib/useCountUp'
@@ -31,17 +31,13 @@ function AmyHeroFigure() {
           className="w-[132%] max-w-none h-full max-h-[124%] object-contain drop-shadow-xl relative z-10"
         />
       </div>
-
-      <FloatingElement delay={1.4} distance={8} className="absolute bottom-[6%] -left-4">
-        <GoldCoin size={30} />
-      </FloatingElement>
-
-      {/* Real vinyl disc render — a companion accent beside the figure,
-          not a re-animation of the record already baked into the source
-          artwork. */}
-      <FloatingElement delay={0.4} distance={10} className="absolute bottom-[32%] -left-8 sm:-left-12 z-20">
-        <VinylRecord size={72} />
-      </FloatingElement>
+      {/* No separate floating swallow/vinyl/coin here anymore — checked
+          the actual source artwork (amy-figure-birds-gems.png) directly
+          and it already has the swallow, the vinyl record, AND a music
+          note baked in at bottom-left. The earlier floating GoldCoin and
+          VinylRecord elements were rendering a second copy of things the
+          image already shows, which the mockup doesn't do — it has
+          exactly one of each. */}
     </div>
   )
 }
@@ -229,31 +225,27 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
   )
 }
 
-/** Roses, a coin and a music note breaking the whole MODAL's left/right
- *  edges (not just the hero image's) — rendered via ProjectModal's
- *  `breakout` slot, which sits outside the scroll container's clipping. */
+/** A music note, a gold coin and a heart-coin breaking the modal's RIGHT
+ *  edge near the phone — rendered via ProjectModal's `breakout` slot,
+ *  which sits outside the scroll container's clipping. There is
+ *  deliberately nothing on the left edge: the mockup file was checked
+ *  directly, and the only thing breaking the left side is the swallow
+ *  already baked into the figure artwork (see AmyHeroFigure) — a
+ *  separate floating swallow/coin/heart there would just be a second
+ *  copy of decoration the mockup doesn't have. Positions here are
+ *  pixel-measured from the reference file (music note ~17%, star coin
+ *  ~40%, heart coin ~75% down the card), not evenly-spaced guesses. */
 export function AmyCaseStudyBreakout() {
   return (
     <>
-      {/* Left edge: golden swallow (top), red heart (mid-low) */}
-      <FloatingElement delay={0.1} distance={10} className="absolute top-[14%] -left-8 sm:-left-11 z-30 hidden sm:block">
-        <GoldSwallow size={48} />
+      <FloatingElement delay={0.5} distance={9} className="absolute top-[15%] -right-6 sm:-right-8 z-30 hidden sm:block">
+        <MusicNote size={30} />
       </FloatingElement>
-      <FloatingElement delay={0.9} distance={9} className="absolute top-[52%] -left-6 sm:-left-9 z-30 hidden sm:block">
-        <GoldCoin size={28} />
+      <FloatingElement delay={0.9} distance={10} className="absolute top-[38%] -right-8 sm:-right-11 z-30 hidden sm:block">
+        <GoldCoin size={44} />
       </FloatingElement>
-      <FloatingElement delay={0.7} distance={8} className="absolute top-[72%] -left-7 sm:-left-10 z-30 hidden sm:block">
-        <HeartIcon size={26} color="#c23b3b" />
-      </FloatingElement>
-      {/* Right edge: golden swallow (top), red heart, gold coin */}
-      <FloatingElement delay={0.5} distance={11} className="absolute top-[22%] -right-8 sm:-right-11 z-30 hidden sm:block">
-        <GoldSwallow size={40} />
-      </FloatingElement>
-      <FloatingElement delay={1.3} distance={8} className="absolute top-[48%] -right-6 sm:-right-9 z-30 hidden sm:block">
-        <MusicNote size={24} color="#c9a15a" />
-      </FloatingElement>
-      <FloatingElement delay={1.0} distance={9} className="absolute top-[68%] -right-7 sm:-right-10 z-30 hidden sm:block">
-        <HeartIcon size={24} color="#c23b3b" />
+      <FloatingElement delay={1.2} distance={9} className="absolute top-[73%] -right-8 sm:-right-11 z-30 hidden sm:block">
+        <HeartIcon size={48} />
       </FloatingElement>
     </>
   )
