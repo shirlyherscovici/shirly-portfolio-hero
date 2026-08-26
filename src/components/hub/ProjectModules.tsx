@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { motion, useMotionValue, useSpring, useTransform, type MotionValue } from 'framer-motion'
-import { Gift, Gamepad2, Clapperboard, ArrowUpRight } from 'lucide-react'
+import { Gamepad2, ArrowUpRight } from 'lucide-react'
 import { GoldCoin, MusicNote, HeartIcon } from '../ui/decor'
 import { useParticleBurst } from '../ui/ParticleBurst'
 import { playGuitarPluck, playArcadeBlip } from '../../lib/sfx'
@@ -115,9 +115,10 @@ export function AmyModule({ onClick, hidden = false }: { onClick: () => void; hi
         {field}
 
         <div className="relative z-10 flex flex-col h-full p-4 sm:p-5" style={{ transform: 'translateZ(24px)' }}>
-          <span className="inline-flex items-center gap-1.5 self-start text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-red bg-white/70 px-2.5 py-1 rounded-full">
-            <Gift size={10} /> 01 · Original Character &amp; Rigging
-          </span>
+          <div className="flex items-center gap-1.5 self-start">
+            <span className="flex items-center justify-center w-6 h-6 rounded-lg border border-pearl-ink/15 bg-white/60 text-[10px] font-bold text-pearl-ink">01</span>
+            <span className="text-[9px] font-semibold uppercase tracking-wide text-pearl-sub bg-white/60 border border-pearl-ink/10 px-2.5 py-1 rounded-full">Original Character &amp; Rigging</span>
+          </div>
           <h3 className="mt-3 font-display font-extrabold text-xl sm:text-[22px] leading-[1.05] text-pearl-ink">
             GRAPHIC
             <br />
@@ -247,9 +248,10 @@ export function GalgalatzModule({ onClick, hidden = false }: { onClick: () => vo
         </motion.div>
 
         <div className="relative z-10 flex flex-col h-full p-4 sm:p-5 max-w-[47%]" style={{ transform: 'translateZ(24px)' }}>
-          <span className="inline-flex items-center gap-1.5 self-start text-[9px] font-bold uppercase tracking-[0.14em] text-cine-cyan bg-black/40 px-2.5 py-1 rounded-full border border-cine-cyan/30">
-            <Gamepad2 size={10} /> 02 · UI Architecture &amp; Prototyping
-          </span>
+          <div className="flex items-center gap-1.5 self-start">
+            <span className="flex items-center justify-center w-6 h-6 rounded-lg border border-cine-cyan/30 bg-black/40 text-[10px] font-bold text-cine-cyan">02</span>
+            <span className="text-[9px] font-semibold uppercase tracking-wide text-cine-sub bg-black/40 border border-white/10 px-2.5 py-1 rounded-full">UI Architecture &amp; Prototyping</span>
+          </div>
           <h3 className="mt-3 font-display font-extrabold text-xl sm:text-[22px] leading-[1.05] text-white">
             GAME UI UX
             <br />
@@ -372,8 +374,12 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
           {/* "AI / Generative Pipeline / Cinematic Simulation" — the mockup's
               own 3-line hierarchy (big label, big label, smaller caption)
               rather than a single collapsed headline. */}
+          <div className="flex items-center gap-1.5 self-start">
+            <span className="flex items-center justify-center w-6 h-6 rounded-lg border border-white/25 bg-black/40 text-[10px] font-bold text-white">03</span>
+            <span className="text-[9px] font-semibold uppercase tracking-wide text-white/80 bg-black/40 border border-white/15 px-2.5 py-1 rounded-full">Generative Pipeline &amp; Compositing</span>
+          </div>
           <h3
-            className="font-display font-extrabold text-lg sm:text-xl leading-[1.05] text-white tracking-tight"
+            className="mt-3 font-display font-extrabold text-lg sm:text-xl leading-[1.05] text-white tracking-tight"
             style={{ textShadow: '0 2px 10px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.9)' }}
           >
             AI
@@ -537,9 +543,10 @@ export function MotionModule({ onClick, hidden = false }: { onClick: () => void;
         </div>
 
         <div className="relative z-10 p-4 sm:p-5 pb-2" style={{ transform: 'translateZ(24px)' }}>
-          <span className="inline-flex items-center gap-1.5 self-start text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-red bg-white/70 px-2.5 py-1 rounded-full">
-            <Clapperboard size={10} /> Stage 04 · Original Art &amp; Rigging
-          </span>
+          <div className="flex items-center gap-1.5 self-start">
+            <span className="flex items-center justify-center h-6 px-1.5 rounded-lg border border-pearl-ink/15 bg-white/60 text-[9px] font-bold text-pearl-ink">STAGE 04</span>
+            <span className="text-[9px] font-semibold uppercase tracking-wide text-pearl-sub bg-white/60 border border-pearl-ink/10 px-2.5 py-1 rounded-full">Original Art &amp; Rigging</span>
+          </div>
           <h3 className="mt-3 font-display font-extrabold text-xl sm:text-[22px] leading-[1.05] text-pearl-ink">
             AFTER EFFECTS
             <br />& ANIMATION

@@ -30,6 +30,12 @@ interface ProjectModalProps {
    *  close control, distinct from both the default glass pill and Amy's
    *  solid red arcade square. Galgalatz only. */
   outlineClose?: boolean
+  /** AI Rescue and People In Motion's mockups show the close control as a
+   *  permanently visible text label next to an outlined square X — not a
+   *  pill that only reveals "CLOSE" on hover. Pass the exact label text
+   *  ("Close" for AI Rescue, "Close Case Study" for People In Motion,
+   *  checked against each reference file) to switch to that style. */
+  closeLabel?: string
   /** Shared with the originating homepage card's own `layoutId` — Framer
    *  Motion animates the FLIP between the card's last known rect and this
    *  panel's rect, so opening a project reads as "the card expands into
@@ -55,6 +61,7 @@ export default function ProjectModal({
   arcadeChrome = false,
   joystickBadgeSrc,
   outlineClose = false,
+  closeLabel,
   layoutId,
   maxWidthClass = 'max-w-[1180px]',
 }: ProjectModalProps) {
@@ -157,6 +164,26 @@ export default function ProjectModal({
                 className="absolute top-3 right-3 sm:top-4 sm:right-4 z-[100] pointer-events-auto w-9 h-9 sm:w-10 sm:h-10 rounded-lg border-2 border-white/40 hover:border-white/70 hover:bg-white/10 transition-colors flex items-center justify-center text-white"
               >
                 <X size={16} strokeWidth={2.5} />
+              </motion.button>
+            ) : closeLabel ? (
+              <motion.button
+                type="button"
+                onClick={onClose}
+                aria-label="Close case study"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.96 }}
+                className={`absolute top-3 right-3 sm:top-4 sm:right-4 z-[100] pointer-events-auto flex items-center gap-2.5 ${
+                  theme === 'light' ? 'text-pearl-ink' : 'text-white'
+                }`}
+              >
+                <span className="text-[11px] sm:text-xs font-semibold">{closeLabel}</span>
+                <span
+                  className={`flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg border transition-colors ${
+                    theme === 'light' ? 'border-pearl-ink/25 hover:bg-pearl-ink/5' : 'border-white/30 hover:bg-white/10'
+                  }`}
+                >
+                  <X size={15} strokeWidth={2.25} />
+                </span>
               </motion.button>
             ) : (
               <motion.button

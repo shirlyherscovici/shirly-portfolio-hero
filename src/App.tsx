@@ -43,6 +43,7 @@ export default function App() {
         labelledBy={openId ? LABEL_ID[openId] : ''}
         arcadeChrome={openId === 'amy'}
         outlineClose={openId === 'galgalatz'}
+        closeLabel={openId === 'ai-rescue' ? 'Close' : openId === 'people-motion' ? 'Close Case Study' : undefined}
         joystickBadgeSrc={openId === 'galgalatz' ? asset('/assets/galgalatz/joystick-galgaltz.png') : undefined}
         layoutId={openId ? `card-${openId}` : undefined}
         maxWidthClass={openId === 'galgalatz' ? 'max-w-[680px]' : undefined}

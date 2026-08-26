@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Play, Pause, Crosshair, Zap, Eye, Users2, Captions, Joystick, Cpu, Network } from 'lucide-react'
+import { Play, Pause, Crosshair, Zap, Eye, Users2, Captions, Cpu, Network } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import FloatingElement from '../ui/FloatingElement'
 import { asset } from '../../lib/asset'
@@ -185,20 +185,12 @@ export default function AiRescueCaseStudy({ onClose }: { onClose: () => void }) 
         supportLabel="Prime-Time News Broadcast (High-Pressure Delivery)"
         theme="dark"
         onClose={onClose}
+        showBreadcrumb={false}
         meta={[
           { label: 'Role', value: 'AI Director, Prompt Engineer, Compositor' },
           { label: 'Tech Stack', value: 'Midjourney · Runway Gen-2 · Luma AI' },
         ]}
       />
-
-      {/* Arcade joystick accent — echoes the Amy case study's chrome without
-          swapping this modal's own dark glass close button. */}
-      <div
-        aria-hidden
-        className="absolute top-3 left-3 sm:top-4 sm:left-4 z-40 w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-white/20 shadow-cine-lg backdrop-blur-md flex items-center justify-center text-cine-cyan"
-      >
-        <Joystick size={18} />
-      </div>
 
       <div className="px-5 sm:px-8 pb-6 pt-2">
         {/* Shares VIDEO_MAX_WIDTH with the video panel itself (rather than

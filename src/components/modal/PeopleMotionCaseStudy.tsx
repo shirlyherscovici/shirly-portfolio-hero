@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Play, Pause, Smartphone, Layers, Scissors } from 'lucide-react'
+import { Play, Pause, Smartphone, Layers, Scissors, UserCircle2, Layers3 } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import FloatingElement from '../ui/FloatingElement'
 import { GoldCoin, HeartIcon, MusicNote } from '../ui/decor'
@@ -42,9 +42,10 @@ export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void
         supportLabel="Playable Ad Concept & Game UI Motion"
         theme="light"
         onClose={onClose}
+        showBreadcrumb={false}
         meta={[
-          { label: 'Role', value: 'Script, Director & Lead Motion Designer' },
-          { label: 'Tech Stack', value: 'AE · Illustrator · Rigging' },
+          { label: 'Role', value: 'Script, Director & Lead Motion Designer', icon: UserCircle2 },
+          { label: 'Tech Stack', value: 'AE · Illustrator · Rigging', icon: Layers3 },
         ]}
       />
 
