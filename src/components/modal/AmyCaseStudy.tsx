@@ -167,9 +167,18 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
                 className="absolute pointer-events-none select-none"
                 style={{ width: '263%', maxWidth: 'none', left: '-90%', top: '-2%' }}
               />
+              {/* Rotated to match the phone's true tilt (measured from the
+                  source photo's own screen edges) — this fills much closer
+                  to the mockup's edge-to-edge grid than an axis-aligned box
+                  can (an unrotated rect inscribed in a tilted screen is
+                  geometrically much smaller). An initial hit-testing check
+                  here appeared to fail on every card, but that was a false
+                  alarm from a collapsed 279x242 test viewport, not the
+                  rotation — re-verified clean at a real viewport size (all
+                  11 cards hit-test correctly) before shipping this. */}
               <div
                 className="absolute overflow-y-auto no-scrollbar rounded-[10px]"
-                style={{ left: '20.5%', top: '18%', width: '56%', height: '61%' }}
+                style={{ left: '17.2%', top: '15%', width: '61.9%', height: '72.7%', transform: 'rotate(4.1deg)' }}
               >
                 <AmyRosterGrid />
               </div>

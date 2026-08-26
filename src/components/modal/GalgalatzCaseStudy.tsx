@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { motion } from 'framer-motion'
-import { Menu, ChevronDown, ChevronLeft, ChevronRight, Home, Search, Heart, User, Trophy, Joystick } from 'lucide-react'
+import { Menu, ChevronDown, ChevronLeft, ChevronRight, Home, Search, Heart, User, Trophy } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
@@ -226,16 +226,11 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
         ]}
       />
 
-      {/* Arcade joystick prop — top-right header, sitting just left of the
-          close pill (which stays z-[100] and wins regardless) rather than
-          the top-left corner other case studies use, per this modal's own
-          reference composition. */}
-      <div
-        aria-hidden
-        className="absolute top-3 right-16 sm:top-4 sm:right-20 z-40 w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 border border-white/20 shadow-cine-lg backdrop-blur-md flex items-center justify-center text-cine-magenta"
-      >
-        <Joystick size={18} />
-      </div>
+      {/* The joystick badge for this case study is rendered once, by
+          ProjectModal (joystickBadgeSrc prop) — this used to ALSO render
+          its own lucide-icon joystick here, so the real asset badge was
+          stacking on top of a leftover placeholder instead of replacing
+          it. Removed. */}
 
       <div className="px-5 sm:px-8 pb-6">
         {/* Content-hugging row — the case and phone previously each forced
