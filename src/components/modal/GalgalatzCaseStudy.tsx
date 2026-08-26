@@ -263,18 +263,22 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
             <GlassDisplayCase highlighted={active === 0} />
           </div>
 
-          {/* Two coins in the cabinet-phone gap — pixel-measured from the
-              mockup at roughly (61%,28%) and (69%,55%) of the scene, not
-              a modal-edge breakout element (they sit inside the scene,
-              between the two objects, not spilling past either edge). */}
-          <FloatingElement delay={0.3} distance={8} className="absolute z-20" style={{ left: '56%', top: '24%' }}>
+          {/* Two coins in the cabinet-phone gap — nudged left to stay in
+              the (now narrower) gap after the phone was enlarged to reach
+              the cabinet's own full height. */}
+          <FloatingElement delay={0.3} distance={8} className="absolute z-20" style={{ left: '51%', top: '22%' }}>
             <GoldCoin size={34} />
           </FloatingElement>
-          <FloatingElement delay={0.9} distance={9} className="absolute z-20" style={{ left: '61%', top: '51%' }}>
+          <FloatingElement delay={0.9} distance={9} className="absolute z-20" style={{ left: '55%', top: '51%' }}>
             <GoldCoin size={40} />
           </FloatingElement>
 
-          <div className="absolute" style={{ left: '69%', right: '0%', top: '4%', bottom: '4%' }}>
+          {/* Widened from 69%→60% (left) and given the cabinet's own full
+              inset-y-0 span (was top/bottom 4%) — the phone's aspect-ratio
+              is fixed, so it only grows by growing WIDTH; this now reaches
+              close to the cabinet's own full height instead of visibly
+              stopping short of it. */}
+          <div className="absolute" style={{ left: '60%', right: '0%', top: '0%', bottom: '0%' }}>
             {/* Plain block wrapper, NOT flex — a flex row + an
                 aspect-ratio child with width:100% was resolving the
                 child to roughly half the intended size (a real
@@ -287,8 +291,18 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
                   transparent padding, so this crops in on just the phone
                   (an oversized absolutely-positioned img offset by negative
                   %) and overlays PhoneScreen in a plain (non-rotated,
-                  non-3D) rectangle positioned over the photographed screen. */}
-              <div className="relative w-full" style={{ aspectRatio: '617 / 1326' }}>
+                  non-3D) rectangle positioned over the photographed screen.
+                  A tiny hover "breathe" (scale + near-zero rotate) stands
+                  in for straightening the phone's own baked-in camera
+                  angle — a true front-on view isn't possible from a single
+                  photographed asset, so this is the closest a CSS hover
+                  can get to "feels alive" without a second photo. */}
+              <motion.div
+                className="relative w-full"
+                style={{ aspectRatio: '617 / 1326' }}
+                whileHover={{ scale: 1.015, rotate: 0.4 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+              >
                 <img
                   src={asset('/assets/galgalatz/glaglatz-phones.png')}
                   alt=""
@@ -296,13 +310,18 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
                   className="absolute pointer-events-none select-none"
                   style={{ width: '176.1%', maxWidth: 'none', left: '-40%', top: '-1%' }}
                 />
+                {/* Height pulled in from 72.7%→69.5% — the screen rect was
+                    reaching slightly past the phone's real photographed
+                    display into its bezel, visibly cutting screen content
+                    against the bezel edge instead of sitting fully inside
+                    the glass. */}
                 <div
                   className="absolute overflow-hidden rounded-[8px]"
-                  style={{ left: '12.2%', top: '21.3%', width: '79%', height: '72.7%', transform: 'rotate(-0.5deg)' }}
+                  style={{ left: '12.2%', top: '21.3%', width: '79%', height: '69.5%', transform: 'rotate(-0.5deg)' }}
                 >
                   <PhoneScreen frame={FRAMES[active].key} />
                 </div>
-              </div>
+              </motion.div>
 
               {/* Screen nav arrows — cycle through the same FRAMES the
                   filmstrip below controls, so the phone can be browsed

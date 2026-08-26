@@ -351,17 +351,21 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
             Bottom-anchored (not vertically centered) — checked against the
             mockup directly: only his boots cross the card's bottom edge,
             his head stays well clear of the top edge/title text instead of
-            also breaking out there. z-20 keeps him above the poster/
-            gradient but below the headline text. A subtle x/rotate
-            parallax on hover reads as a tactical step forward. */}
+            also breaking out there (shortened further so there's real
+            clearance under the headline). z-20 keeps him above the poster/
+            gradient but below the headline text. A slow idle bob reads as
+            a soft footstep cadence (a real walk-cycle isn't possible from
+            one static cutout); a subtle x/rotate parallax on hover reads
+            as a tactical step forward. */}
         <motion.img
           src={asset('/assets/navigator/pilot-cutout-tight.png')}
           alt=""
           aria-hidden
           initial={{ x: '-50%', rotate: 0, opacity: 1 }}
-          whileHover={{ x: '-53%', rotate: -3 }}
-          transition={{ type: 'spring', stiffness: 220, damping: 16 }}
-          className="absolute left-1/2 bottom-[-3%] z-20 h-[92%] w-auto max-w-none object-contain opacity-100"
+          animate={{ x: '-50%', y: [0, -5, 0] }}
+          whileHover={{ x: '-53%', rotate: -3, y: 0 }}
+          transition={{ y: { duration: 2.6, repeat: Infinity, ease: 'easeInOut' }, x: { type: 'spring', stiffness: 220, damping: 16 }, rotate: { type: 'spring', stiffness: 220, damping: 16 } }}
+          className="absolute left-1/2 bottom-[-3%] z-20 h-[84%] w-auto max-w-none object-contain opacity-100"
           style={{
             filter:
               'contrast(1.15) brightness(1.08) drop-shadow(0 12px 20px rgba(0,0,0,0.65)) drop-shadow(0 2px 6px rgba(0,0,0,0.8))',
@@ -401,29 +405,34 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
 /* Module 04 — PEOPLE IN MOTION / After Effects (tall)                    */
 /* ---------------------------------------------------------------------- */
 
-const TETRIS_BLOCKS = [
-  { left: '6%', color: '#4fd8ff', delay: 0 },
-  { left: '22%', color: '#ffc93c', delay: 0.08 },
-  { left: '38%', color: '#ff5fa0', delay: 0.16 },
-  { left: '54%', color: '#7cf29c', delay: 0.24 },
-  { left: '70%', color: '#b98cff', delay: 0.32 },
-  { left: '86%', color: '#ff9852', delay: 0.4 },
+// After Effects' own signature marker — a diamond (rotated square) sitting
+// on a timeline track — not an arbitrary rainbow block. Colors match AE's
+// real keyframe palette: gold for linear/easy-ease keyframes, red for a
+// hold keyframe, so anyone who's touched AE recognizes it immediately.
+const KEYFRAMES = [
+  { left: '8%', color: '#ffc93c', delay: 0 },
+  { left: '24%', color: '#ffc93c', delay: 0.1 },
+  { left: '40%', color: '#ff5f5f', delay: 0.2 },
+  { left: '56%', color: '#ffc93c', delay: 0.3 },
+  { left: '72%', color: '#ffc93c', delay: 0.4 },
+  { left: '88%', color: '#ff5f5f', delay: 0.5 },
 ]
 
-/** Colorful translucent blocks that drop in from the top and stack along
- *  the card's own bottom border — mounted only while the card is hovered. */
+/** After Effects keyframe diamonds dropping onto a timeline track along the
+ *  card's own bottom border — mounted only while the card is hovered. */
 function TetrisRain({ active }: { active: boolean }) {
   if (!active) return null
   return (
     <div className="absolute inset-0 rounded-[26px] overflow-hidden pointer-events-none" aria-hidden>
-      {TETRIS_BLOCKS.map((b, i) => (
+      <span className="absolute bottom-4 left-[4%] right-[4%] h-px bg-white/25" />
+      {KEYFRAMES.map((k, i) => (
         <motion.span
           key={i}
-          className="absolute bottom-2 w-5 h-5 sm:w-6 sm:h-6 rounded-[4px] border border-black/10 shadow-sm"
-          style={{ left: b.left, backgroundColor: b.color, opacity: 0.8 }}
-          initial={{ y: -160, opacity: 0, rotate: -8 }}
-          animate={{ y: 0, opacity: 0.85, rotate: 0 }}
-          transition={{ type: 'spring', stiffness: 260, damping: 15, delay: b.delay }}
+          className="absolute bottom-2.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rotate-45 border border-black/20 shadow-sm"
+          style={{ left: k.left, backgroundColor: k.color, opacity: 0.9 }}
+          initial={{ y: -160, opacity: 0 }}
+          animate={{ y: 0, opacity: 0.95 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 15, delay: k.delay }}
         />
       ))}
     </div>

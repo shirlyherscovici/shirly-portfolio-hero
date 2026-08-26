@@ -89,11 +89,12 @@ export default function ProjectModal({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
         >
-          {/* Backdrop — a rich, unified dark frosted glass regardless of the
-              case study's own theme, so the homepage always reads as
-              pushed convincingly behind the panel rather than lightly
-              tinted. */}
-          <motion.div className="absolute inset-0 bg-slate-900/60 backdrop-blur-2xl" onClick={onClose} aria-hidden />
+          {/* Backdrop — a dark frosted glass, but lighter than before (was
+              /60 + blur-2xl, which compounded with the panel's own tint
+              below to read as fully opaque instead of "homepage pushed
+              behind in blur"). Now genuinely translucent — the homepage is
+              still visibly, if softly, there behind every case study. */}
+          <motion.div className="absolute inset-0 bg-slate-900/40 backdrop-blur-lg" onClick={onClose} aria-hidden />
 
           {/* Panel — shares `layoutId` with the card that opened it, so its
               entrance is a genuine shared-layout morph (position, size and
@@ -111,17 +112,19 @@ export default function ProjectModal({
             exit={{ opacity: 0 }}
             transition={{ layout: { type: 'spring', stiffness: 300, damping: 32 }, opacity: { duration: 0.2 } }}
             className={`relative w-full ${maxWidthClass} max-h-[90vh] rounded-[28px] sm:rounded-[32px] border ${
-              theme === 'light' ? 'bg-white/40 backdrop-blur-2xl border-white/60' : 'bg-slate-900/60 backdrop-blur-2xl border-white/15'
+              theme === 'light' ? 'bg-white/25 backdrop-blur-xl border-white/60' : 'bg-slate-900/40 backdrop-blur-xl border-white/15'
             }`}
             style={{ isolation: 'isolate', boxShadow: '0 0 50px rgba(0,0,0,0.5), 0 40px 90px -20px rgba(0,0,0,0.6)' }}
           >
-            {/* Retro joystick accent — black badge, top-left, Amy only.
-                Checked directly against the mockup file: the badge itself
-                is black, not the light/white one this used to be. */}
+            {/* Retro joystick accent, top-left, Amy only — a standalone 3D
+                render breaking the panel's own top edge (no boxed
+                background/border), matching the mockup exactly. The black
+                square badge this used to sit in isn't in the reference
+                file at all. Enlarged to match the mockup's own scale. */}
             {arcadeChrome && (
               <div
                 aria-hidden
-                className="absolute top-3 left-3 sm:top-4 sm:left-4 z-[90] w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-black/90 border border-black/60 shadow-lg flex items-center justify-center overflow-hidden p-1"
+                className="absolute -top-4 left-3 sm:-top-5 sm:left-4 z-[90] w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center overflow-visible drop-shadow-[0_6px_10px_rgba(0,0,0,0.5)]"
               >
                 <img src={asset('/assets/amy/joystick-amy.png')} alt="" className="w-full h-full object-contain" />
               </div>
@@ -129,11 +132,11 @@ export default function ProjectModal({
 
             {/* Galgalatz's own joystick badge — smaller, sits directly next
                 to the close button (both top-right) rather than opposite
-                corners like Amy's arrangement. */}
+                corners like Amy's arrangement. Enlarged to match. */}
             {joystickBadgeSrc && (
               <div
                 aria-hidden
-                className="absolute -top-3 right-14 sm:-top-4 sm:right-16 z-[90] w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center overflow-visible drop-shadow-[0_6px_10px_rgba(0,0,0,0.5)]"
+                className="absolute -top-4 right-14 sm:-top-5 sm:right-16 z-[90] w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center overflow-visible drop-shadow-[0_6px_10px_rgba(0,0,0,0.5)]"
               >
                 <img src={joystickBadgeSrc} alt="" className="w-full h-full object-contain" />
               </div>

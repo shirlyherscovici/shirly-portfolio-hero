@@ -51,22 +51,16 @@ function ChestBadge() {
       className="relative flex-1 rounded-2xl glass-pearl-soft border border-pearl-gold/40 p-3.5 text-center overflow-hidden"
       style={{ boxShadow: '0 10px 24px -8px rgba(176,42,58,0.28), 0 2px 6px rgba(35,31,44,0.08)' }}
     >
-      {/* Bonus-reward pill, matching the mockup's bold gold tag above the
-          chest — makes the badge read as a callout, not a plain stat. */}
-      <span
-        className="inline-block px-2.5 py-0.5 rounded-full text-[7px] font-black uppercase tracking-widest text-white mb-1"
-        style={{ background: 'linear-gradient(135deg, #c9576b, #8f1f2d)' }}
-      >
-        Bonus Reward
-      </span>
       {/* 3D treasure chest stands in for the old text badge — a synthetic
           pop-art ornament (no real "bonus reward" asset exists yet: a
           3d-treasure-chest.png was requested but isn't in the project, so
           this SVG stays in place with the requested crimson glow until a
           real render is provided), gold/red to match the gift box & roses. */}
       <TreasureChest size={72} className="mx-auto" style={{ filter: 'drop-shadow(0px 8px 16px rgba(208,44,58,0.35))' }} />
+      {/* Sized down from text-5xl/6xl — at that size "+74%" was clipping
+          against the badge's own edges in the wide-shell layout. */}
       <p
-        className="font-display font-black text-5xl sm:text-6xl text-pearl-red leading-none tabular-nums mt-2"
+        className="font-display font-black text-4xl sm:text-5xl text-pearl-red leading-none tabular-nums mt-2"
         style={{ textShadow: '0 0 18px rgba(176,42,58,0.45), 0 0 36px rgba(176,42,58,0.22)' }}
       >
         {growth}
@@ -83,13 +77,12 @@ function RingBadge() {
       className="relative flex-1 rounded-2xl glass-pearl-soft border border-pearl-gold/40 p-3.5 text-center overflow-hidden"
       style={{ boxShadow: '0 10px 24px -8px rgba(176,42,58,0.28), 0 2px 6px rgba(35,31,44,0.08)' }}
     >
-      <span className="text-[8px] font-bold uppercase tracking-widest text-pearl-gold2">Engagement Boost</span>
       {/* Real rendered 3D ring badge (gold / crimson / black), replacing
           the earlier hand-built CSS conic-gradient donut — the percentage
-          sits in the ring's own transparent center hole. Sized up to match
-          the mockup, where this ring reads as large as the chest icon
-          beside it, not a smaller secondary element. */}
-      <div className="relative mx-auto mt-2 w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center">
+          sits in the ring's own transparent center hole. Enlarged again so
+          "+40%" sits fully inside the ring's own hole the way the mockup
+          shows it, instead of crowding the ring's inner edge. */}
+      <div className="relative mx-auto mt-1 w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center">
         <img src={asset('/assets/amy/pie.png')} alt="" className="absolute inset-0 w-full h-full object-contain drop-shadow-lg" />
         <p
           className="relative font-display font-black text-2xl sm:text-3xl text-[#c62828] leading-none tabular-nums"
@@ -116,7 +109,7 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
     // px-5 sm:px-8 rhythm rather than an outer p-8, since CaseStudyHeader
     // already manages its own edge padding and doubling both would blow
     // out the spacing).
-    <div className="bg-[#EFE3DD]/60 backdrop-blur-2xl rounded-[32px] border border-white/80 shadow-2xl">
+    <div className="bg-[#EFE3DD]/40 backdrop-blur-xl rounded-[32px] border border-white/80 shadow-2xl">
       <CaseStudyHeader
         id="modal-amy-title"
         stageLabel="01"
@@ -184,12 +177,11 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
                   11 cards hit-test correctly) before shipping this. */}
               <div
                 className="absolute overflow-y-auto no-scrollbar rounded-[10px]"
-                style={{ left: '17.2%', top: '15%', width: '61.9%', height: '72.7%', transform: 'rotate(4.1deg)' }}
+                style={{ left: '18%', top: '15.5%', width: '60%', height: '71%', transform: 'rotate(4.1deg)' }}
               >
                 <AmyRosterGrid />
               </div>
             </div>
-            <p className="text-center mt-2 text-[9px] sm:text-[10px] font-semibold uppercase tracking-wide opacity-60">The 27 Club</p>
           </div>
         </div>
       </div>
@@ -261,6 +253,14 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
 export function AmyCaseStudyBreakout() {
   return (
     <>
+      {/* A second music note, breaking the LEFT edge near the figure's own
+          baked-in note (bottom-left of the box/roses) — requested so the
+          note reads as escaping the frame rather than sitting flat inside
+          the artwork, the same treatment the right-edge decor already
+          gets. */}
+      <FloatingElement delay={0.7} distance={9} className="absolute top-[80%] -left-7 sm:-left-10 z-30 hidden sm:block">
+        <MusicNote size={38} />
+      </FloatingElement>
       <FloatingElement delay={0.5} distance={9} className="absolute top-[15%] -right-7 sm:-right-10 z-30 hidden sm:block">
         <MusicNote size={42} />
       </FloatingElement>

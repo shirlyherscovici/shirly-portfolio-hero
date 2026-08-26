@@ -41,7 +41,7 @@ export default function CaseStudyHeader({ id, stageLabel, title, supportLabel, m
     // header's own corner (e.g. the AI Rescue plane), so a prop can break
     // the frame boundary for visual drama without ever making the copy
     // underneath it unreadable.
-    <div className={`relative z-40 px-5 sm:px-8 ${showFullTitle ? 'pt-5 sm:pt-6 pb-4' : 'pt-4 sm:pt-5 pb-1.5'} ${arcadeChrome ? 'pl-16 sm:pl-20' : ''}`}>
+    <div className={`relative z-40 px-5 sm:px-8 ${showFullTitle ? 'pt-5 sm:pt-6 pb-4' : 'pt-4 sm:pt-5 pb-1.5'} ${arcadeChrome ? 'pl-20 sm:pl-24' : ''}`}>
       {showBreadcrumb && (
         <button
           type="button"
