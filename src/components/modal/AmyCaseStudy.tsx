@@ -139,13 +139,13 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
           proportions (phone screen bounds were pixel-sampled directly
           from the reference file: ~72-100% width, ~9-95% height of the
           card), rather than left to CSS Grid's own column-sizing logic. */}
-      <div className="px-5 sm:px-8 pb-6">
+      <div className="px-5 sm:px-8 pb-5">
         <div className="relative w-full" style={{ aspectRatio: '1478 / 780' }}>
           <div className="absolute inset-y-0 left-0" style={{ width: '37%' }}>
             <AmyHeroFigure />
           </div>
 
-          <div className="absolute inset-y-0 flex flex-col gap-3 sm:gap-4" style={{ left: '40%', width: '31%' }}>
+          <div className="absolute inset-y-0 flex flex-col gap-2.5 sm:gap-3" style={{ left: '40%', width: '31%' }}>
             <div className="flex gap-2.5 sm:gap-3.5">
               <ChestBadge />
               <RingBadge />
@@ -199,7 +199,7 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
           against the mockup: Impressions uses a trend-up chart glyph
           (was an eye), Positive Feedback uses a heart (was a thumbs-up)
           — both checked directly against the reference file. */}
-      <div className="px-5 sm:px-8 py-5 border-t border-pearl-ink/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+      <div className="px-5 sm:px-8 py-4 border-t border-pearl-ink/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-2.5">
           {/* Same real 3D target-and-arrow render as the Campaign Strategy
               icon below — the mockup uses the identical asset in both
