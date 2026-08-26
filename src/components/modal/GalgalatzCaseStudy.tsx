@@ -54,13 +54,11 @@ function GlassDisplayCase({ highlighted }: { highlighted: boolean }) {
           3D Display Case
         </span>
       </motion.div>
-
-      {/* A single music-note accent only — the earlier pair of floating gold
-          coins visually clashed with the display case's own neon/glass
-          render (too much competing gold/glow in one spot). */}
-      <FloatingElement delay={0.6} distance={9} className="absolute top-[45%] -right-3">
-        <MusicNote size={20} color="#ff5fa0" />
-      </FloatingElement>
+      {/* No floating note pinned to the case itself anymore — checked the
+          mockup directly, and nothing sits immediately beside the
+          cabinet. The two coins that actually appear near it live in the
+          gap between cabinet and phone, positioned by the parent stage
+          (see the "2 coins in the gap" comment below). */}
     </div>
   )
 }
@@ -254,6 +252,18 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
           <div className="absolute inset-y-0 left-0" style={{ width: '50%' }}>
             <GlassDisplayCase highlighted={active === 0} />
           </div>
+
+          {/* Two coins in the cabinet-phone gap — pixel-measured from the
+              mockup at roughly (61%,28%) and (69%,55%) of the scene, not
+              a modal-edge breakout element (they sit inside the scene,
+              between the two objects, not spilling past either edge). */}
+          <FloatingElement delay={0.3} distance={8} className="absolute z-20" style={{ left: '58%', top: '25%' }}>
+            <GoldCoin size={26} />
+          </FloatingElement>
+          <FloatingElement delay={0.9} distance={9} className="absolute z-20" style={{ left: '63%', top: '52%' }}>
+            <GoldCoin size={30} />
+          </FloatingElement>
+
           <div className="absolute" style={{ left: '69%', right: '0%', top: '4%', bottom: '4%' }}>
             {/* Plain block wrapper, NOT flex — a flex row + an
                 aspect-ratio child with width:100% was resolving the
@@ -354,23 +364,22 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
  *  — rendered via ProjectModal's `breakout` slot, outside the scroll
  *  container's clipping, matching the same outer-frame prop language used
  *  on the other three case studies. */
+/** Checked the mockup file directly: nothing breaks the LEFT edge at
+ *  all (the cabinet's own side has no floating objects) — every
+ *  floating object sits in the gap between the cabinet and phone, or
+ *  breaks the phone's own right edge. The two coins in the gap are
+ *  positioned inside the artboard stage itself (see the stage JSX
+ *  above), not here; this breakout is just the two notes that spill
+ *  past the phone's right edge, at their pixel-measured heights
+ *  (~26% and ~51% down the card). */
 export function GalgalatzBreakout() {
   return (
     <>
-      <FloatingElement delay={0.2} distance={10} className="absolute top-[16%] -left-7 sm:-left-10 z-30 hidden sm:block">
-        <GoldCoin size={28} />
-      </FloatingElement>
-      <FloatingElement delay={1.0} distance={9} className="absolute top-[50%] -left-6 sm:-left-9 z-30 hidden sm:block">
-        <MusicNote size={24} color="#ff5fa0" />
-      </FloatingElement>
-      <FloatingElement delay={0.6} distance={8} className="absolute top-[76%] -left-7 sm:-left-10 z-30 hidden sm:block">
-        <GoldCoin size={22} />
-      </FloatingElement>
       <FloatingElement delay={0.5} distance={9} className="absolute top-[24%] -right-7 sm:-right-10 z-30 hidden sm:block">
-        <MusicNote size={22} color="#4fd8ff" />
+        <MusicNote size={26} />
       </FloatingElement>
-      <FloatingElement delay={1.4} distance={10} className="absolute top-[58%] -right-6 sm:-right-9 z-30 hidden sm:block">
-        <GoldCoin size={26} />
+      <FloatingElement delay={1.2} distance={9} className="absolute top-[49%] -right-6 sm:-right-9 z-30 hidden sm:block">
+        <MusicNote size={22} />
       </FloatingElement>
     </>
   )
