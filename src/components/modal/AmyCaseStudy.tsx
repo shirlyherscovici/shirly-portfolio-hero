@@ -1,4 +1,4 @@
-import { Users, TrendingUp, Heart, PenTool, Palette, Joystick, Target } from 'lucide-react'
+import { Users, TrendingUp, Heart, PenTool, Palette, Joystick } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import CTAButton from '../ui/CTAButton'
 import StatStrip from '../ui/StatStrip'
@@ -199,7 +199,10 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
           — both checked directly against the reference file. */}
       <div className="px-5 sm:px-8 py-5 border-t border-pearl-ink/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
         <div className="flex items-center gap-2.5">
-          <Target size={18} className="text-pearl-red shrink-0" />
+          {/* Same real 3D target-and-arrow render as the Campaign Strategy
+              icon below — the mockup uses the identical asset in both
+              places (just bigger here), not a flat outline icon. */}
+          <img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-7 h-7 object-contain shrink-0" />
           <div>
             <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub mb-1.5">Campaign Impact</p>
             <StatStrip
