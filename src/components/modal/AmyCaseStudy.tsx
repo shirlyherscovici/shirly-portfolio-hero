@@ -130,6 +130,7 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
         theme="light"
         onClose={onClose}
         arcadeChrome
+        variant="minimal"
         meta={[
           { label: 'Role', value: 'Art Direction, Visual Design' },
           { label: 'Tech', value: 'Midjourney · 3D Printing Pipeline · Illustrator' },

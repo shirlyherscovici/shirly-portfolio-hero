@@ -11,19 +11,31 @@ interface CaseStudyHeaderProps {
   /** Extra top-left clearance so the breadcrumb doesn't sit under the
    *  joystick badge ProjectModal renders for the Amy case study. */
   arcadeChrome?: boolean
+  /** The approved mockup's header for Amy/Galgalatz is just the breadcrumb
+   *  (Amy) or breadcrumb + one compact inline meta line (Galgalatz) — no
+   *  separate large H2 title/subtitle block eating vertical space above
+   *  the visual composition. 'full' (default) keeps the H2 + subtitle +
+   *  bordered meta block for AI Rescue / People In Motion, which the
+   *  mockup renders that way. 'minimal' drops the H2/subtitle and meta
+   *  entirely (Amy). 'inline-meta' drops the H2/subtitle but keeps meta
+   *  as one small line right under the breadcrumb (Galgalatz). The H2 is
+   *  always rendered (sr-only when hidden) so aria-labelledby still
+   *  resolves to real title text. */
+  variant?: 'full' | 'minimal' | 'inline-meta'
 }
 
-/** The consistent breadcrumb + title + metadata row every case study opens
- *  with — "← Portfolio / Works / 0N TITLE", role/crafted/tech metadata. */
-export default function CaseStudyHeader({ id, stageLabel, title, supportLabel, meta, theme, onClose, arcadeChrome = false }: CaseStudyHeaderProps) {
+/** The breadcrumb + (variant-dependent) title/metadata every case study
+ *  opens with — "← Portfolio / Works / 0N TITLE". */
+export default function CaseStudyHeader({ id, stageLabel, title, supportLabel, meta, theme, onClose, arcadeChrome = false, variant = 'full' }: CaseStudyHeaderProps) {
   const light = theme === 'light'
+  const showFullTitle = variant === 'full'
   return (
     // relative z-40 — guarantees the breadcrumb/title/meta text always
     // paints above any breakout prop that dramatically pokes into the
     // header's own corner (e.g. the AI Rescue plane), so a prop can break
     // the frame boundary for visual drama without ever making the copy
     // underneath it unreadable.
-    <div className={`relative z-40 px-5 sm:px-8 pt-5 sm:pt-6 pb-4 ${arcadeChrome ? 'pl-16 sm:pl-20' : ''}`}>
+    <div className={`relative z-40 px-5 sm:px-8 pt-5 sm:pt-6 ${showFullTitle ? 'pb-4' : 'pb-2'} ${arcadeChrome ? 'pl-16 sm:pl-20' : ''}`}>
       <button
         type="button"
         onClick={onClose}
@@ -37,14 +49,24 @@ export default function CaseStudyHeader({ id, stageLabel, title, supportLabel, m
         </span>
       </button>
 
-      <h2 id={id} className={`mt-3 font-display font-extrabold text-2xl sm:text-3xl lg:text-[2.1rem] leading-tight tracking-tight ${light ? 'text-pearl-ink' : 'text-white'}`}>
+      <h2 id={id} className={showFullTitle ? `mt-3 font-display font-extrabold text-2xl sm:text-3xl lg:text-[2.1rem] leading-tight tracking-tight ${light ? 'text-pearl-ink' : 'text-white'}` : 'sr-only'}>
         <span className={light ? 'text-pearl-red' : 'text-gradient-cine'}>{stageLabel} / </span>
         {title}
       </h2>
-      <p className={`mt-1.5 text-xs sm:text-sm font-semibold uppercase tracking-wide ${light ? 'text-pearl-sub' : 'text-cine-sub'}`}>{supportLabel}</p>
+      {showFullTitle && <p className={`mt-1.5 text-xs sm:text-sm font-semibold uppercase tracking-wide ${light ? 'text-pearl-sub' : 'text-cine-sub'}`}>{supportLabel}</p>}
 
-      {meta.length > 0 && (
+      {meta.length > 0 && showFullTitle && (
         <div className={`mt-4 flex flex-wrap gap-x-6 gap-y-1.5 text-[11px] sm:text-xs pb-4 border-b ${light ? 'text-pearl-sub border-pearl-ink/10' : 'text-cine-sub border-white/10'}`}>
+          {meta.map((m) => (
+            <p key={m.label}>
+              <span className={`font-bold ${light ? 'text-pearl-ink' : 'text-white'}`}>{m.label}:</span> {m.value}
+            </p>
+          ))}
+        </div>
+      )}
+
+      {meta.length > 0 && variant === 'inline-meta' && (
+        <div className={`mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-[10px] sm:text-[11px] ${light ? 'text-pearl-sub' : 'text-cine-sub'}`}>
           {meta.map((m) => (
             <p key={m.label}>
               <span className={`font-bold ${light ? 'text-pearl-ink' : 'text-white'}`}>{m.label}:</span> {m.value}

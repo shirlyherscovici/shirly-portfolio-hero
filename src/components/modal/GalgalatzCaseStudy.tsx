@@ -218,6 +218,7 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
         supportLabel="Production Voting Flow & 3D Neon Integration"
         theme="dark"
         onClose={onClose}
+        variant="inline-meta"
         meta={[
           { label: 'Role', value: 'Lead Graphic & UI/UX Designer' },
           { label: 'Crafted', value: 'Early 2022' },
