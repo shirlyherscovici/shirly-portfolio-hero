@@ -29,7 +29,11 @@ const FRAMES = [
 
 function GlassDisplayCase({ highlighted }: { highlighted: boolean }) {
   return (
-    <div className="relative">
+    <div className="relative h-full">
+      {/* h-full, not its own vh-based height — this zone's proportions are
+          now set by the parent artboard stage's fixed aspect ratio
+          (measured from the mockup), not by this component sizing itself
+          independently of the phone next to it. */}
       <motion.div
         animate={{
           filter: highlighted
@@ -37,7 +41,7 @@ function GlassDisplayCase({ highlighted }: { highlighted: boolean }) {
             : 'drop-shadow(0 0 18px rgba(79,216,255,0.18))',
         }}
         transition={{ duration: 0.4 }}
-        className="relative flex items-center justify-center aspect-[4/5] sm:aspect-[3/5] h-[46vh] sm:h-[50vh] max-h-[480px]"
+        className="relative flex items-center justify-center h-full"
       >
         {/* Real 3D glass display case render — neon "Music From The Screen"
             key art, popcorn, film strip & clapperboard already baked in. */}
@@ -238,12 +242,25 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
             both sides of each item since neither actually needed that much
             width. Sizing them naturally and centering the pair together
             reads as a tight, intentional composition instead. */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-10 sm:gap-14">
-          <div className="flex justify-center">
+        {/* Fixed-aspect artboard (not flex-driven sizing) — cabinet and
+            phone zones positioned at percentages pixel-measured directly
+            from the reference file (cabinet's neon glow bounds ~9-49% of
+            the card width; the phone's own screen color bounds ~63-92%),
+            converted to this scene's own coordinate space. Aspect ratio
+            765/680 approximates the measured cabinet+phone scene's own
+            bounding box within the card (excluding header/filmstrip/
+            metrics, which stay in normal flow above/below). */}
+        <div className="relative w-full" style={{ aspectRatio: '765 / 680' }}>
+          <div className="absolute inset-y-0 left-0" style={{ width: '50%' }}>
             <GlassDisplayCase highlighted={active === 0} />
           </div>
-          <div className="flex justify-center">
-            <div className="relative">
+          <div className="absolute" style={{ left: '69%', right: '0%', top: '4%', bottom: '4%' }}>
+            {/* Plain block wrapper, NOT flex — a flex row + an
+                aspect-ratio child with width:100% was resolving the
+                child to roughly half the intended size (a real
+                flexbox+aspect-ratio sizing interaction, confirmed via
+                DOM measurement: 112px rendered vs 221px available). */}
+            <div className="relative h-full">
               {/* The real photographed phone replaces the hand-built
                   PhoneMockup frame — same technique as the Amy case study's
                   27 Club phone: the asset is one wide canvas with a lot of
@@ -251,12 +268,7 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
                   (an oversized absolutely-positioned img offset by negative
                   %) and overlays PhoneScreen in a plain (non-rotated,
                   non-3D) rectangle positioned over the photographed screen. */}
-              {/* Sized down from 200/224px — measured against the mockup
-                  file, the cabinet:phone width ratio there is ~1.6:1; this
-                  implementation's cabinet was already close to correct in
-                  absolute size, but the phone was noticeably oversized
-                  relative to it (ratio was ~1.17:1). */}
-              <div className="relative w-[135px] sm:w-[150px]" style={{ aspectRatio: '617 / 1326' }}>
+              <div className="relative w-full" style={{ aspectRatio: '617 / 1326' }}>
                 <img
                   src={asset('/assets/galgalatz/glaglatz-phones.png')}
                   alt=""
