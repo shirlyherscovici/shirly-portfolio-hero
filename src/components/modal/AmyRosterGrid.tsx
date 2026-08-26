@@ -69,8 +69,8 @@ function FlipCard({ member }: { member: RosterMember }) {
         {/* Front — restored / redesigned artwork */}
         <div className="absolute inset-0 rounded-xl overflow-hidden border-2 border-white/10 shadow-md" style={{ backfaceVisibility: 'hidden' }}>
           <img src={member.front} alt="" aria-hidden className="w-full h-full object-cover" />
-          <div className="absolute inset-x-0 bottom-0 bg-black/70 backdrop-blur-sm py-1.5">
-            <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wide text-white text-center leading-tight px-1">{member.name}</p>
+          <div className="absolute inset-x-0 bottom-0 bg-black/70 backdrop-blur-sm py-1">
+            <p className="text-[7.5px] sm:text-[8px] font-bold uppercase tracking-wide text-white text-center leading-tight px-0.5">{member.name}</p>
           </div>
         </div>
 
@@ -104,16 +104,15 @@ function FlipCard({ member }: { member: RosterMember }) {
 export default function AmyRosterGrid() {
   return (
     <div className="h-full min-h-full flex flex-col bg-gradient-to-b from-[#241b3d] to-[#140f28] p-3">
-      <p className="text-center font-display font-extrabold text-sm text-white tracking-tight">THE 27 CLUB</p>
-      <p className="text-center text-[8px] font-semibold uppercase tracking-widest text-pearl-gold/80 mb-2">11 ICONS. ONE LEGACY.</p>
-      {/* Two prominent columns (not three tight ones) — each portrait gets
-          close to half the screen width so faces read instantly instead
-          of as small thumbnails, matching the approved mockup. The grid
-          runs taller than the frame at 2-per-row (6 rows for 11 members),
-          which is exactly why the phone screen scrolls (`scroll` prop on
-          PhoneMockup). */}
+      <p className="text-center font-display font-extrabold text-xs text-white tracking-tight">THE 27 CLUB</p>
+      <p className="text-center text-[7px] font-semibold uppercase tracking-widest text-pearl-gold/80 mb-1.5">11 ICONS. ONE LEGACY.</p>
+      {/* Reverted to 3 columns (was briefly 2) after checking the actual
+          approved mockup file: it shows a tight 3-column, 4-row grid
+          (3+3+3+2 for 11 members), not 2. Two columns was a good-faith
+          guess made before the real mockup file was available — the file
+          wins. */}
       <div className="flex-1">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-3 gap-1.5">
           {ROSTER.map((m) => (
             <FlipCard key={m.name} member={m} />
           ))}

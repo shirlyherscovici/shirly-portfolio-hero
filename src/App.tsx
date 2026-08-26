@@ -7,6 +7,7 @@ import GalgalatzCaseStudy, { GalgalatzBreakout } from './components/modal/Galgal
 import AiRescueCaseStudy, { AiRescueBreakout } from './components/modal/AiRescueCaseStudy'
 import PeopleMotionCaseStudy, { PeopleMotionBreakout } from './components/modal/PeopleMotionCaseStudy'
 import type { ProjectId, Theme } from './types'
+import { asset } from './lib/asset'
 
 const THEME: Record<ProjectId, Theme> = {
   amy: 'light',
@@ -41,6 +42,7 @@ export default function App() {
         theme={openId ? THEME[openId] : 'light'}
         labelledBy={openId ? LABEL_ID[openId] : ''}
         arcadeChrome={openId === 'amy'}
+        joystickBadgeSrc={openId === 'galgalatz' ? asset('/assets/galgalatz/joystick-galgaltz.png') : undefined}
         layoutId={openId ? `card-${openId}` : undefined}
         maxWidthClass={openId === 'galgalatz' ? 'max-w-[680px]' : undefined}
         breakout={
