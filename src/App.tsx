@@ -44,6 +44,7 @@ export default function App() {
         arcadeChrome={openId === 'amy'}
         outlineClose={openId === 'galgalatz'}
         closeLabel={openId === 'ai-rescue' ? 'Close' : openId === 'people-motion' ? 'Close Case Study' : undefined}
+        closeAccent={openId === 'ai-rescue' ? 'red' : undefined}
         joystickBadgeSrc={openId === 'galgalatz' ? asset('/assets/galgalatz/joystick-galgaltz.png') : undefined}
         layoutId={openId ? `card-${openId}` : undefined}
         breakout={

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Play, Pause, Crosshair, Zap, Eye, Users2, Captions, Cpu, Network } from 'lucide-react'
+import { Play, Pause, Crosshair, Zap, Eye, Users2, Captions, Sparkles, Wand2 } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import FloatingElement from '../ui/FloatingElement'
+import VideoControlBar from '../ui/VideoControlBar'
 import { asset } from '../../lib/asset'
 
 const VIDEO_SRC = asset('/assets/navigator/main-film.mp4')
@@ -108,7 +109,6 @@ function VideoPanel() {
     const v = ref.current
     if (!v) return
     if (v.paused) {
-      v.muted = false
       v.play().catch(() => {})
       setPlaying(true)
     } else {
@@ -134,6 +134,10 @@ function VideoPanel() {
       {!playing && <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-black/50" />}
 
       <SubtitleOverlay time={time} visible={ccOn && playing} />
+
+      {/* Real transport controls (mute, speed, fullscreen) — a bare
+          play/pause was the only way to interact with the video before. */}
+      <VideoControlBar videoRef={ref} className="absolute top-3 left-3 z-10" />
 
       <button
         type="button"
@@ -195,7 +199,21 @@ export default function AiRescueCaseStudy({ onClose }: { onClose: () => void }) 
         ]}
       />
 
-      <div className="px-5 sm:px-8 pb-6 pt-2">
+      <div className="relative px-5 sm:px-8 pb-6 pt-2">
+        {/* Background atmosphere — the panel read as visually empty behind
+            the video. Two large, very soft blurred glows (cyan + magenta,
+            this case study's own accent pair) sitting behind everything,
+            plus a faint dot-grid texture reading as "generative/AI lab"
+            rather than a flat black void. */}
+        <div className="absolute inset-0 overflow-hidden rounded-[28px] pointer-events-none -z-10" aria-hidden>
+          <div className="absolute -top-24 -left-16 w-72 h-72 rounded-full bg-cine-cyan/20 blur-[90px]" />
+          <div className="absolute -bottom-20 -right-10 w-80 h-80 rounded-full bg-cine-magenta/15 blur-[100px]" />
+          <div
+            className="absolute inset-0 opacity-[0.15]"
+            style={{ backgroundImage: 'radial-gradient(rgba(79,216,255,0.6) 1px, transparent 1px)', backgroundSize: '22px 22px' }}
+          />
+        </div>
+
         {/* Shares VIDEO_MAX_WIDTH with the video panel itself (rather than
             an inline-block shrink-wrap, which created a circular width
             dependency and collapsed the video to 0px) so the tactical map
@@ -213,18 +231,20 @@ export default function AiRescueCaseStudy({ onClose }: { onClose: () => void }) 
               <TacticalMap compact />
             </div>
 
-            {/* Floating AI network/node glyphs — pure glass icon badges, no
-                text label, positioned on the LEFT breaking the video's own
-                top edge, clear of the CC toggle (the only control left at
-                top-right) so nothing ever overlaps. */}
+            {/* Floating "AI generation" glyphs — a sparkle + a magic wand,
+                the two glyphs anyone associates with "AI-generated" at a
+                glance (swapped from a CPU/network pair that read as generic
+                "tech", not specifically AI/prompt-driven). Positioned on
+                the LEFT breaking the video's own top edge, clear of the CC
+                toggle (the only control left at top-right). */}
             <FloatingElement delay={0.4} distance={10} className="absolute -top-4 left-8 hidden md:block">
-              <span className="flex items-center justify-center w-11 h-11 rounded-full bg-black/45 backdrop-blur-md border border-cine-cyan/30 text-cine-cyan">
-                <Cpu size={18} />
+              <span className="flex items-center justify-center w-11 h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/25 text-white">
+                <Sparkles size={18} />
               </span>
             </FloatingElement>
             <FloatingElement delay={1.1} distance={8} className="absolute -top-4 left-24 hidden lg:block">
-              <span className="flex items-center justify-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md border border-cine-magenta/30 text-cine-magenta">
-                <Network size={16} />
+              <span className="flex items-center justify-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md border border-white/20 text-white/90">
+                <Wand2 size={16} />
               </span>
             </FloatingElement>
           </div>
@@ -291,12 +311,14 @@ export function AiRescueBreakout() {
       {/* Pilot — fully opaque, foregrounded (z-20, comfortably below the
           header's z-40 joystick badge and the z-[100] close button), and
           anchored to the LEFT side at a height that clears the info cards
-          further down so he never masks their text. */}
+          further down so he never masks their text. Enlarged and pulled
+          closer to the video — the gap between them read as an empty,
+          missing spot rather than a deliberate breakout. */}
       <motion.div
         initial={{ opacity: 0, scale: 0.85, x: -16, y: 20 }}
         animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
         transition={{ type: 'spring', stiffness: 200, damping: 20, delay: 0.35 }}
-        className="absolute top-[38%] -left-6 sm:-left-10 z-20 w-32 sm:w-44 opacity-100 hidden sm:block"
+        className="absolute top-[36%] -left-3 sm:-left-6 z-20 w-40 sm:w-56 opacity-100 hidden sm:block"
         style={{ filter: 'drop-shadow(0 10px 18px rgba(0,0,0,0.55)) drop-shadow(0 2px 5px rgba(0,0,0,0.7))' }}
       >
         <img src={PILOT_SRC} alt="The rescued F-15E navigator, breaking out of the case-study frame" className="w-full h-auto object-contain opacity-100" />

@@ -237,6 +237,31 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
           stacking on top of a leftover placeholder instead of replacing
           it. Removed. */}
 
+      {/* UX storytelling strip — moved ABOVE the cabinet/phone scene and
+          given real visual weight (was small text sitting right against
+          the phone's own edge below, easy to miss and hard to read there).
+          This is the fast, recruiter-scannable problem → idea → build →
+          result summary — important enough that it shouldn't be an
+          afterthought under the visuals. */}
+      <div className="px-5 sm:px-8 pb-4">
+        <div className="rounded-2xl glass-cine-soft px-4 py-3 flex flex-wrap items-baseline gap-x-3 gap-y-1.5 text-[12px] sm:text-[13px]">
+          {[
+            { k: 'Challenge', v: 'A cluttered, low-engagement voting flow.' },
+            { k: 'UX Idea', v: 'Guide users discover → listen → vote.' },
+            { k: 'Execution', v: 'iPhone-first voting UI, real content.' },
+            { k: 'Outcome', v: '+8.5K voters, +700% mobile boost.' },
+          ].map((s, i, arr) => (
+            <span key={s.k} className="flex items-baseline gap-2">
+              <span>
+                <span className="font-display font-bold uppercase tracking-wide text-cine-cyan">{s.k}</span>{' '}
+                <span className="text-white/90 font-medium">{s.v}</span>
+              </span>
+              {i < arr.length - 1 && <span className="text-cine-cyan/40">→</span>}
+            </span>
+          ))}
+        </div>
+      </div>
+
       <div className="px-5 sm:px-8 pb-6">
         {/* The modal now opens at the shared wide shell width (not a
             narrow portrait panel) so the page never needs to scroll to see
@@ -310,14 +335,16 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
                   className="absolute pointer-events-none select-none"
                   style={{ width: '176.1%', maxWidth: 'none', left: '-40%', top: '-1%' }}
                 />
-                {/* Height pulled in from 72.7%→69.5% — the screen rect was
-                    reaching slightly past the phone's real photographed
-                    display into its bezel, visibly cutting screen content
-                    against the bezel edge instead of sitting fully inside
-                    the glass. */}
+                {/* Re-measured directly against the source photo via a
+                    tight color-based pixel scan of the actual screen
+                    boundary (the previous top:21.3%/height:69.5% estimate
+                    was well short of the real screen, which actually
+                    starts almost right below the notch and runs almost to
+                    the home-bar — leaving screen content cut off/floating
+                    wrong against the bezel instead of filling the glass). */}
                 <div
                   className="absolute overflow-hidden rounded-[8px]"
-                  style={{ left: '12.2%', top: '21.3%', width: '79%', height: '69.5%', transform: 'rotate(-0.5deg)' }}
+                  style={{ left: '11.5%', top: '6%', width: '78.5%', height: '87%', transform: 'rotate(-0.5deg)' }}
                 >
                   <PhoneScreen frame={FRAMES[active].key} />
                 </div>
@@ -345,26 +372,6 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
               <p className="text-center mt-2.5 text-[10px] font-semibold uppercase tracking-wide opacity-60">N12 × Galgalatz — Production Voting</p>
             </div>
           </div>
-        </div>
-
-        {/* UX storytelling strip — the fast, recruiter-scannable version of
-            the product-thinking behind the screens above: not just "here's
-            a phone UI" but problem → idea → build → result in one line. */}
-        <div className="mt-3.5 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-[10.5px]">
-          {[
-            { k: 'Challenge', v: 'A cluttered, low-engagement voting flow.' },
-            { k: 'UX Idea', v: 'Guide users discover → listen → vote.' },
-            { k: 'Execution', v: 'iPhone-first voting UI, real content.' },
-            { k: 'Outcome', v: '+8.5K voters, +700% mobile boost.' },
-          ].map((s, i, arr) => (
-            <span key={s.k} className="flex items-baseline gap-2">
-              <span>
-                <span className="font-display font-bold uppercase tracking-wide text-cine-cyan">{s.k}</span>{' '}
-                <span className="text-cine-sub">{s.v}</span>
-              </span>
-              {i < arr.length - 1 && <span className="text-cine-cyan/40">→</span>}
-            </span>
-          ))}
         </div>
         </div>
 

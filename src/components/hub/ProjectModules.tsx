@@ -365,7 +365,7 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
           animate={{ x: '-50%', y: [0, -5, 0] }}
           whileHover={{ x: '-53%', rotate: -3, y: 0 }}
           transition={{ y: { duration: 2.6, repeat: Infinity, ease: 'easeInOut' }, x: { type: 'spring', stiffness: 220, damping: 16 }, rotate: { type: 'spring', stiffness: 220, damping: 16 } }}
-          className="absolute left-1/2 bottom-[-3%] z-20 h-[84%] w-auto max-w-none object-contain opacity-100"
+          className="absolute left-1/2 bottom-[-3%] z-20 h-[72%] w-auto max-w-none object-contain opacity-100"
           style={{
             filter:
               'contrast(1.15) brightness(1.08) drop-shadow(0 12px 20px rgba(0,0,0,0.65)) drop-shadow(0 2px 6px rgba(0,0,0,0.8))',
@@ -405,34 +405,36 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
 /* Module 04 — PEOPLE IN MOTION / After Effects (tall)                    */
 /* ---------------------------------------------------------------------- */
 
-// After Effects' own signature marker — a diamond (rotated square) sitting
-// on a timeline track — not an arbitrary rainbow block. Colors match AE's
-// real keyframe palette: gold for linear/easy-ease keyframes, red for a
-// hold keyframe, so anyone who's touched AE recognizes it immediately.
-const KEYFRAMES = [
-  { left: '8%', color: '#ffc93c', delay: 0 },
-  { left: '24%', color: '#ffc93c', delay: 0.1 },
-  { left: '40%', color: '#ff5f5f', delay: 0.2 },
-  { left: '56%', color: '#ffc93c', delay: 0.3 },
-  { left: '72%', color: '#ffc93c', delay: 0.4 },
-  { left: '88%', color: '#ff5f5f', delay: 0.5 },
+// Keyframe diamonds read as "small colored squares" to anyone who hasn't
+// used After Effects — squash-and-stretch is the one animation principle
+// that reads as "motion design" to literally everyone at a glance: a ball
+// flattening on impact and stretching mid-air is the textbook demo every
+// animation course opens with.
+const BALLS = [
+  { left: '18%', color: '#ffc93c', delay: 0 },
+  { left: '48%', color: '#ff5f7a', delay: 0.35 },
+  { left: '78%', color: '#4fd8ff', delay: 0.7 },
 ]
 
-/** After Effects keyframe diamonds dropping onto a timeline track along the
- *  card's own bottom border — mounted only while the card is hovered. */
+/** Three balls squash-and-stretch bouncing along the card's own bottom
+ *  border — mounted only while the card is hovered. */
 function TetrisRain({ active }: { active: boolean }) {
   if (!active) return null
   return (
     <div className="absolute inset-0 rounded-[26px] overflow-hidden pointer-events-none" aria-hidden>
-      <span className="absolute bottom-4 left-[4%] right-[4%] h-px bg-white/25" />
-      {KEYFRAMES.map((k, i) => (
+      <span className="absolute bottom-3 left-[10%] right-[10%] h-px bg-white/20" />
+      {BALLS.map((b, i) => (
         <motion.span
           key={i}
-          className="absolute bottom-2.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rotate-45 border border-black/20 shadow-sm"
-          style={{ left: k.left, backgroundColor: k.color, opacity: 0.9 }}
-          initial={{ y: -160, opacity: 0 }}
-          animate={{ y: 0, opacity: 0.95 }}
-          transition={{ type: 'spring', stiffness: 260, damping: 15, delay: k.delay }}
+          className="absolute bottom-3 w-4 h-4 sm:w-5 sm:h-5 rounded-full shadow-sm"
+          style={{ left: b.left, backgroundColor: b.color }}
+          initial={{ y: -70 }}
+          animate={{
+            y: [-70, 0, -30, 0, -12, 0],
+            scaleX: [1, 1.5, 1, 1.3, 1, 1.15],
+            scaleY: [1, 0.6, 1, 0.75, 1, 0.88],
+          }}
+          transition={{ duration: 1.4, times: [0, 0.35, 0.5, 0.72, 0.83, 1], delay: b.delay, ease: 'easeIn' }}
         />
       ))}
     </div>

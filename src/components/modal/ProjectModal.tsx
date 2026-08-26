@@ -36,6 +36,11 @@ interface ProjectModalProps {
    *  ("Close" for AI Rescue, "Close Case Study" for People In Motion,
    *  checked against each reference file) to switch to that style. */
   closeLabel?: string
+  /** Swaps the closeLabel square's neutral outline for a solid red
+   *  "gaming block" (matching Amy's arcade square's color language) — the
+   *  plain outline read as an accidental/broken control against AI
+   *  Rescue's own cyan/magenta palette. AI Rescue only. */
+  closeAccent?: 'red'
   /** Shared with the originating homepage card's own `layoutId` — Framer
    *  Motion animates the FLIP between the card's last known rect and this
    *  panel's rect, so opening a project reads as "the card expands into
@@ -62,6 +67,7 @@ export default function ProjectModal({
   joystickBadgeSrc,
   outlineClose = false,
   closeLabel,
+  closeAccent,
   layoutId,
   maxWidthClass = 'max-w-[1180px]',
 }: ProjectModalProps) {
@@ -136,7 +142,7 @@ export default function ProjectModal({
             {joystickBadgeSrc && (
               <div
                 aria-hidden
-                className="absolute -top-4 right-14 sm:-top-5 sm:right-16 z-[90] w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center overflow-visible drop-shadow-[0_6px_10px_rgba(0,0,0,0.5)]"
+                className="absolute -top-5 right-16 sm:-top-6 sm:right-20 z-[90] w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center overflow-visible drop-shadow-[0_6px_10px_rgba(0,0,0,0.5)]"
               >
                 <img src={joystickBadgeSrc} alt="" className="w-full h-full object-contain" />
               </div>
@@ -181,9 +187,13 @@ export default function ProjectModal({
               >
                 <span className="text-[11px] sm:text-xs font-semibold">{closeLabel}</span>
                 <span
-                  className={`flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg border transition-colors ${
-                    theme === 'light' ? 'border-pearl-ink/25 hover:bg-pearl-ink/5' : 'border-white/30 hover:bg-white/10'
-                  }`}
+                  className={
+                    closeAccent === 'red'
+                      ? 'flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-b from-[#d34f4f] to-[#8f1f2d] border border-white/20 shadow-[0_3px_0_#5e1319,0_6px_14px_-2px_rgba(143,31,45,0.55)] text-white transition-transform hover:scale-105'
+                      : `flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg border transition-colors ${
+                          theme === 'light' ? 'border-pearl-ink/25 hover:bg-pearl-ink/5' : 'border-white/30 hover:bg-white/10'
+                        }`
+                  }
                 >
                   <X size={15} strokeWidth={2.25} />
                 </span>

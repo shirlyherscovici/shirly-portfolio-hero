@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { Play, Pause, Smartphone, Layers, Scissors, UserCircle2, Layers3 } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import FloatingElement from '../ui/FloatingElement'
+import VideoControlBar from '../ui/VideoControlBar'
 import { GoldCoin, HeartIcon, MusicNote } from '../ui/decor'
 import ComputerMonitorFrame from '../ui/ComputerMonitorFrame'
 import { asset } from '../../lib/asset'
@@ -84,6 +85,13 @@ export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void
                   )}
                 </span>
               </button>
+
+              {/* Real transport controls (mute, speed, fullscreen) — a bare
+                  play/pause was the only way to interact with the video
+                  before. z-20 + rendered after the full-cover play button
+                  above, so these buttons' own bounds win the click instead
+                  of also triggering play/pause underneath them. */}
+              <VideoControlBar videoRef={videoRef} className="absolute top-3 left-3 z-20" />
             </ComputerMonitorFrame>
           </div>
 
@@ -121,23 +129,23 @@ export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void
 export function PeopleMotionBreakout() {
   return (
     <>
-      <FloatingElement delay={0.2} distance={10} className="absolute top-[18%] -left-8 sm:-left-12 z-30 hidden sm:block">
-        <GoldCoin size={42} />
+      <FloatingElement delay={0.2} distance={10} className="absolute top-[14%] -left-9 sm:-left-14 z-30 hidden sm:block">
+        <MusicNote size={44} color="#b8863b" />
       </FloatingElement>
-      <FloatingElement delay={1.1} distance={8} className="absolute top-[46%] -left-7 sm:-left-11 z-30 hidden sm:block">
-        <MusicNote size={34} color="#b8863b" />
+      <FloatingElement delay={1.1} distance={8} className="absolute top-[44%] -left-8 sm:-left-14 z-30 hidden sm:block">
+        <GoldCoin size={52} />
       </FloatingElement>
-      <FloatingElement delay={0.8} distance={9} className="absolute top-[70%] -left-8 sm:-left-12 z-30 hidden sm:block">
-        <HeartIcon size={36} color="#c23b3b" />
+      <FloatingElement delay={0.8} distance={9} className="absolute top-[74%] -left-9 sm:-left-14 z-30 hidden sm:block">
+        <HeartIcon size={46} color="#c23b3b" />
       </FloatingElement>
-      <FloatingElement delay={0.6} distance={9} className="absolute top-[28%] -right-8 sm:-right-12 z-30 hidden sm:block">
-        <GoldCoin size={36} />
+      <FloatingElement delay={0.6} distance={9} className="absolute top-[10%] -right-9 sm:-right-14 z-30 hidden sm:block">
+        <GoldCoin size={40} />
       </FloatingElement>
-      <FloatingElement delay={1.5} distance={10} className="absolute top-[55%] -right-7 sm:-right-11 z-30 hidden sm:block">
-        <HeartIcon size={30} color="#c23b3b" />
+      <FloatingElement delay={1.5} distance={10} className="absolute top-[50%] -right-8 sm:-right-14 z-30 hidden sm:block">
+        <HeartIcon size={40} color="#c23b3b" />
       </FloatingElement>
-      <FloatingElement delay={0.4} distance={8} className="absolute top-[78%] -right-8 sm:-right-12 z-30 hidden sm:block">
-        <GoldCoin size={28} />
+      <FloatingElement delay={0.4} distance={8} className="absolute top-[80%] -right-9 sm:-right-14 z-30 hidden sm:block">
+        <GoldCoin size={48} />
       </FloatingElement>
     </>
   )

@@ -1,6 +1,5 @@
-import { Users, TrendingUp, Heart, PenTool, Palette, Joystick } from 'lucide-react'
+import { Users, TrendingUp, Heart, PenTool, Palette } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
-import CTAButton from '../ui/CTAButton'
 import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
 import { GoldCoin, HeartIcon, MusicNote, TreasureChest } from '../ui/decor'
@@ -56,7 +55,7 @@ function ChestBadge() {
           3d-treasure-chest.png was requested but isn't in the project, so
           this SVG stays in place with the requested crimson glow until a
           real render is provided), gold/red to match the gift box & roses. */}
-      <TreasureChest size={72} className="mx-auto" style={{ filter: 'drop-shadow(0px 8px 16px rgba(208,44,58,0.35))' }} />
+      <TreasureChest size={80} className="mx-auto" style={{ filter: 'drop-shadow(0px 8px 16px rgba(208,44,58,0.35))' }} />
       {/* Sized down from text-5xl/6xl — at that size "+74%" was clipping
           against the badge's own edges in the wide-shell layout. */}
       <p
@@ -79,13 +78,15 @@ function RingBadge() {
     >
       {/* Real rendered 3D ring badge (gold / crimson / black), replacing
           the earlier hand-built CSS conic-gradient donut — the percentage
-          sits in the ring's own transparent center hole. Enlarged again so
-          "+40%" sits fully inside the ring's own hole the way the mockup
-          shows it, instead of crowding the ring's inner edge. */}
-      <div className="relative mx-auto mt-1 w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center">
+          sits in the ring's own transparent center hole (the ring art
+          itself is centered in its square canvas, confirmed directly).
+          Sized to read as the same visual weight as the chest icon next
+          to it (a graphic-design "these two badges are a matched pair"
+          balance), not dramatically bigger. */}
+      <div className="relative mx-auto mt-0 w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center">
         <img src={asset('/assets/amy/pie.png')} alt="" className="absolute inset-0 w-full h-full object-contain drop-shadow-lg" />
         <p
-          className="relative font-display font-black text-2xl sm:text-3xl text-[#c62828] leading-none tabular-nums"
+          className="relative font-display font-black text-xl sm:text-2xl text-[#c62828] leading-none tabular-nums"
           style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
         >
           {pct}
@@ -124,6 +125,45 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
           { label: 'Tech', value: 'Midjourney · 3D Printing Pipeline · Illustrator' },
         ]}
       />
+
+      {/* Campaign Impact + My Role — moved from the footer to the TOP,
+          collapsed into one row, per explicit request: the metrics were
+          only visible after scrolling past the whole artboard below, and
+          they're the numbers that matter most to a reviewer, not an
+          afterthought. The "Play Case Study" CTA that used to close the
+          modal here was redundant with the close button and dropped. */}
+      <div className="px-5 sm:px-8 pb-3 flex flex-wrap items-center gap-x-6 gap-y-2.5 border-b border-pearl-ink/10 mb-3">
+        <div className="flex items-center gap-2">
+          <img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-6 h-6 object-contain shrink-0" />
+          <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub whitespace-nowrap">Campaign Impact</span>
+        </div>
+        <StatStrip
+          theme="light"
+          stats={[
+            { icon: <Users size={13} />, value: engaged, label: 'Engaged Users' },
+            { icon: <TrendingUp size={13} />, value: impressions, label: 'Impressions' },
+            { icon: <Heart size={13} />, value: feedback, label: 'Positive Feedback' },
+          ]}
+        />
+        <div className="w-px h-6 bg-pearl-ink/15 hidden sm:block" />
+        <div className="flex items-center gap-3">
+          <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub whitespace-nowrap">My Role</span>
+          <div className="flex items-center gap-3 text-pearl-sub">
+            <span className="flex items-center gap-1">
+              <PenTool size={14} />
+              <span className="text-[9px] font-bold uppercase tracking-wide text-pearl-sub/80">Art Direction</span>
+            </span>
+            <span className="flex items-center gap-1">
+              <Palette size={14} />
+              <span className="text-[9px] font-bold uppercase tracking-wide text-pearl-sub/80">Visual Design</span>
+            </span>
+            <span className="flex items-center gap-1">
+              <img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-3.5 h-3.5 object-contain" />
+              <span className="text-[9px] font-bold uppercase tracking-wide text-pearl-sub/80">Campaign Strategy</span>
+            </span>
+          </div>
+        </div>
+      </div>
 
       {/* Fixed-aspect artboard, not a generic responsive grid — the
           approved mockup is one art-directed scene (card measured at
@@ -175,66 +215,20 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
                   alarm from a collapsed 279x242 test viewport, not the
                   rotation — re-verified clean at a real viewport size (all
                   11 cards hit-test correctly) before shipping this. */}
+              {/* Re-measured directly against the source photo via a pixel
+                  scan of the actual screen boundary (not the earlier
+                  estimate) — the grid was sitting visibly smaller than the
+                  real screen, leaving gray screen showing around its edges
+                  instead of filling it. */}
               <div
                 className="absolute overflow-y-auto no-scrollbar rounded-[10px]"
-                style={{ left: '18%', top: '15.5%', width: '60%', height: '71%', transform: 'rotate(4.1deg)' }}
+                style={{ left: '15.5%', top: '10%', width: '67%', height: '78%', transform: 'rotate(4.2deg)' }}
               >
                 <AmyRosterGrid />
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Footer bar — campaign impact / my role / CTA, matching the
-          approved mockup's three-part footer exactly. Icons corrected
-          against the mockup: Impressions uses a trend-up chart glyph
-          (was an eye), Positive Feedback uses a heart (was a thumbs-up)
-          — both checked directly against the reference file. */}
-      <div className="px-5 sm:px-8 py-4 border-t border-pearl-ink/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-center gap-2.5">
-          {/* Same real 3D target-and-arrow render as the Campaign Strategy
-              icon below — the mockup uses the identical asset in both
-              places (just bigger here), not a flat outline icon. */}
-          <img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-7 h-7 object-contain shrink-0" />
-          <div>
-            <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub mb-1.5">Campaign Impact</p>
-            <StatStrip
-              theme="light"
-              size="lg"
-              stats={[
-                { icon: <Users size={14} />, value: engaged, label: 'Engaged Users' },
-                { icon: <TrendingUp size={14} />, value: impressions, label: 'Impressions' },
-                { icon: <Heart size={14} />, value: feedback, label: 'Positive Feedback' },
-              ]}
-            />
-          </div>
-        </div>
-
-        <div>
-          <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub mb-1.5">My Role</p>
-          {/* Each icon gets its own small caption below it, matching the
-              mockup — a title-attribute tooltip alone (the previous
-              version) isn't visible without hovering. */}
-          <div className="flex items-start gap-4 text-pearl-sub">
-            <span className="flex flex-col items-center gap-1">
-              <PenTool size={16} />
-              <span className="text-[7px] font-bold uppercase tracking-wide text-pearl-sub/80">Art Direction</span>
-            </span>
-            <span className="flex flex-col items-center gap-1">
-              <Palette size={16} />
-              <span className="text-[7px] font-bold uppercase tracking-wide text-pearl-sub/80">Visual Design</span>
-            </span>
-            <span className="flex flex-col items-center gap-1">
-              <img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-4 h-4 object-contain" />
-              <span className="text-[7px] font-bold uppercase tracking-wide text-pearl-sub/80 text-center">Campaign Strategy</span>
-            </span>
-          </div>
-        </div>
-
-        <CTAButton variant="red" icon onClick={onClose} className="self-center">
-          <Joystick size={13} /> Play Case Study
-        </CTAButton>
       </div>
     </div>
   )
