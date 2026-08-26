@@ -42,6 +42,7 @@ export default function App() {
         labelledBy={openId ? LABEL_ID[openId] : ''}
         arcadeChrome={openId === 'amy'}
         layoutId={openId ? `card-${openId}` : undefined}
+        maxWidthClass={openId === 'galgalatz' ? 'max-w-[680px]' : undefined}
         breakout={
           openId === 'ai-rescue' ? (
             <AiRescueBreakout />

@@ -24,12 +24,26 @@ interface ProjectModalProps {
    *  the case study" rather than a dialog popping up disconnected from
    *  whatever was clicked. */
   layoutId?: string
+  /** Overrides the panel's default max-w-[1180px] — for a case study whose
+   *  approved composition is a narrower, portrait-cinematic scene (e.g.
+   *  Galgalatz) rather than the shared wide landscape shell. */
+  maxWidthClass?: string
 }
 
 /** The shared cinematic modal shell every case study opens inside — glass
  *  chrome, backdrop blur, Escape-to-close, scroll lock, and a premium
  *  "game event panel" entrance/exit rather than a flat dialog fade. */
-export default function ProjectModal({ open, onClose, theme, children, labelledBy, breakout, arcadeChrome = false, layoutId }: ProjectModalProps) {
+export default function ProjectModal({
+  open,
+  onClose,
+  theme,
+  children,
+  labelledBy,
+  breakout,
+  arcadeChrome = false,
+  layoutId,
+  maxWidthClass = 'max-w-[1180px]',
+}: ProjectModalProps) {
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => {
@@ -75,7 +89,7 @@ export default function ProjectModal({ open, onClose, theme, children, labelledB
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ layout: { type: 'spring', stiffness: 300, damping: 32 }, opacity: { duration: 0.2 } }}
-            className={`relative w-full max-w-[1180px] max-h-[90vh] rounded-[28px] sm:rounded-[32px] border ${
+            className={`relative w-full ${maxWidthClass} max-h-[90vh] rounded-[28px] sm:rounded-[32px] border ${
               theme === 'light' ? 'bg-white/40 backdrop-blur-2xl border-white/60' : 'bg-slate-900/60 backdrop-blur-2xl border-white/15'
             }`}
             style={{ isolation: 'isolate', boxShadow: '0 0 50px rgba(0,0,0,0.5), 0 40px 90px -20px rgba(0,0,0,0.6)' }}

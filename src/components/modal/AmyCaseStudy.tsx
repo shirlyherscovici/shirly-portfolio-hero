@@ -1,5 +1,6 @@
-import { Users, Eye, ThumbsUp, PenTool, Palette } from 'lucide-react'
+import { Users, Eye, ThumbsUp, PenTool, Palette, Joystick } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
+import CTAButton from '../ui/CTAButton'
 import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
 import { GoldCoin, GoldSwallow, HeartIcon, MusicNote, TreasureChest, VinylRecord } from '../ui/decor'
@@ -183,9 +184,8 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
         </div>
       </div>
 
-      {/* Footer bar — campaign impact (left) / my role (right). No CTA
-          here: this modal already IS the case study, so a "Play Case
-          Study" button re-pointing at itself was redundant. */}
+      {/* Footer bar — campaign impact / my role / CTA, matching the
+          approved mockup's three-part footer exactly. */}
       <div className="px-5 sm:px-8 py-5 border-t border-pearl-ink/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
         <div>
           <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub mb-1.5">Campaign Impact</p>
@@ -200,14 +200,18 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
           />
         </div>
 
-        <div className="md:text-right">
+        <div>
           <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub mb-1.5">My Role</p>
-          <div className="flex items-center gap-3 text-pearl-sub md:justify-end">
+          <div className="flex items-center gap-3 text-pearl-sub">
             <span title="Art Direction"><PenTool size={16} /></span>
             <span title="Visual Design"><Palette size={16} /></span>
             <span title="Campaign Strategy"><img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-4 h-4 object-contain" /></span>
           </div>
         </div>
+
+        <CTAButton variant="red" icon onClick={onClose} className="self-center">
+          <Joystick size={13} /> Play Case Study
+        </CTAButton>
       </div>
     </div>
   )
