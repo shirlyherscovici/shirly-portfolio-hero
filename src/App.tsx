@@ -46,7 +46,6 @@ export default function App() {
         closeLabel={openId === 'ai-rescue' ? 'Close' : openId === 'people-motion' ? 'Close Case Study' : undefined}
         joystickBadgeSrc={openId === 'galgalatz' ? asset('/assets/galgalatz/joystick-galgaltz.png') : undefined}
         layoutId={openId ? `card-${openId}` : undefined}
-        maxWidthClass={openId === 'galgalatz' ? 'max-w-[680px]' : undefined}
         breakout={
           openId === 'ai-rescue' ? (
             <AiRescueBreakout />

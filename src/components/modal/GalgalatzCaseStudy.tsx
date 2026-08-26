@@ -176,14 +176,18 @@ function FilmStrip({ active, onSelect }: { active: number; onSelect: (i: number)
     <div className="relative rounded-2xl bg-black/40 backdrop-blur-xl border-2 border-white/20 shadow-cine-lg py-2.5 overflow-hidden">
       {/* Transparent 35mm film-strip border — perforation rows top & bottom */}
       <SprocketRow />
-      <div className="my-2.5 overflow-x-auto no-scrollbar px-3">
-        <div className="flex gap-3 min-w-max">
+      {/* Grid, not a horizontal-scroll row — in the wide shell's two-column
+          layout this strip lives in a narrower side column, where 6 items
+          in one scrolling row would just hide most of them off-screen.
+          A 2-column grid keeps every chapter visible without scrolling. */}
+      <div className="my-2.5 px-3">
+        <div className="grid grid-cols-2 gap-2.5">
           {FRAMES.map((f, i) => (
             <button
               key={f.key}
               type="button"
               onClick={() => onSelect(i)}
-              className={`relative w-24 sm:w-28 shrink-0 rounded-xl overflow-hidden border-2 transition-all text-left ${
+              className={`relative w-full rounded-xl overflow-hidden border-2 transition-all text-left ${
                 active === i
                   ? 'border-cine-cyan shadow-glow-cyan scale-[1.06] ring-2 ring-cine-cyan/40 ring-offset-2 ring-offset-black/60'
                   : 'border-white/15 hover:border-white/40 opacity-70 hover:opacity-100'
@@ -234,11 +238,15 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
           it. Removed. */}
 
       <div className="px-5 sm:px-8 pb-6">
-        {/* Content-hugging row — the case and phone previously each forced
-            50% of a 1080px row (sm:w-1/2), leaving huge empty gutters on
-            both sides of each item since neither actually needed that much
-            width. Sizing them naturally and centering the pair together
-            reads as a tight, intentional composition instead. */}
+        {/* The modal now opens at the shared wide shell width (not a
+            narrow portrait panel) so the page never needs to scroll to see
+            the whole case study — the cabinet/phone scene and the film
+            strip sit side by side on a real desktop viewport instead of
+            stacking the strip below a scene that would otherwise stretch
+            to the full wide width. Below lg, there's no room for two
+            columns, so it falls back to the original stacked layout. */}
+        <div className="lg:grid lg:grid-cols-[1.3fr_1fr] lg:gap-6 lg:items-start">
+        <div>
         {/* Fixed-aspect artboard (not flex-driven sizing) — cabinet and
             phone zones positioned at percentages pixel-measured directly
             from the reference file (cabinet's neon glow bounds ~9-49% of
@@ -246,8 +254,11 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
             converted to this scene's own coordinate space. Aspect ratio
             765/680 approximates the measured cabinet+phone scene's own
             bounding box within the card (excluding header/filmstrip/
-            metrics, which stay in normal flow above/below). */}
-        <div className="relative w-full" style={{ aspectRatio: '765 / 680' }}>
+            metrics, which stay in normal flow above/below). Capped to a
+            max width so the extra room the wide shell provides goes to the
+            film strip column instead of just blowing this scene up bigger
+            (and taller). */}
+        <div className="relative w-full max-w-[520px] mx-auto lg:mx-0" style={{ aspectRatio: '765 / 680' }}>
           <div className="absolute inset-y-0 left-0" style={{ width: '50%' }}>
             <GlassDisplayCase highlighted={active === 0} />
           </div>
@@ -256,11 +267,11 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
               mockup at roughly (61%,28%) and (69%,55%) of the scene, not
               a modal-edge breakout element (they sit inside the scene,
               between the two objects, not spilling past either edge). */}
-          <FloatingElement delay={0.3} distance={8} className="absolute z-20" style={{ left: '58%', top: '25%' }}>
-            <GoldCoin size={26} />
+          <FloatingElement delay={0.3} distance={8} className="absolute z-20" style={{ left: '56%', top: '24%' }}>
+            <GoldCoin size={34} />
           </FloatingElement>
-          <FloatingElement delay={0.9} distance={9} className="absolute z-20" style={{ left: '63%', top: '52%' }}>
-            <GoldCoin size={30} />
+          <FloatingElement delay={0.9} distance={9} className="absolute z-20" style={{ left: '61%', top: '51%' }}>
+            <GoldCoin size={40} />
           </FloatingElement>
 
           <div className="absolute" style={{ left: '69%', right: '0%', top: '4%', bottom: '4%' }}>
@@ -336,10 +347,12 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
             </span>
           ))}
         </div>
+        </div>
 
-        <div className="mt-3">
+        <div className="mt-5 lg:mt-0">
           <p className="text-[11px] font-display font-bold uppercase tracking-[0.18em] text-cine-cyan mb-1.5">Campaign Chapters <span className="text-cine-sub font-semibold tracking-wide">— Tap to explore</span></p>
           <FilmStrip active={active} onSelect={setActive} />
+        </div>
         </div>
       </div>
 
@@ -380,11 +393,11 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
 export function GalgalatzBreakout() {
   return (
     <>
-      <FloatingElement delay={0.5} distance={9} className="absolute top-[24%] -right-7 sm:-right-10 z-30 hidden sm:block">
-        <MusicNote size={26} />
+      <FloatingElement delay={0.5} distance={9} className="absolute top-[24%] -right-8 sm:-right-12 z-30 hidden sm:block">
+        <MusicNote size={36} />
       </FloatingElement>
-      <FloatingElement delay={1.2} distance={9} className="absolute top-[49%] -right-6 sm:-right-9 z-30 hidden sm:block">
-        <MusicNote size={22} />
+      <FloatingElement delay={1.2} distance={9} className="absolute top-[49%] -right-7 sm:-right-11 z-30 hidden sm:block">
+        <MusicNote size={30} />
       </FloatingElement>
     </>
   )

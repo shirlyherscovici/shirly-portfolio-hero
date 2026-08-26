@@ -88,13 +88,16 @@ export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void
           </div>
 
           <div className="mt-5 flex justify-center">
+            {/* Light lavender/white glass pill with dark text — matches the
+                mockup's "Watch Playable Demo" CTA exactly (same family as
+                AI Rescue's button), not the gold gradient this used to be. */}
             <button
               type="button"
               onClick={togglePlay}
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full font-display font-bold text-xs sm:text-sm tracking-wide uppercase bg-gradient-to-b from-[#e2c07f] to-[#b8863b] text-[#2c2010] shadow-glow-gold transition-transform hover:scale-[1.04]"
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full font-display font-bold text-xs sm:text-sm tracking-wide uppercase bg-gradient-to-b from-white to-[#e7e2f5] text-[#28223f] shadow-[0_8px_24px_-6px_rgba(0,0,0,0.35)] transition-transform hover:scale-[1.04]"
             >
               {playing ? <Pause size={13} className="fill-current" /> : <Play size={13} className="fill-current" />}
-              {playing ? 'Pause Reel' : 'Play Video'} <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+              {playing ? 'Pause Reel' : 'Watch Playable Demo'} <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
             </button>
           </div>
         </div>
@@ -118,23 +121,23 @@ export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void
 export function PeopleMotionBreakout() {
   return (
     <>
-      <FloatingElement delay={0.2} distance={10} className="absolute top-[18%] -left-7 sm:-left-10 z-30 hidden sm:block">
-        <GoldCoin size={30} />
+      <FloatingElement delay={0.2} distance={10} className="absolute top-[18%] -left-8 sm:-left-12 z-30 hidden sm:block">
+        <GoldCoin size={42} />
       </FloatingElement>
-      <FloatingElement delay={1.1} distance={8} className="absolute top-[46%] -left-6 sm:-left-9 z-30 hidden sm:block">
-        <MusicNote size={24} color="#b8863b" />
+      <FloatingElement delay={1.1} distance={8} className="absolute top-[46%] -left-7 sm:-left-11 z-30 hidden sm:block">
+        <MusicNote size={34} color="#b8863b" />
       </FloatingElement>
-      <FloatingElement delay={0.8} distance={9} className="absolute top-[70%] -left-7 sm:-left-10 z-30 hidden sm:block">
-        <HeartIcon size={26} color="#c23b3b" />
+      <FloatingElement delay={0.8} distance={9} className="absolute top-[70%] -left-8 sm:-left-12 z-30 hidden sm:block">
+        <HeartIcon size={36} color="#c23b3b" />
       </FloatingElement>
-      <FloatingElement delay={0.6} distance={9} className="absolute top-[28%] -right-7 sm:-right-10 z-30 hidden sm:block">
-        <GoldCoin size={26} />
+      <FloatingElement delay={0.6} distance={9} className="absolute top-[28%] -right-8 sm:-right-12 z-30 hidden sm:block">
+        <GoldCoin size={36} />
       </FloatingElement>
-      <FloatingElement delay={1.5} distance={10} className="absolute top-[55%] -right-6 sm:-right-9 z-30 hidden sm:block">
-        <HeartIcon size={22} color="#c23b3b" />
+      <FloatingElement delay={1.5} distance={10} className="absolute top-[55%] -right-7 sm:-right-11 z-30 hidden sm:block">
+        <HeartIcon size={30} color="#c23b3b" />
       </FloatingElement>
-      <FloatingElement delay={0.4} distance={8} className="absolute top-[78%] -right-7 sm:-right-10 z-30 hidden sm:block">
-        <GoldCoin size={20} />
+      <FloatingElement delay={0.4} distance={8} className="absolute top-[78%] -right-8 sm:-right-12 z-30 hidden sm:block">
+        <GoldCoin size={28} />
       </FloatingElement>
     </>
   )

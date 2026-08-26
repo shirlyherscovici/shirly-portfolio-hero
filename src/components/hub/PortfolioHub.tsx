@@ -23,18 +23,63 @@ interface PortfolioHubProps {
 export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
   return (
     <div className="relative min-h-screen bg-hub overflow-x-clip flex flex-col">
-      {/* No header/hero block — checked directly against the approved
-          homepage mockup: it opens straight into the module grid, no
-          wordmark bar, no "Portfolio / Works" eyebrow, no H1/subtitle.
-          Resume access moves into the footer bar instead of living in a
-          header that the mockup simply doesn't have. `id="top"` stays on
-          the grid section itself so the footer's own logo/anchor still has
-          somewhere to scroll to. */}
-      <main id="top" className="relative z-10 mx-auto max-w-[1400px] w-full px-4 sm:px-6 lg:px-10 pt-4 sm:pt-6 pb-6 sm:pb-8 flex-1">
+      {/* Sticky wordmark header — brought back at the user's explicit
+          request after the mockup-fidelity pass removed it (the mockup's
+          own homepage shot has none, but she confirmed she wants it kept
+          regardless — it stays pinned above everything, z-50, so no card
+          art can ever obscure it). */}
+      <header className="sticky top-0 z-50 bg-[#fdfaf7]/85 backdrop-blur-xl border-b border-pearl-ink/5">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10 py-3.5 sm:py-4 flex items-center justify-between">
+          <a href="#top" className="flex items-center gap-2.5 group">
+            <span className="w-8 h-8 rounded-full bg-white/80 border border-white shadow-pearl-sm flex items-center justify-center font-display font-black text-[11px] text-pearl-red">
+              SH
+            </span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-pearl-sub group-hover:text-pearl-ink transition-colors">
+              Shirly Herscovici&apos;s Portfolio
+            </span>
+          </a>
+          <a
+            href={asset('/resume.pdf')}
+            download
+            className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-pearl-sub hover:text-pearl-ink transition-colors px-3 py-1.5 rounded-full border border-transparent hover:border-pearl-sub/20"
+          >
+            <Download size={12} /> <span className="hidden sm:inline">Resume</span>
+          </a>
+        </div>
+      </header>
+
+      <section id="top" className="relative z-10 mx-auto max-w-[1400px] w-full px-4 sm:px-6 lg:px-10 pt-6 sm:pt-8 pb-4">
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.22em] text-pearl-sub"
+        >
+          Portfolio / Works
+        </motion.p>
+        <motion.h1
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.05 }}
+          className="mt-2 font-display font-extrabold text-2xl sm:text-3xl lg:text-[2rem] text-pearl-ink tracking-tight"
+        >
+          Visual, Motion, Game UI &amp; Creative AI
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mt-1.5 text-[13px] sm:text-sm font-medium text-pearl-sub max-w-lg"
+        >
+          Senior creative designer turning visual direction, motion and generative AI into interactive game-world experiences.
+        </motion.p>
+      </section>
+
+      <main className="relative z-10 mx-auto max-w-[1400px] w-full px-4 sm:px-6 lg:px-10 pb-6 sm:pb-8 flex-1">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_0.95fr_0.95fr] lg:grid-rows-2 gap-3 sm:gap-4"
         >
           <AmyModule onClick={() => onOpen('amy')} hidden={openId === 'amy'} />
@@ -50,19 +95,9 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
           rather than fixed-over-content. */}
       <footer className="relative z-30 bg-[#0B0C10]">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8 py-4 sm:py-5 flex flex-col lg:flex-row items-center lg:items-center justify-between gap-4">
-          <div className="flex items-center gap-3 text-center lg:text-left">
-            <div>
-              <p className="font-display font-extrabold text-base sm:text-lg text-white tracking-tight">SHIRLY HERSCOVICI</p>
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-white/60 mt-0.5">Visual, Motion &amp; Front-End Designer</p>
-            </div>
-            <a
-              href={asset('/resume.pdf')}
-              download
-              aria-label="Download resume"
-              className="flex items-center justify-center w-7 h-7 rounded-full border border-white/15 text-white/50 hover:text-white hover:border-white/40 transition-colors shrink-0"
-            >
-              <Download size={12} />
-            </a>
+          <div className="text-center lg:text-left">
+            <p className="font-display font-extrabold text-base sm:text-lg text-white tracking-tight">SHIRLY HERSCOVICI</p>
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-white/60 mt-0.5">Visual, Motion &amp; Front-End Designer</p>
           </div>
 
           <nav className="flex items-center gap-1.5 sm:gap-2.5 flex-wrap justify-center">

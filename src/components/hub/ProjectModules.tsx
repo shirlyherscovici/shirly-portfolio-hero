@@ -348,22 +348,20 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
         {/* Pilot figure — tight-cropped to his real silhouette (the source
             PNG's canvas was ~77% empty transparent padding, which made even
             a large percentage-based width render him tiny/faint-looking).
-            Sized by HEIGHT (not width) to exceed the card's own height, then
-            vertically centered with a slight downward bias — his head
-            breaks the card's TOP edge and his boots break the BOTTOM edge
-            simultaneously (parent is overflow-visible), a true two-sided
-            breakout rather than only spilling out the bottom. z-20 keeps
-            him above the poster/gradient but below the headline text. A
-            subtle x/rotate parallax on hover reads as a tactical step
-            forward. */}
+            Bottom-anchored (not vertically centered) — checked against the
+            mockup directly: only his boots cross the card's bottom edge,
+            his head stays well clear of the top edge/title text instead of
+            also breaking out there. z-20 keeps him above the poster/
+            gradient but below the headline text. A subtle x/rotate
+            parallax on hover reads as a tactical step forward. */}
         <motion.img
           src={asset('/assets/navigator/pilot-cutout-tight.png')}
           alt=""
           aria-hidden
-          initial={{ x: '-50%', y: '-50%', rotate: 0, opacity: 1 }}
+          initial={{ x: '-50%', rotate: 0, opacity: 1 }}
           whileHover={{ x: '-53%', rotate: -3 }}
           transition={{ type: 'spring', stiffness: 220, damping: 16 }}
-          className="absolute top-1/2 left-1/2 z-20 h-[116%] w-auto max-w-none object-contain opacity-100"
+          className="absolute left-1/2 bottom-[-3%] z-20 h-[92%] w-auto max-w-none object-contain opacity-100"
           style={{
             filter:
               'contrast(1.15) brightness(1.08) drop-shadow(0 12px 20px rgba(0,0,0,0.65)) drop-shadow(0 2px 6px rgba(0,0,0,0.8))',
@@ -393,14 +391,6 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
             Cinematic Simulation
           </p>
 
-          <div className="mt-auto">
-            <div className="inline-flex flex-col gap-0.5 text-[9px] font-mono text-slate-100 bg-black/40 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10">
-              <span className="text-cine-gold">MISSION: EXTRACTION POINT DELTA-7</span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse-soft" /> STATUS · ACTIVE
-              </span>
-            </div>
-          </div>
         </div>
       </motion.div>
     </motion.button>

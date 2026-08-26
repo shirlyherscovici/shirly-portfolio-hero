@@ -64,14 +64,14 @@ function ChestBadge() {
           3d-treasure-chest.png was requested but isn't in the project, so
           this SVG stays in place with the requested crimson glow until a
           real render is provided), gold/red to match the gift box & roses. */}
-      <TreasureChest size={52} className="mx-auto" style={{ filter: 'drop-shadow(0px 8px 16px rgba(208,44,58,0.35))' }} />
+      <TreasureChest size={72} className="mx-auto" style={{ filter: 'drop-shadow(0px 8px 16px rgba(208,44,58,0.35))' }} />
       <p
-        className="font-display font-black text-4xl text-pearl-red leading-none tabular-nums mt-1.5"
+        className="font-display font-black text-5xl sm:text-6xl text-pearl-red leading-none tabular-nums mt-2"
         style={{ textShadow: '0 0 18px rgba(176,42,58,0.45), 0 0 36px rgba(176,42,58,0.22)' }}
       >
         {growth}
       </p>
-      <p className="mt-1 text-[10px] font-bold uppercase tracking-wide text-pearl-ink">Active User Growth</p>
+      <p className="mt-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wide text-pearl-ink">Active User Growth</p>
     </div>
   )
 }
@@ -86,17 +86,19 @@ function RingBadge() {
       <span className="text-[8px] font-bold uppercase tracking-widest text-pearl-gold2">Engagement Boost</span>
       {/* Real rendered 3D ring badge (gold / crimson / black), replacing
           the earlier hand-built CSS conic-gradient donut — the percentage
-          sits in the ring's own transparent center hole. */}
-      <div className="relative mx-auto mt-1.5 w-[4.5rem] h-[4.5rem] flex items-center justify-center">
+          sits in the ring's own transparent center hole. Sized up to match
+          the mockup, where this ring reads as large as the chest icon
+          beside it, not a smaller secondary element. */}
+      <div className="relative mx-auto mt-2 w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center">
         <img src={asset('/assets/amy/pie.png')} alt="" className="absolute inset-0 w-full h-full object-contain drop-shadow-lg" />
         <p
-          className="relative font-display font-black text-xl text-[#c62828] leading-none tabular-nums"
+          className="relative font-display font-black text-2xl sm:text-3xl text-[#c62828] leading-none tabular-nums"
           style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
         >
           {pct}
         </p>
       </div>
-      <p className="mt-1.5 text-[10px] font-bold uppercase tracking-wide text-pearl-ink">Increased Engagement</p>
+      <p className="mt-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wide text-pearl-ink">Increased Engagement</p>
     </div>
   )
 }
@@ -259,14 +261,14 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
 export function AmyCaseStudyBreakout() {
   return (
     <>
-      <FloatingElement delay={0.5} distance={9} className="absolute top-[15%] -right-6 sm:-right-8 z-30 hidden sm:block">
-        <MusicNote size={30} />
+      <FloatingElement delay={0.5} distance={9} className="absolute top-[15%] -right-7 sm:-right-10 z-30 hidden sm:block">
+        <MusicNote size={42} />
       </FloatingElement>
-      <FloatingElement delay={0.9} distance={10} className="absolute top-[38%] -right-8 sm:-right-11 z-30 hidden sm:block">
-        <GoldCoin size={44} />
+      <FloatingElement delay={0.9} distance={10} className="absolute top-[38%] -right-10 sm:-right-14 z-30 hidden sm:block">
+        <GoldCoin size={60} />
       </FloatingElement>
-      <FloatingElement delay={1.2} distance={9} className="absolute top-[73%] -right-8 sm:-right-11 z-30 hidden sm:block">
-        <HeartIcon size={48} />
+      <FloatingElement delay={1.2} distance={9} className="absolute top-[73%] -right-10 sm:-right-14 z-30 hidden sm:block">
+        <HeartIcon size={64} />
       </FloatingElement>
     </>
   )

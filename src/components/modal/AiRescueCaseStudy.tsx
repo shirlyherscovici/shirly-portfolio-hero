@@ -150,13 +150,16 @@ function VideoPanel() {
       {/* Single standardized glassmorphic play/pause control — the only way
           to start or stop playback, always pinned bottom-center, well clear
           of the subtitle overlay above it. */}
+      {/* Light lavender/white glass pill with dark text — matches the
+          mockup's CTA exactly (checked directly against the reference
+          file), not the dark glass pill this used to be. */}
       <button
         type="button"
         onClick={togglePlay}
         aria-label={playing ? 'Pause the prime-time broadcast' : 'Watch the prime-time broadcast'}
-        className="group absolute inset-x-0 bottom-3 sm:bottom-4 mx-auto w-max flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-display font-bold text-[11px] sm:text-sm tracking-wide uppercase bg-white/10 backdrop-blur-md border border-white/25 text-white shadow-cine-lg transition-transform hover:scale-[1.04]"
+        className="group absolute inset-x-0 bottom-3 sm:bottom-4 mx-auto w-max flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-display font-bold text-[11px] sm:text-sm tracking-wide uppercase bg-gradient-to-b from-white to-[#e7e2f5] text-[#28223f] shadow-[0_8px_24px_-6px_rgba(0,0,0,0.45)] transition-transform hover:scale-[1.04]"
       >
-        <span className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center group-hover:bg-white/25 transition-colors">
+        <span className="w-6 h-6 rounded-full bg-[#28223f]/10 flex items-center justify-center group-hover:bg-[#28223f]/15 transition-colors">
           {playing ? <Pause size={11} className="fill-current" /> : <Play size={11} className="fill-current" />}
         </span>
         {playing ? 'Pause Broadcast' : 'Watch Prime-Time Broadcast'}
@@ -214,14 +217,14 @@ export default function AiRescueCaseStudy({ onClose }: { onClose: () => void }) 
                 text label, positioned on the LEFT breaking the video's own
                 top edge, clear of the CC toggle (the only control left at
                 top-right) so nothing ever overlaps. */}
-            <FloatingElement delay={0.4} distance={10} className="absolute -top-3 left-8 hidden md:block">
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-black/45 backdrop-blur-md border border-cine-cyan/30 text-cine-cyan">
-                <Cpu size={13} />
+            <FloatingElement delay={0.4} distance={10} className="absolute -top-4 left-8 hidden md:block">
+              <span className="flex items-center justify-center w-11 h-11 rounded-full bg-black/45 backdrop-blur-md border border-cine-cyan/30 text-cine-cyan">
+                <Cpu size={18} />
               </span>
             </FloatingElement>
-            <FloatingElement delay={1.1} distance={8} className="absolute -top-3 left-20 hidden lg:block">
-              <span className="flex items-center justify-center w-7 h-7 rounded-full bg-black/45 backdrop-blur-md border border-cine-magenta/30 text-cine-magenta">
-                <Network size={12} />
+            <FloatingElement delay={1.1} distance={8} className="absolute -top-4 left-24 hidden lg:block">
+              <span className="flex items-center justify-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md border border-cine-magenta/30 text-cine-magenta">
+                <Network size={16} />
               </span>
             </FloatingElement>
           </div>
@@ -233,24 +236,7 @@ export default function AiRescueCaseStudy({ onClose }: { onClose: () => void }) 
           <TacticalMap />
         </div>
 
-        {/* The creative pipeline — proves this was directed AI production
-            (concept → generation → motion → final), not "typed a prompt,
-            got a cool video." */}
-        <div className="mt-9 sm:mt-8 flex items-center justify-center gap-1.5 sm:gap-2.5 flex-wrap">
-          {['Concept', 'Generation', 'Motion', 'Final'].map((step, i, arr) => (
-            <div key={step} className="flex items-center gap-1.5 sm:gap-2.5">
-              <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-cine-soft text-[10px] font-display font-bold uppercase tracking-wide text-white">
-                <span className="w-4 h-4 rounded-full bg-cine-cyan/20 border border-cine-cyan/40 text-cine-cyan text-[8px] font-mono flex items-center justify-center">
-                  {i + 1}
-                </span>
-                {step}
-              </span>
-              {i < arr.length - 1 && <span className="text-cine-cyan/40 text-xs">→</span>}
-            </div>
-          ))}
-        </div>
-
-        <div className="grid sm:grid-cols-3 gap-3.5 mt-4">
+        <div className="grid sm:grid-cols-3 gap-3.5 mt-8 sm:mt-7">
           {INFO_CARDS.map(({ icon: Icon, title, body }) => (
             <div key={title} className="rounded-2xl glass-cine-soft p-4">
               <Icon size={16} className="text-cine-cyan mb-2" />
