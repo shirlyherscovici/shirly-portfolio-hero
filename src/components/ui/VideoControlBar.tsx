@@ -3,6 +3,19 @@ import { Volume2, VolumeX, Gauge, Maximize, Minimize } from 'lucide-react'
 
 const SPEEDS = [0.5, 1, 2]
 
+/** Shared by this bar's own fullscreen button AND each case study's
+ *  double-click-to-fullscreen handler on the video itself, so both paths
+ *  agree on what "fullscreen" means (toggle, target-element rules, and
+ *  error-swallowing) instead of drifting apart. */
+export function toggleFullscreen(target: HTMLElement | null) {
+  if (!target) return
+  if (!document.fullscreenElement) {
+    target.requestFullscreen?.().catch(() => {})
+  } else {
+    document.exitFullscreen?.().catch(() => {})
+  }
+}
+
 /** A small control row — mute/unmute, cycle playback speed (0.5x → 1x →
  *  2x), and fullscreen toggle — shared by every case study video so none
  *  of them ship with only a bare play/pause. Deliberately its own row
@@ -58,15 +71,7 @@ export default function VideoControlBar({
     setSpeedIdx(next)
   }
 
-  const toggleFullscreen = () => {
-    const target = fullscreenRef?.current ?? videoRef.current
-    if (!target) return
-    if (!document.fullscreenElement) {
-      target.requestFullscreen?.().catch(() => {})
-    } else {
-      document.exitFullscreen?.().catch(() => {})
-    }
-  }
+  const onFullscreenClick = () => toggleFullscreen(fullscreenRef?.current ?? videoRef.current)
 
   const btn = 'flex items-center justify-center gap-1 h-7 px-2 rounded-md bg-black/50 backdrop-blur-sm border border-white/20 text-white/85 hover:text-white hover:bg-black/70 transition-colors text-[9px] font-bold'
 
@@ -78,7 +83,7 @@ export default function VideoControlBar({
       <button type="button" onClick={cycleSpeed} aria-label={`Playback speed: ${SPEEDS[speedIdx]}x — tap to change`} className={btn}>
         <Gauge size={12} /> {SPEEDS[speedIdx]}x
       </button>
-      <button type="button" onClick={toggleFullscreen} aria-label={fullscreen ? 'Exit fullscreen' : 'Fullscreen'} aria-pressed={fullscreen} className={btn}>
+      <button type="button" onClick={onFullscreenClick} aria-label={fullscreen ? 'Exit fullscreen' : 'Fullscreen'} aria-pressed={fullscreen} className={btn}>
         {fullscreen ? <Minimize size={12} /> : <Maximize size={12} />}
       </button>
     </div>

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Play, Pause, Crosshair, Zap, Eye, Users2, Captions } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
-import VideoControlBar from '../ui/VideoControlBar'
+import VideoControlBar, { toggleFullscreen } from '../ui/VideoControlBar'
 import { asset } from '../../lib/asset'
 
 const VIDEO_SRC = asset('/assets/navigator/main-film.mp4')
@@ -130,6 +130,7 @@ function VideoPanel({
         onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)}
         onEnded={() => setPlaying(false)}
         onClick={togglePlay}
+        onDoubleClick={() => toggleFullscreen(wrapperRef.current)}
         className="absolute inset-0 w-full h-full object-contain bg-black cursor-pointer"
       >
         <track ref={trackRef} kind="subtitles" src={asset('/assets/navigator/captions-en.vtt')} srcLang="en" label="English" />

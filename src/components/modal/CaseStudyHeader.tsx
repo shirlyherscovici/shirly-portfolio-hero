@@ -47,12 +47,15 @@ export default function CaseStudyHeader({ id, stageLabel, title, supportLabel, m
           type="button"
           onClick={onClose}
           className={`flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold uppercase tracking-wide transition-colors ${
-            light ? 'text-pearl-sub hover:text-pearl-ink' : 'text-cine-sub hover:text-white'
+            // Amy (arcadeChrome) sits on a busier, more transparent glass
+            // panel than a plain light card — the usual muted gray read as
+            // swallowed there, so it gets full white instead.
+            arcadeChrome ? 'text-white/90 hover:text-white' : light ? 'text-pearl-sub hover:text-pearl-ink' : 'text-cine-sub hover:text-white'
           }`}
         >
           <ChevronLeft size={13} />
           <span>
-            Portfolio / Works / <span className={light ? 'text-pearl-ink' : 'text-white'}>{stageLabel} {title}</span>
+            Portfolio / Works / <span className={light && !arcadeChrome ? 'text-pearl-ink' : 'text-white'}>{stageLabel} {title}</span>
           </span>
         </button>
       )}

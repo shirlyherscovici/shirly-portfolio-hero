@@ -1,4 +1,4 @@
-import { Users, TrendingUp, Heart, PenTool, Palette } from 'lucide-react'
+import { Users, TrendingUp, Heart, PenTool, Palette, ExternalLink } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
@@ -135,7 +135,7 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
       <div className="px-5 sm:px-8 pb-3 flex flex-wrap items-center gap-x-6 gap-y-2.5 border-b border-pearl-ink/10 mb-3">
         <div className="flex items-center gap-2">
           <img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-6 h-6 object-contain shrink-0" />
-          <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub whitespace-nowrap">Campaign Impact</span>
+          <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/90 whitespace-nowrap" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.35)' }}>Campaign Impact</span>
         </div>
         <StatStrip
           theme="light"
@@ -147,22 +147,35 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
         />
         <div className="w-px h-6 bg-pearl-ink/15 hidden sm:block" />
         <div className="flex items-center gap-3">
-          <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-pearl-sub whitespace-nowrap">My Role</span>
-          <div className="flex items-center gap-3 text-pearl-sub">
+          <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/90 whitespace-nowrap" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.35)' }}>My Role</span>
+          <div className="flex items-center gap-3 text-white/90" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.35)' }}>
             <span className="flex items-center gap-1">
               <PenTool size={14} />
-              <span className="text-[9px] font-bold uppercase tracking-wide text-pearl-sub/80">Art Direction</span>
+              <span className="text-[9px] font-bold uppercase tracking-wide text-white/80">Art Direction</span>
             </span>
             <span className="flex items-center gap-1">
               <Palette size={14} />
-              <span className="text-[9px] font-bold uppercase tracking-wide text-pearl-sub/80">Visual Design</span>
+              <span className="text-[9px] font-bold uppercase tracking-wide text-white/80">Visual Design</span>
             </span>
             <span className="flex items-center gap-1">
               <img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-3.5 h-3.5 object-contain" />
-              <span className="text-[9px] font-bold uppercase tracking-wide text-pearl-sub/80">Campaign Strategy</span>
+              <span className="text-[9px] font-bold uppercase tracking-wide text-white/80">Campaign Strategy</span>
             </span>
           </div>
         </div>
+
+        {/* Link to the real, live N12 project — a small pill, not a big
+            CTA, since the modal's own close button already handles "I'm
+            done here". */}
+        <a
+          href="https://special.n12.co.il/AmyWinehouse"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-auto flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wide text-white/90 hover:text-white bg-black/20 hover:bg-black/30 border border-white/20 px-2.5 py-1.5 rounded-full transition-colors"
+          style={{ textShadow: '0 1px 2px rgba(0,0,0,0.35)' }}
+        >
+          View Live Project <ExternalLink size={11} />
+        </a>
       </div>
 
       {/* Fixed-aspect artboard, not a generic responsive grid — the

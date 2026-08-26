@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { MousePointerClick } from 'lucide-react'
 import { useParticleBurst } from '../ui/ParticleBurst'
 import { playGuitarPluck } from '../../lib/sfx'
 import { asset } from '../../lib/asset'
@@ -18,7 +19,8 @@ const ROSTER: RosterMember[] = [
   { name: 'Robert Johnson', front: '/assets/amy/before-after/001-after.jpg', back: '/assets/amy/before-after/001-before.jpg' },
   { name: 'Mia Zapata', front: '/assets/amy/before-after/002-after.jpg', back: '/assets/amy/before-after/002-before.jpg' },
   { name: 'Jean-Michel Basquiat', front: '/assets/amy/before-after/003-after.jpg', back: '/assets/amy/before-after/003-before.jpg' },
-  { name: 'Anton Yelchin', front: '/assets/amy/before-after/004-after.jpg', back: '/assets/amy/before-after/004-before.jpg' },
+  // Anton Yelchin dropped (10 members, chosen by the user) so the grid
+  // can go 2 columns instead of 3 — bigger cards inside the phone screen.
   { name: 'Jimi Hendrix', front: '/assets/amy/before-after/005-after.jpg', back: '/assets/amy/before-after/005-before.jpg' },
   { name: 'Jim Morrison', front: '/assets/amy/before-after/006-after.jpg', back: '/assets/amy/before-after/006-before.jpg' },
   { name: 'Janis Joplin', front: '/assets/amy/before-after/007-after.jpg', back: '/assets/amy/before-after/007-before.jpg' },
@@ -105,24 +107,33 @@ export default function AmyRosterGrid() {
     // No background fill anymore — the photographed phone screen behind
     // this grid already supplies one; painting a second, different-toned
     // background on top of it just looked like a mismatched patch.
-    <div className="h-full min-h-full flex flex-col p-2.5">
+    <div className="relative h-full min-h-full flex flex-col p-2.5">
       <p className="text-center font-display font-extrabold text-[11px] text-white tracking-tight" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}>
         THE 27 CLUB
       </p>
-      {/* Reverted to 3 columns (was briefly 2) after checking the actual
-          approved mockup file: it shows a tight 3-column, 4-row grid
-          (3+3+3+2 for 11 members), not 2. Two columns was a good-faith
-          guess made before the real mockup file was available — the file
-          wins. Header/footer captions trimmed to single lines (was a
-          2-line header + footer hint) to free up more height for the
-          cards themselves — bigger faces, less chrome around them. */}
+      {/* 2 columns (was 3) — one member dropped (10 remain) specifically
+          so this grid could go 2x5 instead of 3+3+3+1, giving each card
+          real size instead of a cramped thumbnail. */}
       <div className="flex-1 flex items-center">
-        <div className="grid grid-cols-3 gap-2.5 w-full">
+        <div className="grid grid-cols-2 gap-2.5 w-full">
           {ROSTER.map((m) => (
             <FlipCard key={m.name} member={m} />
           ))}
         </div>
       </div>
+
+      {/* A small "this is interactive" hint — nothing here signals to a
+          first-time visitor that these cards flip on hover/tap without
+          actually trying one. A gently pulsing cursor-click glyph in the
+          corner, not competing with the cards themselves. */}
+      <motion.span
+        aria-hidden
+        animate={{ scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute bottom-1.5 right-1.5 flex items-center justify-center w-5 h-5 rounded-full bg-pearl-gold/90 text-[#241b3d] shadow-md"
+      >
+        <MousePointerClick size={11} />
+      </motion.span>
     </div>
   )
 }

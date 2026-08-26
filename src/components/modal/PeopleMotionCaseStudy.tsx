@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { Play, Pause, Smartphone, Layers, Scissors, UserCircle2, Layers3 } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import FloatingElement from '../ui/FloatingElement'
-import VideoControlBar from '../ui/VideoControlBar'
+import VideoControlBar, { toggleFullscreen } from '../ui/VideoControlBar'
 import { GoldCoin, HeartIcon, MusicNote } from '../ui/decor'
 import ComputerMonitorFrame from '../ui/ComputerMonitorFrame'
 import { asset } from '../../lib/asset'
@@ -80,10 +80,15 @@ export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void
               {!playing && <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-black/5 to-black/40" />}
 
               {/* Glass play button overlay — the one control that starts or
-                  stops playback, matching the light pearl palette. */}
+                  stops playback, matching the light pearl palette. Also
+                  the double-click-to-fullscreen target: it fully covers
+                  the video (absolute inset-0), so it's what actually
+                  receives the pointer events in that area, not the
+                  <video> underneath it. */}
               <button
                 type="button"
                 onClick={togglePlay}
+                onDoubleClick={() => toggleFullscreen(screenRef.current)}
                 aria-label={playing ? 'Pause the After Effects reel' : 'Play the After Effects reel'}
                 className="group absolute inset-0 flex items-center justify-center"
               >
