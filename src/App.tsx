@@ -6,15 +6,15 @@ import AmyCaseStudy, { AmyCaseStudyBreakout } from './components/modal/AmyCaseSt
 import GalgalatzCaseStudy, { GalgalatzBreakout } from './components/modal/GalgalatzCaseStudy'
 import AiRescueCaseStudy, { AiRescueBreakout } from './components/modal/AiRescueCaseStudy'
 import PeopleMotionCaseStudy, { PeopleMotionBreakout } from './components/modal/PeopleMotionCaseStudy'
+import { DarkModeProvider, useDarkMode } from './lib/darkMode'
 import type { ProjectId, Theme } from './types'
 import { asset } from './lib/asset'
 
-const THEME: Record<ProjectId, Theme> = {
-  amy: 'light',
-  galgalatz: 'dark',
-  'ai-rescue': 'dark',
-  'people-motion': 'light',
-}
+// Galgalatz and AI Rescue are always dark (their own case-study palette,
+// independent of the site-wide toggle). Amy and People In Motion are
+// normally light but follow the global dark-mode switch — computed in
+// AppShell below, not hardcoded here, since that now depends on state.
+const ALWAYS_DARK: Partial<Record<ProjectId, true>> = { galgalatz: true, 'ai-rescue': true }
 
 const LABEL_ID: Record<ProjectId, string> = {
   amy: 'modal-amy-title',
@@ -23,9 +23,12 @@ const LABEL_ID: Record<ProjectId, string> = {
   'people-motion': 'modal-motion-title',
 }
 
-export default function App() {
+function AppShell() {
   const [openId, setOpenId] = useState<ProjectId | null>(null)
+  const { dark } = useDarkMode()
   const close = () => setOpenId(null)
+
+  const theme: Theme = openId ? (ALWAYS_DARK[openId] || dark ? 'dark' : 'light') : 'light'
 
   return (
     // LayoutGroup gives the homepage cards and the modal panel — two
@@ -39,7 +42,7 @@ export default function App() {
       <ProjectModal
         open={openId !== null}
         onClose={close}
-        theme={openId ? THEME[openId] : 'light'}
+        theme={theme}
         labelledBy={openId ? LABEL_ID[openId] : ''}
         arcadeChrome={openId === 'amy'}
         outlineClose={openId === 'galgalatz'}
@@ -59,11 +62,19 @@ export default function App() {
           ) : undefined
         }
       >
-        {openId === 'amy' && <AmyCaseStudy onClose={close} />}
+        {openId === 'amy' && <AmyCaseStudy onClose={close} dark={dark} />}
         {openId === 'galgalatz' && <GalgalatzCaseStudy onClose={close} />}
         {openId === 'ai-rescue' && <AiRescueCaseStudy onClose={close} />}
-        {openId === 'people-motion' && <PeopleMotionCaseStudy onClose={close} />}
+        {openId === 'people-motion' && <PeopleMotionCaseStudy onClose={close} dark={dark} />}
       </ProjectModal>
     </LayoutGroup>
+  )
+}
+
+export default function App() {
+  return (
+    <DarkModeProvider>
+      <AppShell />
+    </DarkModeProvider>
   )
 }

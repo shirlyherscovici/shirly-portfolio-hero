@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Download, Mail, PenTool, Film, Sparkles, Code2, Moon, Sun } from 'lucide-react'
 import { AmyModule, GalgalatzModule, AiModule, MotionModule } from './ProjectModules'
+import { useDarkMode } from '../../lib/darkMode'
 import type { ProjectId } from '../../types'
 import { asset } from '../../lib/asset'
-
-const DARK_MODE_KEY = 'portfolio-dark-mode'
 
 const NAV_ITEMS = [
   { label: 'Design Strategy', icon: PenTool, glow: 'rgba(201,161,90,0.6)' },
@@ -24,27 +22,11 @@ interface PortfolioHubProps {
 }
 
 export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
-  // Whole-site dark mode — a page-level shell toggle (background, header,
-  // hero text), not a per-card theme flip: Galgalatz and AI Rescue are
-  // already dark, Amy and After Effects are already light, and forcing
-  // all four into one palette would mean redesigning two of them from
-  // scratch. What actually reads as "the whole site went dark" is the
-  // chrome around the cards — which is exactly what this switches.
-  const [dark, setDark] = useState(() => {
-    try {
-      return localStorage.getItem(DARK_MODE_KEY) === '1'
-    } catch {
-      return false
-    }
-  })
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(DARK_MODE_KEY, dark ? '1' : '0')
-    } catch {
-      /* private-browsing / storage disabled — dark mode just won't persist */
-    }
-  }, [dark])
+  // Whole-site dark mode — shared with the case study modals via context
+  // (App.tsx renders them as PortfolioHub's siblings, not children, so
+  // this can't live as local state here anymore now that Amy and After
+  // Effects also follow it).
+  const { dark, toggle: setDark } = useDarkMode()
 
   return (
     <div className={`relative min-h-screen overflow-x-clip flex flex-col transition-colors duration-500 ${dark ? 'bg-cine' : 'bg-hub'}`}>
@@ -73,7 +55,7 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
                 explicit request. */}
             <button
               type="button"
-              onClick={() => setDark((d) => !d)}
+              onClick={setDark}
               aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
               aria-pressed={dark}
               className={`flex items-center justify-center w-8 h-8 rounded-full border transition-colors ${
@@ -127,7 +109,12 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_0.95fr_0.95fr] lg:grid-rows-2 gap-3 sm:gap-4"
+          // Rows are auto-height now (was lg:grid-rows-2, which forced
+          // Amy/Galgalatz into two exactly-equal halves of the column) —
+          // combined with the two cards' own different min-heights below,
+          // this reads as an intentional staggered/masonry grid instead
+          // of a rigid aligned one, per explicit request.
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_0.95fr_0.95fr] lg:auto-rows-auto gap-3 sm:gap-4"
         >
           <AmyModule onClick={() => onOpen('amy')} hidden={openId === 'amy'} />
           <AiModule onClick={() => onOpen('ai-rescue')} hidden={openId === 'ai-rescue'} />

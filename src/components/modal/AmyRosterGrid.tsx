@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { MousePointerClick } from 'lucide-react'
 import { useParticleBurst } from '../ui/ParticleBurst'
 import { playGuitarPluck } from '../../lib/sfx'
 import { asset } from '../../lib/asset'
@@ -121,19 +120,6 @@ export default function AmyRosterGrid() {
           ))}
         </div>
       </div>
-
-      {/* A small "this is interactive" hint — nothing here signals to a
-          first-time visitor that these cards flip on hover/tap without
-          actually trying one. A gently pulsing cursor-click glyph in the
-          corner, not competing with the cards themselves. */}
-      <motion.span
-        aria-hidden
-        animate={{ scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-1.5 right-1.5 flex items-center justify-center w-5 h-5 rounded-full bg-pearl-gold/90 text-[#241b3d] shadow-md"
-      >
-        <MousePointerClick size={11} />
-      </motion.span>
     </div>
   )
 }

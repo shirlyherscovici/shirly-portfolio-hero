@@ -60,7 +60,7 @@ export function AmyModule({ onClick, hidden = false }: { onClick: () => void; hi
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      className="group relative text-left w-full h-full min-h-[220px] sm:min-h-[240px]"
+      className="group relative text-left w-full h-full min-h-[260px] sm:min-h-[300px]"
       aria-label="Open case study 01 — Graphic Design (Amy)"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
@@ -206,7 +206,7 @@ export function GalgalatzModule({ onClick, hidden = false }: { onClick: () => vo
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      className="group relative text-left w-full h-full min-h-[220px] sm:min-h-[240px]"
+      className="group relative text-left w-full h-full min-h-[190px] sm:min-h-[210px]"
       aria-label="Open case study 02 — Game UI UX Prototyping (Galgalatz)"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}

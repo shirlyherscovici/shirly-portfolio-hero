@@ -18,7 +18,7 @@ const SPECS = [
 
 /* ------------------------------------- Export ------------------------------------- */
 
-export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void }) {
+export default function PeopleMotionCaseStudy({ onClose, dark = false }: { onClose: () => void; dark?: boolean }) {
   const [playing, setPlaying] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const screenRef = useRef<HTMLDivElement>(null)
@@ -42,7 +42,7 @@ export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void
         stageLabel="04"
         title="People In Motion"
         supportLabel="Playable Ad Concept & Game UI Motion"
-        theme="light"
+        theme={dark ? 'dark' : 'light'}
         onClose={onClose}
         showBreadcrumb={false}
         meta={[
@@ -131,7 +131,12 @@ export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void
 
         <div className="mt-7 flex flex-wrap gap-2.5 justify-center">
           {SPECS.map(({ icon: Icon, label }) => (
-            <span key={label} className="flex items-center gap-1.5 px-3.5 py-2 rounded-full glass-pearl-soft text-[10.5px] font-semibold text-pearl-ink">
+            <span
+              key={label}
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-[10.5px] font-semibold ${
+                dark ? 'bg-black/30 backdrop-blur-md border border-white/10 text-white' : 'glass-pearl-soft text-pearl-ink'
+              }`}
+            >
               <Icon size={13} className="text-pearl-red" />
               {label}
             </span>

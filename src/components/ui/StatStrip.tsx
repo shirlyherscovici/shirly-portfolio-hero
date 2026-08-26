@@ -11,12 +11,19 @@ interface StatStripProps {
   /** 'lg' bumps the value size up for footers where readability matters
    *  more than density (e.g. Amy's animated count-up metrics). */
   size?: 'sm' | 'lg'
+  /** Keeps the 'light' theme's red glow on the VALUE (brand color, still
+   *  reads fine against a dark backdrop) while forcing the LABEL to white
+   *  — for Amy's dark-mode variant, where `theme` stays 'light' (to keep
+   *  the red numbers) but the surrounding panel is now dark, and the
+   *  light theme's own `text-pearl-ink/80` label color is real dark gray
+   *  on near-black — effectively invisible. */
+  labelOnDark?: boolean
 }
 
 /** A compact row of "IMPACT" style stats used in every case study footer.
  *  Every value glows in its theme's accent color — a real "this is
  *  evidence, look here" pop rather than flat text sitting in a list. */
-export default function StatStrip({ stats, theme, className = '', size = 'sm' }: StatStripProps) {
+export default function StatStrip({ stats, theme, className = '', size = 'sm', labelOnDark = false }: StatStripProps) {
   const light = theme === 'light'
   const valueSize = size === 'lg' ? 'text-2xl sm:text-3xl' : 'text-lg sm:text-xl'
   const glow = light
@@ -34,7 +41,7 @@ export default function StatStrip({ stats, theme, className = '', size = 'sm' }:
             >
               {s.value}
             </span>{' '}
-            <span className={`text-[10px] sm:text-[11px] font-bold uppercase tracking-wide ${light ? 'text-pearl-ink/80' : 'text-slate-100'}`}>{s.label}</span>
+            <span className={`text-[10px] sm:text-[11px] font-bold uppercase tracking-wide ${labelOnDark ? 'text-white/85' : light ? 'text-pearl-ink/80' : 'text-slate-100'}`}>{s.label}</span>
           </div>
         </div>
       ))}

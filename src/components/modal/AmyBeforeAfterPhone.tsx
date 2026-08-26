@@ -14,12 +14,12 @@ const AFTER_SRC = asset('/assets/amy/hero-banner.png')
  *  draggable (the split itself is real), but no longer a multi-pair
  *  carousel with nav arrows. The dashboard mockup shows one fixed
  *  comparison, so that's what this renders. */
-export default function AmyBeforeAfterPhone() {
+export default function AmyBeforeAfterPhone({ dark = false }: { dark?: boolean }) {
   const [pos, setPos] = useState(50)
 
   return (
     <div className="w-full h-full flex flex-col">
-      <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-pearl-sub">Before / After Restoration Pipeline</p>
+      <p className={`text-[10px] font-bold uppercase tracking-[0.14em] ${dark ? 'text-white/70' : 'text-pearl-sub'}`}>Before / After Restoration Pipeline</p>
 
       <div className="relative mt-2 flex-1">
         <div className="relative w-full h-full min-h-[140px] rounded-2xl border border-white shadow-pearl-sm overflow-hidden bg-black">
@@ -36,7 +36,7 @@ export default function AmyBeforeAfterPhone() {
         </div>
       </div>
 
-      <p className="text-center mt-2 text-[9.5px] text-pearl-sub/80 italic">From raw archive to iconic game-ready art.</p>
+      <p className={`text-center mt-2 text-[9.5px] italic ${dark ? 'text-white/60' : 'text-pearl-sub/80'}`}>From raw archive to iconic game-ready art.</p>
     </div>
   )
 }

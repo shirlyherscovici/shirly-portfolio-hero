@@ -1,4 +1,5 @@
-import { Users, TrendingUp, Heart, PenTool, Palette, ExternalLink } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Users, TrendingUp, Heart, PenTool, Palette, ExternalLink, ChevronLeft } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
 import StatStrip from '../ui/StatStrip'
 import FloatingElement from '../ui/FloatingElement'
@@ -14,13 +15,17 @@ const ASSETS = {
 
 /* -------------------------- Hero figure composition -------------------------- */
 
-function AmyHeroFigure() {
+function AmyHeroFigure({ dark }: { dark: boolean }) {
   return (
     <div className="relative h-full overflow-visible">
       {/* h-full, not its own aspect-ratio — this zone's actual proportions
           are now set by the artboard stage's own aspect-ratio (measured
           from the mockup card), not by this component in isolation. */}
-      <div className="relative h-full rounded-[24px] overflow-visible bg-gradient-to-b from-[#fdf3e8] to-[#f6ded7] border border-white shadow-pearl-sm flex items-end justify-center px-1 pt-6">
+      <div
+        className={`relative h-full rounded-[24px] overflow-visible border shadow-pearl-sm flex items-end justify-center px-1 pt-6 ${
+          dark ? 'bg-gradient-to-b from-[#2b1f26] to-[#170f14] border-white/10' : 'bg-gradient-to-b from-[#fdf3e8] to-[#f6ded7] border-white'
+        }`}
+      >
         {/* Real character render — the box, roses, golden swallow, vinyl
             record and music note are all baked into the source artwork.
             Enlarged and allowed to spill past the panel's own edges. */}
@@ -43,11 +48,13 @@ function AmyHeroFigure() {
 
 /* -------------------------------- Metric badges -------------------------------- */
 
-function ChestBadge() {
+function ChestBadge({ dark }: { dark: boolean }) {
   const growth = useCountUp('+74%')
   return (
     <div
-      className="relative flex-1 rounded-2xl glass-pearl-soft border border-pearl-gold/40 p-3.5 text-center overflow-hidden"
+      className={`relative flex-1 rounded-2xl border p-3.5 text-center overflow-hidden ${
+        dark ? 'bg-black/30 backdrop-blur-md border-pearl-gold/30' : 'glass-pearl-soft border-pearl-gold/40'
+      }`}
       style={{ boxShadow: '0 10px 24px -8px rgba(176,42,58,0.28), 0 2px 6px rgba(35,31,44,0.08)' }}
     >
       {/* 3D treasure chest stands in for the old text badge — a synthetic
@@ -64,16 +71,18 @@ function ChestBadge() {
       >
         {growth}
       </p>
-      <p className="mt-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wide text-pearl-ink">Active User Growth</p>
+      <p className={`mt-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wide ${dark ? 'text-white' : 'text-pearl-ink'}`}>Active User Growth</p>
     </div>
   )
 }
 
-function RingBadge() {
+function RingBadge({ dark }: { dark: boolean }) {
   const pct = useCountUp('+40%')
   return (
     <div
-      className="relative flex-1 rounded-2xl glass-pearl-soft border border-pearl-gold/40 p-3.5 text-center overflow-hidden"
+      className={`relative flex-1 rounded-2xl border p-3.5 text-center overflow-hidden ${
+        dark ? 'bg-black/30 backdrop-blur-md border-pearl-gold/30' : 'glass-pearl-soft border-pearl-gold/40'
+      }`}
       style={{ boxShadow: '0 10px 24px -8px rgba(176,42,58,0.28), 0 2px 6px rgba(35,31,44,0.08)' }}
     >
       {/* Real rendered 3D ring badge (gold / crimson / black), replacing
@@ -92,31 +101,33 @@ function RingBadge() {
           {pct}
         </p>
       </div>
-      <p className="mt-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wide text-pearl-ink">Increased Engagement</p>
+      <p className={`mt-1.5 text-[10px] sm:text-[11px] font-bold uppercase tracking-wide ${dark ? 'text-white' : 'text-pearl-ink'}`}>Increased Engagement</p>
     </div>
   )
 }
 
 /* ---------------------------------- Export ---------------------------------- */
 
-export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
+export default function AmyCaseStudy({ onClose, dark = false }: { onClose: () => void; dark?: boolean }) {
   const engaged = useCountUp('+60K')
   const impressions = useCountUp('+2.3M')
   const feedback = useCountUp('+85%')
 
   return (
-    // Warm, semi-transparent pink-tinted glass — matches the approved
-    // mockup's tint exactly (the internal sections below keep their own
-    // px-5 sm:px-8 rhythm rather than an outer p-8, since CaseStudyHeader
-    // already manages its own edge padding and doubling both would blow
-    // out the spacing).
-    <div className="bg-[#EFE3DD]/40 backdrop-blur-xl rounded-[32px] border border-white/80 shadow-2xl">
+    // Warm, semi-transparent pink-tinted glass in light mode; a deep
+    // near-black plum in dark mode (same red/gold accent family, just
+    // inverted) — the site-wide dark-mode toggle reaches this case study
+    // too, per explicit request, not just the homepage shell. (The
+    // internal sections below keep their own px-5 sm:px-8 rhythm rather
+    // than an outer p-8, since CaseStudyHeader already manages its own
+    // edge padding and doubling both would blow out the spacing.)
+    <div className={`backdrop-blur-xl rounded-[32px] border shadow-2xl ${dark ? 'bg-[#160f16]/70 border-white/10' : 'bg-[#EFE3DD]/40 border-white/80'}`}>
       <CaseStudyHeader
         id="modal-amy-title"
         stageLabel="01"
         title="Graphic Design"
         supportLabel="Character Design & 3D Pop-Art Figure"
-        theme="light"
+        theme={dark ? 'dark' : 'light'}
         onClose={onClose}
         arcadeChrome
         variant="minimal"
@@ -132,13 +143,14 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
           they're the numbers that matter most to a reviewer, not an
           afterthought. The "Play Case Study" CTA that used to close the
           modal here was redundant with the close button and dropped. */}
-      <div className="px-5 sm:px-8 pb-3 flex flex-wrap items-center gap-x-6 gap-y-2.5 border-b border-pearl-ink/10 mb-3">
+      <div className={`px-5 sm:px-8 pb-3 flex flex-wrap items-center gap-x-6 gap-y-2.5 border-b mb-3 ${dark ? 'border-white/10' : 'border-pearl-ink/10'}`}>
         <div className="flex items-center gap-2">
           <img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-6 h-6 object-contain shrink-0" />
           <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/90 whitespace-nowrap" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.35)' }}>Campaign Impact</span>
         </div>
         <StatStrip
           theme="light"
+          labelOnDark={dark}
           stats={[
             { icon: <Users size={13} />, value: engaged, label: 'Engaged Users' },
             { icon: <TrendingUp size={13} />, value: impressions, label: 'Impressions' },
@@ -164,18 +176,20 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
           </div>
         </div>
 
-        {/* Link to the real, live N12 project — a small pill, not a big
-            CTA, since the modal's own close button already handles "I'm
-            done here". */}
-        <a
+        {/* Link to the real, live N12 project — restyled as a solid red
+            "gaming block" (same gradient/bevel language as the arcade
+            close button and the joystick badge) so it actually reads as
+            a real button, not a faint pill easy to miss. */}
+        <motion.a
           href="https://special.n12.co.il/AmyWinehouse"
           target="_blank"
           rel="noopener noreferrer"
-          className="ml-auto flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wide text-white/90 hover:text-white bg-black/20 hover:bg-black/30 border border-white/20 px-2.5 py-1.5 rounded-full transition-colors"
-          style={{ textShadow: '0 1px 2px rgba(0,0,0,0.35)' }}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.97 }}
+          className="ml-auto flex items-center gap-1.5 text-[10px] font-display font-bold uppercase tracking-wide text-white px-3.5 py-2 rounded-lg bg-gradient-to-b from-[#d34f4f] to-[#8f1f2d] border border-white/20 shadow-[0_3px_0_#5e1319,0_6px_14px_-2px_rgba(143,31,45,0.55)] transition-shadow"
         >
-          View Live Project <ExternalLink size={11} />
-        </a>
+          View Live Project <ExternalLink size={12} />
+        </motion.a>
       </div>
 
       {/* Fixed-aspect artboard, not a generic responsive grid — the
@@ -188,16 +202,16 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
       <div className="px-5 sm:px-8 pb-5">
         <div className="relative w-full" style={{ aspectRatio: '1478 / 780' }}>
           <div className="absolute inset-y-0 left-0" style={{ width: '37%' }}>
-            <AmyHeroFigure />
+            <AmyHeroFigure dark={dark} />
           </div>
 
           <div className="absolute inset-y-0 flex flex-col gap-2.5 sm:gap-3" style={{ left: '40%', width: '31%' }}>
             <div className="flex gap-2.5 sm:gap-3.5">
-              <ChestBadge />
-              <RingBadge />
+              <ChestBadge dark={dark} />
+              <RingBadge dark={dark} />
             </div>
             <div className="flex-1 min-h-0">
-              <AmyBeforeAfterPhone />
+              <AmyBeforeAfterPhone dark={dark} />
             </div>
           </div>
 
@@ -277,6 +291,28 @@ export function AmyCaseStudyBreakout() {
       <FloatingElement delay={1.2} distance={9} className="absolute top-[73%] -right-10 sm:-right-14 z-30 hidden sm:block">
         <HeartIcon size={64} />
       </FloatingElement>
+
+      {/* "This is interactive, play with it" cue — the earlier version
+          lived INSIDE the rotated, overflow-clipped roster grid and was
+          effectively invisible. A real arcade-style arrow, breaking the
+          panel's own edge (guaranteed visible, same as the decor above),
+          bouncing horizontally toward the phone screen it's pointing at. */}
+      <motion.div
+        aria-hidden
+        animate={{ x: [0, -8, 0] }}
+        transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-[54%] -right-9 sm:-right-12 z-30 hidden sm:flex flex-col items-center gap-1"
+      >
+        <span
+          className="flex items-center justify-center w-9 h-9 rounded-full text-white"
+          style={{ background: 'linear-gradient(135deg, #c9576b, #8f1f2d)', boxShadow: '0 3px 0 #5e1319, 0 6px 14px -2px rgba(143,31,45,0.55)' }}
+        >
+          <ChevronLeft size={20} strokeWidth={3} />
+        </span>
+        <span className="text-[7px] font-display font-black uppercase tracking-widest text-pearl-red bg-white/90 px-1.5 py-0.5 rounded-full shadow-sm">
+          Play
+        </span>
+      </motion.div>
     </>
   )
 }

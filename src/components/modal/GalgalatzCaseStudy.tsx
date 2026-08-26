@@ -65,8 +65,11 @@ function GlassDisplayCase({ highlighted }: { highlighted: boolean }) {
 /* ------------------------------------ Phone UI ------------------------------------ */
 
 function VotingScreen() {
+  // No painted background — the phone's own photographed screen (a
+  // solid indigo) already supplies one, same fix as Amy's 27 Club grid:
+  // a second, different-toned fill on top just looked like a patch.
   return (
-    <div className="w-full h-full bg-gradient-to-b from-[#241b46] to-[#140f28] text-white flex flex-col">
+    <div className="w-full h-full text-white flex flex-col">
       <div className="flex items-center justify-between px-3 pt-8 pb-2">
         <Menu size={14} />
         <span className="font-display font-black text-[11px] tracking-wide">N12</span>
@@ -103,10 +106,12 @@ function VotingScreen() {
 
 function VictoryScreen({ img, rank, title, song }: { img: string; rank: string; title: string; song: string }) {
   return (
-    <div className="relative w-full h-full bg-black">
+    <div className="relative w-full h-full">
       {/* object-contain — the poster art was cropping at the top/bottom
           edges under object-cover inside the 9:19 phone screen; contain
-          shows the full artwork, letterboxed on black rather than cut. */}
+          shows the full artwork, letterboxed against the phone's own
+          screen color (no painted bg-black) rather than cut or patched
+          with a mismatched fill. */}
       <img src={img} alt={`${title} — ${song}`} className="absolute inset-0 w-full h-full object-contain" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/40" />
       <span className="absolute top-8 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2.5 py-1 rounded-full bg-cine-gold text-[#4a2d0f] text-[9px] font-black uppercase">
@@ -122,7 +127,7 @@ function VictoryScreen({ img, rank, title, song }: { img: string; rank: string; 
 
 function LeaderboardScreen() {
   return (
-    <div className="relative w-full h-full bg-black overflow-hidden">
+    <div className="relative w-full h-full overflow-hidden">
       <img src={ASSETS.top50} alt="Full Top 50 leaderboard, ranks 31–50" className="absolute inset-0 w-full h-full object-contain" />
     </div>
   )
@@ -130,7 +135,7 @@ function LeaderboardScreen() {
 
 function KeyArtScreen() {
   return (
-    <div className="relative w-full h-full bg-black">
+    <div className="relative w-full h-full">
       <img src={ASSETS.keyArt} alt="Galgalatz key art neon logo" className="absolute inset-0 w-full h-full object-contain" />
     </div>
   )
