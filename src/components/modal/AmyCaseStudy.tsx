@@ -27,12 +27,6 @@ function AmyHeroFigure() {
           alt="AMY — Amy Winehouse tribute character emerging from a gift box, with a golden swallow, roses and a vinyl record"
           className="w-[132%] max-w-none h-full max-h-[124%] object-contain drop-shadow-xl relative z-10"
         />
-
-        {/* "27" badge — the one accent not already in the source render */}
-        <div className="absolute right-[2%] bottom-[10%] w-14 h-14 rounded-full bg-gradient-to-br from-[#e2c07f] to-[#b8863b] border-2 border-white shadow-glow-gold flex flex-col items-center justify-center rotate-6 z-10">
-          <span className="font-display font-black text-lg text-[#5a3a12] leading-none">27</span>
-          <span className="text-[6px] font-bold text-[#5a3a12]/80 uppercase tracking-wide">Forever</span>
-        </div>
       </div>
 
       <FloatingElement delay={1.4} distance={8} className="absolute bottom-[6%] -left-4">
