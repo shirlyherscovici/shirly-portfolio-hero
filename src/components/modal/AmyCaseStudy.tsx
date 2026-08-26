@@ -17,8 +17,11 @@ const ASSETS = {
 
 function AmyHeroFigure() {
   return (
-    <div className="relative overflow-visible">
-      <div className="relative rounded-[24px] overflow-visible bg-gradient-to-b from-[#fdf3e8] to-[#f6ded7] border border-white shadow-pearl-sm aspect-[4/5] sm:aspect-[9/11] flex items-end justify-center px-1 pt-6">
+    <div className="relative h-full overflow-visible">
+      {/* h-full, not its own aspect-ratio — this zone's actual proportions
+          are now set by the artboard stage's own aspect-ratio (measured
+          from the mockup card), not by this component in isolation. */}
+      <div className="relative h-full rounded-[24px] overflow-visible bg-gradient-to-b from-[#fdf3e8] to-[#f6ded7] border border-white shadow-pearl-sm flex items-end justify-center px-1 pt-6">
         {/* Real character render — the box, roses, golden swallow, vinyl
             record and music note are all baked into the source artwork.
             Enlarged and allowed to spill past the panel's own edges. */}
@@ -131,25 +134,30 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
         ]}
       />
 
-      {/* Dashboard grid — three explicit columns matching the approved
-          mockup: left (Amy's box graphic), center (the two stat badges
-          stacked above Before/After), right (the 27 Club phone on its
-          own, not squeezed alongside Before/After). */}
+      {/* Fixed-aspect artboard, not a generic responsive grid — the
+          approved mockup is one art-directed scene (card measured at
+          1478x872px, ~1.695:1), and Amy/badges+before-after/phone are
+          positioned as absolute zones within it at the mockup's own
+          proportions (phone screen bounds were pixel-sampled directly
+          from the reference file: ~72-100% width, ~9-95% height of the
+          card), rather than left to CSS Grid's own column-sizing logic. */}
       <div className="px-5 sm:px-8 pb-6">
-        <div className="grid lg:grid-cols-12 gap-5 sm:gap-7">
-          <div className="lg:col-span-5">
+        <div className="relative w-full" style={{ aspectRatio: '1478 / 780' }}>
+          <div className="absolute inset-y-0 left-0" style={{ width: '37%' }}>
             <AmyHeroFigure />
           </div>
 
-          <div className="lg:col-span-4 flex flex-col gap-4">
-            <div className="flex gap-3.5">
+          <div className="absolute inset-y-0 flex flex-col gap-3 sm:gap-4" style={{ left: '40%', width: '31%' }}>
+            <div className="flex gap-2.5 sm:gap-3.5">
               <ChestBadge />
               <RingBadge />
             </div>
-            <AmyBeforeAfterPhone />
+            <div className="flex-1 min-h-0">
+              <AmyBeforeAfterPhone />
+            </div>
           </div>
 
-          <div className="lg:col-span-3 flex flex-col justify-center items-center">
+          <div className="absolute inset-y-0 flex flex-col items-center justify-center" style={{ left: '73%', right: '-1%' }}>
             {/* The real photographed phone (rose-gold, angled) replaces the
                 hand-built PhoneMockup frame. It's one wide asset with a lot
                 of transparent padding, so the outer box crops in on just
@@ -159,7 +167,7 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
                 positioned over the photographed screen — NOT a 3D
                 perspective transform, since that broke pointer
                 hit-testing on one side last time (see git history). */}
-            <div className="relative w-full max-w-[290px]" style={{ aspectRatio: '600 / 944' }}>
+            <div className="relative w-full" style={{ aspectRatio: '600 / 944' }}>
               <img
                 src={asset('/assets/amy/amy-phones.png')}
                 alt=""
@@ -183,7 +191,7 @@ export default function AmyCaseStudy({ onClose }: { onClose: () => void }) {
                 <AmyRosterGrid />
               </div>
             </div>
-            <p className="text-center mt-2.5 text-[10px] font-semibold uppercase tracking-wide opacity-60">The 27 Club — Hover or tap to flip</p>
+            <p className="text-center mt-2 text-[9px] sm:text-[10px] font-semibold uppercase tracking-wide opacity-60">The 27 Club</p>
           </div>
         </div>
       </div>
