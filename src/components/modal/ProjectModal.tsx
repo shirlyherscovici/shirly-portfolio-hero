@@ -185,7 +185,6 @@ export default function ProjectModal({
                   theme === 'light' ? 'text-pearl-ink' : 'text-white'
                 }`}
               >
-                <span className="text-[11px] sm:text-xs font-semibold">{closeLabel}</span>
                 <span
                   className={
                     closeAccent === 'red'

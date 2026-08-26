@@ -66,12 +66,11 @@ function FlipCard({ member }: { member: RosterMember }) {
         animate={{ rotateY: showBack ? 180 : 0 }}
         transition={{ type: 'spring', stiffness: 320, damping: 26 }}
       >
-        {/* Front — restored / redesigned artwork */}
+        {/* Front — restored / redesigned artwork. No name label — the
+            card grid reads cleaner as a pure gallery of faces, per
+            explicit request. */}
         <div className="absolute inset-0 rounded-xl overflow-hidden border-2 border-white/10 shadow-md" style={{ backfaceVisibility: 'hidden' }}>
-          <img src={member.front} alt="" aria-hidden className="w-full h-full object-cover" />
-          <div className="absolute inset-x-0 bottom-0 bg-black/70 backdrop-blur-sm py-1">
-            <p className="text-[7.5px] sm:text-[8px] font-bold uppercase tracking-wide text-white text-center leading-tight px-0.5">{member.name}</p>
-          </div>
+          <img src={member.front} alt={member.name} className="w-full h-full object-cover" />
         </div>
 
         {/* Back — original archive photo (or a vintage-toned pass when no
@@ -103,22 +102,27 @@ function FlipCard({ member }: { member: RosterMember }) {
  *  card and reveal the archive-photo (or vintage-toned) reverse side. */
 export default function AmyRosterGrid() {
   return (
-    <div className="h-full min-h-full flex flex-col bg-gradient-to-b from-[#241b3d] to-[#140f28] p-3">
-      <p className="text-center font-display font-extrabold text-xs text-white tracking-tight">THE 27 CLUB</p>
-      <p className="text-center text-[7px] font-semibold uppercase tracking-widest text-pearl-gold/80 mb-1.5">11 ICONS. ONE LEGACY.</p>
+    // No background fill anymore — the photographed phone screen behind
+    // this grid already supplies one; painting a second, different-toned
+    // background on top of it just looked like a mismatched patch.
+    <div className="h-full min-h-full flex flex-col p-2.5">
+      <p className="text-center font-display font-extrabold text-[11px] text-white tracking-tight" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}>
+        THE 27 CLUB
+      </p>
       {/* Reverted to 3 columns (was briefly 2) after checking the actual
           approved mockup file: it shows a tight 3-column, 4-row grid
           (3+3+3+2 for 11 members), not 2. Two columns was a good-faith
           guess made before the real mockup file was available — the file
-          wins. */}
-      <div className="flex-1">
-        <div className="grid grid-cols-3 gap-1.5">
+          wins. Header/footer captions trimmed to single lines (was a
+          2-line header + footer hint) to free up more height for the
+          cards themselves — bigger faces, less chrome around them. */}
+      <div className="flex-1 flex items-center">
+        <div className="grid grid-cols-3 gap-2.5 w-full">
           {ROSTER.map((m) => (
             <FlipCard key={m.name} member={m} />
           ))}
         </div>
       </div>
-      <p className="text-center text-[7px] text-white/40 pt-1.5">Hover or tap a card to flip</p>
     </div>
   )
 }

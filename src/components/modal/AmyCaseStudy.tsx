@@ -83,10 +83,10 @@ function RingBadge() {
           Sized to read as the same visual weight as the chest icon next
           to it (a graphic-design "these two badges are a matched pair"
           balance), not dramatically bigger. */}
-      <div className="relative mx-auto mt-0 w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center">
+      <div className="relative mx-auto mt-0 w-32 h-32 sm:w-36 sm:h-36 flex items-center justify-center">
         <img src={asset('/assets/amy/pie.png')} alt="" className="absolute inset-0 w-full h-full object-contain drop-shadow-lg" />
         <p
-          className="relative font-display font-black text-xl sm:text-2xl text-[#c62828] leading-none tabular-nums"
+          className="relative font-display font-black text-2xl sm:text-3xl text-[#c62828] leading-none tabular-nums"
           style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}
         >
           {pct}

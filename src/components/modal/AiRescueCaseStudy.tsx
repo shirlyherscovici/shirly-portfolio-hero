@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Play, Pause, Crosshair, Zap, Eye, Users2, Captions, Sparkles, Wand2 } from 'lucide-react'
+import { Play, Pause, Crosshair, Zap, Eye, Users2, Captions } from 'lucide-react'
 import CaseStudyHeader from './CaseStudyHeader'
-import FloatingElement from '../ui/FloatingElement'
 import VideoControlBar from '../ui/VideoControlBar'
 import { asset } from '../../lib/asset'
 
@@ -88,10 +87,26 @@ function TacticalMap({ compact = false }: { compact?: boolean }) {
 
 /* ------------------------------------ Video panel ------------------------------------ */
 
-function VideoPanel() {
-  const ref = useRef<HTMLVideoElement>(null)
+/** Presentational only — every ref/state it needs lives in the parent
+ *  (AiRescueCaseStudy) so the CTA button can render OUTSIDE this
+ *  component, below the wrapper that TacticalMap anchors itself to,
+ *  instead of inside it (which grew that wrapper taller
+ *  and dragged those breakout elements down with it — see the export
+ *  below for where the CTA now lives). */
+function VideoPanel({
+  wrapperRef,
+  videoRef,
+  playing,
+  setPlaying,
+  togglePlay,
+}: {
+  wrapperRef: React.RefObject<HTMLDivElement>
+  videoRef: React.RefObject<HTMLVideoElement>
+  playing: boolean
+  setPlaying: (p: boolean) => void
+  togglePlay: () => void
+}) {
   const trackRef = useRef<HTMLTrackElement>(null)
-  const [playing, setPlaying] = useState(false)
   const [time, setTime] = useState(0)
   const [ccOn, setCcOn] = useState(true)
 
@@ -105,39 +120,32 @@ function VideoPanel() {
     if (t) t.mode = 'hidden'
   }, [])
 
-  const togglePlay = () => {
-    const v = ref.current
-    if (!v) return
-    if (v.paused) {
-      v.play().catch(() => {})
-      setPlaying(true)
-    } else {
-      v.pause()
-      setPlaying(false)
-    }
-  }
-
   return (
-    <div style={VIDEO_MAX_WIDTH} className="relative mx-auto w-full aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-cine-lg bg-black">
+    <div ref={wrapperRef} style={VIDEO_MAX_WIDTH} className="relative mx-auto w-full aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-cine-lg bg-black">
       <video
-        ref={ref}
+        ref={videoRef}
         src={VIDEO_SRC}
         playsInline
         preload="auto"
         onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)}
         onEnded={() => setPlaying(false)}
-        className="absolute inset-0 w-full h-full object-contain bg-black"
+        onClick={togglePlay}
+        className="absolute inset-0 w-full h-full object-contain bg-black cursor-pointer"
       >
         <track ref={trackRef} kind="subtitles" src={asset('/assets/navigator/captions-en.vtt')} srcLang="en" label="English" />
       </video>
 
-      {!playing && <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-black/50" />}
+      {!playing && <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/5 to-black/50 pointer-events-none" />}
 
       <SubtitleOverlay time={time} visible={ccOn && playing} />
 
       {/* Real transport controls (mute, speed, fullscreen) — a bare
-          play/pause was the only way to interact with the video before. */}
-      <VideoControlBar videoRef={ref} className="absolute top-3 left-3 z-10" />
+          play/pause was the only way to interact with the video before.
+          fullscreenRef points at THIS wrapper (video + every overlay), not
+          the bare <video> — fullscreening the video element alone strips
+          out every sibling control, leaving no way to pause without
+          backing out of fullscreen first. */}
+      <VideoControlBar videoRef={videoRef} fullscreenRef={wrapperRef} className="absolute top-3 left-3 z-10" />
 
       <button
         type="button"
@@ -151,23 +159,27 @@ function VideoPanel() {
         <Captions size={12} /> CC
       </button>
 
-      {/* Single standardized glassmorphic play/pause control — the only way
-          to start or stop playback, always pinned bottom-center, well clear
-          of the subtitle overlay above it. */}
-      {/* Light lavender/white glass pill with dark text — matches the
-          mockup's CTA exactly (checked directly against the reference
-          file), not the dark glass pill this used to be. */}
-      <button
-        type="button"
-        onClick={togglePlay}
-        aria-label={playing ? 'Pause the prime-time broadcast' : 'Watch the prime-time broadcast'}
-        className="group absolute inset-x-0 bottom-3 sm:bottom-4 mx-auto w-max flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-display font-bold text-[11px] sm:text-sm tracking-wide uppercase bg-gradient-to-b from-white to-[#e7e2f5] text-[#28223f] shadow-[0_8px_24px_-6px_rgba(0,0,0,0.45)] transition-transform hover:scale-[1.04]"
-      >
-        <span className="w-6 h-6 rounded-full bg-[#28223f]/10 flex items-center justify-center group-hover:bg-[#28223f]/15 transition-colors">
-          {playing ? <Pause size={11} className="fill-current" /> : <Play size={11} className="fill-current" />}
-        </span>
-        {playing ? 'Pause Broadcast' : 'Watch Prime-Time Broadcast'}
-      </button>
+      {/* Small centered play/pause affordance — click-anywhere-on-video
+          already works (see the video's own onClick above), this is just
+          the visible hint. The big "Watch Prime-Time Broadcast" CTA used
+          to sit here, overlapping the picture — moved below the video
+          entirely (rendered by the parent, outside this component) both
+          because a control floating ON TOP of a <video> is exactly the
+          kind of overlay that native/fullscreen video rendering can
+          swallow clicks for in some browsers, and because it was covering
+          the footage. */}
+      {!playing && (
+        <button
+          type="button"
+          onClick={togglePlay}
+          aria-label="Watch the prime-time broadcast"
+          className="absolute inset-0 z-[5] flex items-center justify-center group"
+        >
+          <span className="w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white transition-transform group-hover:scale-110">
+            <Play size={20} className="fill-current translate-x-0.5" />
+          </span>
+        </button>
+      )}
     </div>
   )
 }
@@ -183,6 +195,22 @@ const INFO_CARDS = [
 /* ------------------------------------------ Export ------------------------------------------ */
 
 export default function AiRescueCaseStudy({ onClose }: { onClose: () => void }) {
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(false)
+
+  const togglePlay = () => {
+    const v = videoRef.current
+    if (!v) return
+    if (v.paused) {
+      v.play().catch(() => {})
+      setPlaying(true)
+    } else {
+      v.pause()
+      setPlaying(false)
+    }
+  }
+
   return (
     <div className="relative">
       <CaseStudyHeader
@@ -221,7 +249,7 @@ export default function AiRescueCaseStudy({ onClose }: { onClose: () => void }) 
             align to its true edges. */}
         <div className="flex justify-center">
           <div style={VIDEO_MAX_WIDTH} className="relative w-full">
-            <VideoPanel />
+            <VideoPanel wrapperRef={wrapperRef} videoRef={videoRef} playing={playing} setPlaying={setPlaying} togglePlay={togglePlay} />
 
             {/* Tactical map — OFF the video surface entirely (not an inset
                 overlay on top of the footage), breaking the video's own
@@ -230,24 +258,26 @@ export default function AiRescueCaseStudy({ onClose }: { onClose: () => void }) 
             <div className="absolute -bottom-8 sm:-bottom-10 left-2 sm:left-4 z-20 hidden sm:block">
               <TacticalMap compact />
             </div>
-
-            {/* Floating "AI generation" glyphs — a sparkle + a magic wand,
-                the two glyphs anyone associates with "AI-generated" at a
-                glance (swapped from a CPU/network pair that read as generic
-                "tech", not specifically AI/prompt-driven). Positioned on
-                the LEFT breaking the video's own top edge, clear of the CC
-                toggle (the only control left at top-right). */}
-            <FloatingElement delay={0.4} distance={10} className="absolute -top-4 left-8 hidden md:block">
-              <span className="flex items-center justify-center w-11 h-11 rounded-full bg-black/45 backdrop-blur-md border border-white/25 text-white">
-                <Sparkles size={18} />
-              </span>
-            </FloatingElement>
-            <FloatingElement delay={1.1} distance={8} className="absolute -top-4 left-24 hidden lg:block">
-              <span className="flex items-center justify-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md border border-white/20 text-white/90">
-                <Wand2 size={16} />
-              </span>
-            </FloatingElement>
           </div>
+        </div>
+
+        {/* CTA lives here, OUTSIDE the video wrapper above — not a video
+            overlay (was, and got reported as "the button on the video
+            doesn't work" — a control floating on top of a <video> is
+            exactly the kind of overlay native/fullscreen video rendering
+            can swallow clicks for). Plain in-flow button, always
+            clickable regardless of the video's own fullscreen state. */}
+        <div className="mt-4 flex justify-center">
+          <button
+            type="button"
+            onClick={togglePlay}
+            className="group inline-flex items-center gap-2 px-6 py-3 rounded-full font-display font-bold text-xs sm:text-sm tracking-wide uppercase bg-gradient-to-b from-white to-[#e7e2f5] text-[#28223f] shadow-[0_8px_24px_-6px_rgba(0,0,0,0.45)] transition-transform hover:scale-[1.04]"
+          >
+            <span className="w-6 h-6 rounded-full bg-[#28223f]/10 flex items-center justify-center group-hover:bg-[#28223f]/15 transition-colors">
+              {playing ? <Pause size={11} className="fill-current" /> : <Play size={11} className="fill-current" />}
+            </span>
+            {playing ? 'Pause Broadcast' : 'Watch Prime-Time Broadcast'}
+          </button>
         </div>
 
         {/* Tactical map — mobile only (the breakout desktop version lives
@@ -277,29 +307,33 @@ export function AiRescueBreakout() {
   return (
     <>
       {/* Anchored at the panel's own top-right corner, breaking the frame
-          boundary exactly as the mockup shows. The offset at each
-          breakpoint is capped to that breakpoint's own ProjectModal
-          wrapper padding (p-3/p-6/p-10, one step less at lg so there's
-          always a little headroom) so the plane's top edge can never be
-          pushed past the actual viewport edge and clipped, regardless of
-          how tall the modal itself renders. A single continuous easeInOut
-          loop (no held pauses between keyframes) drifts it along a wide
-          diagonal for constant, non-stuttering motion — it never fully
-          stops. Sits at z-30, one level below CaseStudyHeader's z-40:
-          this lets it visually cross behind the breadcrumb/title/meta
-          text exactly at the corner where the two would otherwise overlap,
-          so the frame-breaking pose stays dramatic without ever making
-          that copy unreadable. */}
+          boundary exactly as the mockup shows. Pulled down and further
+          right (was -top-3/-right-3, nearly on top of the close button's
+          own corner — even with pointer-events-none, the plane's flight
+          path drifted right over the X, making it hard to even see the
+          button reliably) so its resting position and its full drift
+          range both stay clear of the close button's hit area. Enlarged
+          to stay visually dramatic despite moving further from the
+          corner. The offset at each breakpoint is capped to that
+          breakpoint's own ProjectModal wrapper padding (p-3/p-6/p-10, one
+          step less at lg so there's always a little headroom) so the
+          plane's top edge can never be pushed past the actual viewport
+          edge and clipped, regardless of how tall the modal itself
+          renders. A single continuous easeInOut loop (no held pauses
+          between keyframes) drifts it along a wide diagonal for constant,
+          non-stuttering motion — it never fully stops. Sits at z-30, one
+          level below CaseStudyHeader's z-40 AND below the close button's
+          z-[100], so it can never visually or functionally block it. */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ x: [0, -26, 0], y: [0, 16, 0], rotate: [-4, -9, -4], opacity: 1 }}
+        animate={{ x: [0, -22, 0], y: [0, 14, 0], rotate: [-4, -9, -4], opacity: 1 }}
         transition={{
           x: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
           y: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
           rotate: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
           opacity: { duration: 0.6 },
         }}
-        className="absolute -top-3 sm:-top-6 lg:-top-8 -right-3 sm:-right-6 lg:-right-8 z-30 w-40 sm:w-52 lg:w-64 pointer-events-none drop-shadow-2xl"
+        className="absolute top-10 sm:top-12 lg:top-14 -right-6 sm:-right-10 lg:-right-14 z-30 w-48 sm:w-64 lg:w-80 pointer-events-none drop-shadow-2xl"
       >
         <img
           src={AIRPLANE_SRC}

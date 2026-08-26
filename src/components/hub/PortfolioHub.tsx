@@ -1,8 +1,11 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Download, Mail, PenTool, Film, Sparkles, Code2 } from 'lucide-react'
+import { Download, Mail, PenTool, Film, Sparkles, Code2, Moon, Sun } from 'lucide-react'
 import { AmyModule, GalgalatzModule, AiModule, MotionModule } from './ProjectModules'
 import type { ProjectId } from '../../types'
 import { asset } from '../../lib/asset'
+
+const DARK_MODE_KEY = 'portfolio-dark-mode'
 
 const NAV_ITEMS = [
   { label: 'Design Strategy', icon: PenTool, glow: 'rgba(201,161,90,0.6)' },
@@ -21,30 +24,74 @@ interface PortfolioHubProps {
 }
 
 export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
+  // Whole-site dark mode — a page-level shell toggle (background, header,
+  // hero text), not a per-card theme flip: Galgalatz and AI Rescue are
+  // already dark, Amy and After Effects are already light, and forcing
+  // all four into one palette would mean redesigning two of them from
+  // scratch. What actually reads as "the whole site went dark" is the
+  // chrome around the cards — which is exactly what this switches.
+  const [dark, setDark] = useState(() => {
+    try {
+      return localStorage.getItem(DARK_MODE_KEY) === '1'
+    } catch {
+      return false
+    }
+  })
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(DARK_MODE_KEY, dark ? '1' : '0')
+    } catch {
+      /* private-browsing / storage disabled — dark mode just won't persist */
+    }
+  }, [dark])
+
   return (
-    <div className="relative min-h-screen bg-hub overflow-x-clip flex flex-col">
+    <div className={`relative min-h-screen overflow-x-clip flex flex-col transition-colors duration-500 ${dark ? 'bg-cine' : 'bg-hub'}`}>
       {/* Sticky wordmark header — brought back at the user's explicit
           request after the mockup-fidelity pass removed it (the mockup's
           own homepage shot has none, but she confirmed she wants it kept
           regardless — it stays pinned above everything, z-50, so no card
           art can ever obscure it). */}
-      <header className="sticky top-0 z-50 bg-[#fdfaf7]/85 backdrop-blur-xl border-b border-pearl-ink/5">
+      <header
+        className={`sticky top-0 z-50 backdrop-blur-xl border-b transition-colors duration-500 ${
+          dark ? 'bg-[#0e0f18]/85 border-white/10' : 'bg-[#fdfaf7]/85 border-pearl-ink/5'
+        }`}
+      >
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10 py-3.5 sm:py-4 flex items-center justify-between">
           <a href="#top" className="flex items-center gap-2.5 group">
             <span className="w-8 h-8 rounded-full bg-white/80 border border-white shadow-pearl-sm flex items-center justify-center font-display font-black text-[11px] text-pearl-red">
               SH
             </span>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-pearl-sub group-hover:text-pearl-ink transition-colors">
+            <span className={`text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors ${dark ? 'text-white/70 group-hover:text-white' : 'text-pearl-sub group-hover:text-pearl-ink'}`}>
               Shirly Herscovici&apos;s Portfolio
             </span>
           </a>
-          <a
-            href={asset('/resume.pdf')}
-            download
-            className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-pearl-sub hover:text-pearl-ink transition-colors px-3 py-1.5 rounded-full border border-transparent hover:border-pearl-sub/20"
-          >
-            <Download size={12} /> <span className="hidden sm:inline">Resume</span>
-          </a>
+          <div className="flex items-center gap-1.5">
+            {/* Dark-mode toggle — a game-menu-style dark background with
+                real depth (soft glows, not a flat color swap), per
+                explicit request. */}
+            <button
+              type="button"
+              onClick={() => setDark((d) => !d)}
+              aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-pressed={dark}
+              className={`flex items-center justify-center w-8 h-8 rounded-full border transition-colors ${
+                dark ? 'border-white/15 text-white/80 hover:bg-white/10' : 'border-transparent text-pearl-sub hover:border-pearl-sub/20 hover:text-pearl-ink'
+              }`}
+            >
+              {dark ? <Sun size={14} /> : <Moon size={14} />}
+            </button>
+            <a
+              href={asset('/resume.pdf')}
+              download
+              className={`flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide transition-colors px-3 py-1.5 rounded-full border border-transparent ${
+                dark ? 'text-white/70 hover:text-white hover:border-white/15' : 'text-pearl-sub hover:text-pearl-ink hover:border-pearl-sub/20'
+              }`}
+            >
+              <Download size={12} /> <span className="hidden sm:inline">Resume</span>
+            </a>
+          </div>
         </div>
       </header>
 
@@ -53,7 +100,7 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.22em] text-pearl-sub"
+          className={`text-[11px] sm:text-xs font-semibold uppercase tracking-[0.22em] transition-colors duration-500 ${dark ? 'text-white/60' : 'text-pearl-sub'}`}
         >
           Portfolio / Works
         </motion.p>
@@ -61,7 +108,7 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.05 }}
-          className="mt-2 font-display font-extrabold text-2xl sm:text-3xl lg:text-[2rem] text-pearl-ink tracking-tight"
+          className={`mt-2 font-display font-extrabold text-2xl sm:text-3xl lg:text-[2rem] tracking-tight transition-colors duration-500 ${dark ? 'text-white' : 'text-pearl-ink'}`}
         >
           Visual, Motion, Game UI &amp; Creative AI
         </motion.h1>
@@ -69,7 +116,7 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-1.5 text-[13px] sm:text-sm font-medium text-pearl-sub max-w-lg"
+          className={`mt-1.5 text-[13px] sm:text-sm font-medium max-w-lg transition-colors duration-500 ${dark ? 'text-white/60' : 'text-pearl-sub'}`}
         >
           Senior creative designer turning visual direction, motion and generative AI into interactive game-world experiences.
         </motion.p>

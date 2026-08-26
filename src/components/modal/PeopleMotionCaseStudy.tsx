@@ -21,6 +21,7 @@ const SPECS = [
 export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void }) {
   const [playing, setPlaying] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const screenRef = useRef<HTMLDivElement>(null)
 
   const togglePlay = () => {
     const v = videoRef.current
@@ -50,10 +51,23 @@ export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void
         ]}
       />
 
-      <div className="px-5 sm:px-8 pb-6">
+      <div className="relative px-5 sm:px-8 pb-6">
+        {/* Background atmosphere — matches the treatment AI Rescue got:
+            the panel otherwise reads as visually empty behind the video.
+            Warm gold/rose glows (this case study's own palette) instead
+            of AI Rescue's cyan/magenta, plus the same faint dot texture. */}
+        <div className="absolute inset-0 overflow-hidden rounded-[28px] pointer-events-none -z-10" aria-hidden>
+          <div className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-pearl-gold/20 blur-[90px]" />
+          <div className="absolute -bottom-20 -left-10 w-80 h-80 rounded-full bg-pearl-red/10 blur-[100px]" />
+          <div
+            className="absolute inset-0 opacity-[0.12]"
+            style={{ backgroundImage: 'radial-gradient(rgba(176,42,58,0.5) 1px, transparent 1px)', backgroundSize: '22px 22px' }}
+          />
+        </div>
+
         <div className="relative">
           <div style={{ maxWidth: 'calc(52vh * 16 / 9)' }} className="relative mx-auto w-full">
-            <ComputerMonitorFrame>
+            <ComputerMonitorFrame ref={screenRef}>
               <video
                 ref={videoRef}
                 src={VIDEO_SRC}
@@ -91,7 +105,7 @@ export default function PeopleMotionCaseStudy({ onClose }: { onClose: () => void
                   before. z-20 + rendered after the full-cover play button
                   above, so these buttons' own bounds win the click instead
                   of also triggering play/pause underneath them. */}
-              <VideoControlBar videoRef={videoRef} className="absolute top-3 left-3 z-20" />
+              <VideoControlBar videoRef={videoRef} fullscreenRef={screenRef} className="absolute top-3 left-3 z-20" />
             </ComputerMonitorFrame>
           </div>
 

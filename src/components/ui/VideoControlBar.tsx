@@ -1,4 +1,4 @@
-import { useState, type RefObject } from 'react'
+import { useEffect, useState, type RefObject } from 'react'
 import { Volume2, VolumeX, Gauge, Maximize, Minimize } from 'lucide-react'
 
 const SPEEDS = [0.5, 1, 2]
@@ -8,7 +8,23 @@ const SPEEDS = [0.5, 1, 2]
  *  of them ship with only a bare play/pause. Deliberately its own row
  *  (not folded into the play button) so each control stays a clear,
  *  separate hit target. */
-export default function VideoControlBar({ videoRef, className = '' }: { videoRef: RefObject<HTMLVideoElement>; className?: string }) {
+export default function VideoControlBar({
+  videoRef,
+  fullscreenRef,
+  className = '',
+}: {
+  videoRef: RefObject<HTMLVideoElement>
+  /** The element to actually fullscreen — MUST be an ancestor that also
+   *  contains the on-video controls (play/pause, this bar), not the bare
+   *  `<video>` itself. Fullscreening the video element directly puts the
+   *  browser in native video fullscreen, which only shows the video pixels
+   *  — every sibling overlay (our play button, this bar) is a DOM sibling,
+   *  not a descendant of the fullscreened element, so it's simply not
+   *  there anymore: no way to pause without backing out of fullscreen
+   *  first. Falls back to the video element only if no wrapper is passed. */
+  fullscreenRef?: RefObject<HTMLElement>
+  className?: string
+}) {
   // Matches the <video> element's own real default (no `muted` attribute
   // set on any of these players, so it starts unmuted) — an initial state
   // of true here would make the icon lie about the actual audio state
@@ -16,6 +32,16 @@ export default function VideoControlBar({ videoRef, className = '' }: { videoRef
   const [muted, setMuted] = useState(false)
   const [speedIdx, setSpeedIdx] = useState(1)
   const [fullscreen, setFullscreen] = useState(false)
+
+  // The state above only reflects OUR button's own click — it goes stale
+  // the moment the viewer exits fullscreen any other way (Escape key,
+  // browser chrome, swipe on mobile). Listening to the real event keeps
+  // the icon (and any layout that depends on `fullscreen`) honest.
+  useEffect(() => {
+    const onChange = () => setFullscreen(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', onChange)
+    return () => document.removeEventListener('fullscreenchange', onChange)
+  }, [])
 
   const toggleMute = () => {
     const v = videoRef.current
@@ -33,14 +59,12 @@ export default function VideoControlBar({ videoRef, className = '' }: { videoRef
   }
 
   const toggleFullscreen = () => {
-    const v = videoRef.current
-    if (!v) return
+    const target = fullscreenRef?.current ?? videoRef.current
+    if (!target) return
     if (!document.fullscreenElement) {
-      v.requestFullscreen?.().catch(() => {})
-      setFullscreen(true)
+      target.requestFullscreen?.().catch(() => {})
     } else {
       document.exitFullscreen?.().catch(() => {})
-      setFullscreen(false)
     }
   }
 

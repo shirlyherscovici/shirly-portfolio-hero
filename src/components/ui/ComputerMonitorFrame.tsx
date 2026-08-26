@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { forwardRef, type ReactNode } from 'react'
 
 interface ComputerMonitorFrameProps {
   children: ReactNode
@@ -9,12 +9,20 @@ interface ComputerMonitorFrameProps {
 
 /** A clean desktop-monitor bezel — screen (16:9), thin frame, neck & base —
  *  wraps a static poster image or a real <video> for the After Effects /
- *  Animation case study and its homepage card. */
-export default function ComputerMonitorFrame({ children, className = '', compact = false }: ComputerMonitorFrameProps) {
+ *  Animation case study and its homepage card. Forwards its ref to the
+ *  SCREEN element specifically (not the outer bezel+neck+base wrapper) —
+ *  callers that need to fullscreen just the video (see the People In
+ *  Motion case study) must fullscreen this, not the whole decorative
+ *  monitor, or the bezel/neck/base fill the screen alongside the footage. */
+const ComputerMonitorFrame = forwardRef<HTMLDivElement, ComputerMonitorFrameProps>(function ComputerMonitorFrame(
+  { children, className = '', compact = false },
+  ref,
+) {
   return (
     <div className={`relative w-full ${className}`}>
       {/* Screen + bezel */}
       <div
+        ref={ref}
         className={`relative w-full aspect-video rounded-lg sm:rounded-xl bg-[#0c0c10] shadow-cine-lg overflow-hidden ${
           compact ? 'border-[3px] sm:border-[5px]' : 'border-[6px] sm:border-[9px]'
         } border-[#1a1a1f]`}
@@ -38,4 +46,6 @@ export default function ComputerMonitorFrame({ children, className = '', compact
       <div className={`mx-auto rounded-full bg-gradient-to-b from-[#2c2c33] to-[#111114] shadow-md ${compact ? 'w-[34%] h-1.5' : 'w-[28%] h-2 sm:h-2.5'}`} />
     </div>
   )
-}
+})
+
+export default ComputerMonitorFrame
