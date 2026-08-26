@@ -259,7 +259,10 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
                   className="absolute pointer-events-none select-none"
                   style={{ width: '176.1%', maxWidth: 'none', left: '-40%', top: '-1%' }}
                 />
-                <div className="absolute overflow-hidden rounded-[8px]" style={{ left: '19%', top: '12%', width: '62%', height: '56%' }}>
+                <div
+                  className="absolute overflow-hidden rounded-[8px]"
+                  style={{ left: '12.2%', top: '21.3%', width: '79%', height: '72.7%', transform: 'rotate(-0.5deg)' }}
+                >
                   <PhoneScreen frame={FRAMES[active].key} />
                 </div>
               </div>
