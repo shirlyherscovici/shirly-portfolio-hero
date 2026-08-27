@@ -109,24 +109,16 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          // Amy+Galgalatz used to be TWO separate grid items placed via
-          // row-span-2 on their column-mates (AI/Motion) — CSS Grid's
-          // auto-row-sizing algorithm distributes a spanning item's extra
-          // height across the rows it spans in a way that still ends up
-          // looking near-equal even when the two individual cards have
-          // different min-heights, which is why the "masonry" attempt
-          // still read as symmetric. Now Amy+Galgalatz are nested in ONE
-          // flex-column grid item — no row concept at all, so their
-          // different heights (set on each card below) show up directly,
-          // independent of whatever height AI/Motion end up at.
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_0.95fr_0.95fr] items-start gap-3 sm:gap-4"
+          // Reverted to the original aligned grid (masonry experiment
+          // undone per explicit request) — Amy/Galgalatz back to two
+          // separate, equal-height items stacked via grid-rows-2, AI/
+          // Motion back to row-span-2 spanning both.
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1fr_0.95fr_0.95fr] lg:grid-rows-2 gap-3 sm:gap-4"
         >
-          <div className="flex flex-col gap-3 sm:gap-4">
-            <AmyModule onClick={() => onOpen('amy')} hidden={openId === 'amy'} dark={dark} />
-            <GalgalatzModule onClick={() => onOpen('galgalatz')} hidden={openId === 'galgalatz'} />
-          </div>
+          <AmyModule onClick={() => onOpen('amy')} hidden={openId === 'amy'} dark={dark} />
           <AiModule onClick={() => onOpen('ai-rescue')} hidden={openId === 'ai-rescue'} />
           <MotionModule onClick={() => onOpen('people-motion')} hidden={openId === 'people-motion'} dark={dark} />
+          <GalgalatzModule onClick={() => onOpen('galgalatz')} hidden={openId === 'galgalatz'} />
         </motion.div>
       </main>
 

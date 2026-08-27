@@ -60,7 +60,7 @@ export function AmyModule({ onClick, hidden = false, dark = false }: { onClick: 
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      className="group relative text-left w-full h-full min-h-[260px] sm:min-h-[300px]"
+      className="group relative text-left w-full h-full min-h-[220px] sm:min-h-[240px]"
       aria-label="Open case study 01 — Graphic Design (Amy)"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
@@ -216,7 +216,7 @@ export function GalgalatzModule({ onClick, hidden = false }: { onClick: () => vo
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      className="group relative text-left w-full h-full min-h-[190px] sm:min-h-[210px]"
+      className="group relative text-left w-full h-full min-h-[220px] sm:min-h-[240px]"
       aria-label="Open case study 02 — Game UI UX Prototyping (Galgalatz)"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
@@ -304,13 +304,7 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      // h-full dropped — with items-start and only 3 grid items now (no
-      // more row-span-2), h-full pinned this to the shared grid ROW's
-      // height (which CSS Grid always computes as one shared value across
-      // a row, even with items-start), so it silently stretched to match
-      // Motion's own min-height instead of using its own. min-h alone (no
-      // height) lets it size to its own content, independent of siblings.
-      className="group relative text-left w-full min-h-[560px] sm:min-h-[620px]"
+      className="group relative text-left w-full h-full min-h-[380px] sm:min-h-[420px] row-span-2"
       aria-label="Open case study 03 — AI Generative Pipeline"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
@@ -525,7 +519,7 @@ export function MotionModule({ onClick, hidden = false, dark = false }: { onClic
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      className="group relative text-left w-full min-h-[600px] sm:min-h-[680px]"
+      className="group relative text-left w-full h-full min-h-[420px] sm:min-h-[480px] row-span-2"
       aria-label="Open case study 04 — After Effects & Animation (People in Motion)"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
