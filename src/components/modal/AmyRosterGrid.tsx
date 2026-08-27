@@ -57,7 +57,12 @@ function FlipCard({ member }: { member: RosterMember }) {
       onBlur={() => setHovered(false)}
       aria-pressed={pinned}
       aria-label={`${member.name} — ${showBack ? 'showing archive side, activate to flip back' : 'showing restored artwork, activate to reveal archive photo'}`}
-      className="group relative aspect-square rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-pearl-gold"
+      // aspect-[4/3] (was aspect-square) — 2 columns × 5 rows of SQUARE
+      // cards needed more vertical room than the phone's actual screen
+      // has (real screen aspect is narrow-tall, not square), which is
+      // exactly why the bottom row was clipped. Shorter cards fit all 5
+      // rows inside the real screen bounds without cropping.
+      className="group relative aspect-[4/3] rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-pearl-gold"
       style={{ perspective: 700 }}
     >
       {field}
@@ -71,7 +76,7 @@ function FlipCard({ member }: { member: RosterMember }) {
             card grid reads cleaner as a pure gallery of faces, per
             explicit request. */}
         <div className="absolute inset-0 rounded-xl overflow-hidden border-2 border-white/10 shadow-md" style={{ backfaceVisibility: 'hidden' }}>
-          <img src={member.front} alt={member.name} className="w-full h-full object-cover" />
+          <img src={member.front} alt={member.name} className="w-full h-full object-cover object-top" />
         </div>
 
         {/* Back — original archive photo (or a vintage-toned pass when no
@@ -106,15 +111,15 @@ export default function AmyRosterGrid() {
     // No background fill anymore — the photographed phone screen behind
     // this grid already supplies one; painting a second, different-toned
     // background on top of it just looked like a mismatched patch.
-    <div className="relative h-full min-h-full flex flex-col p-2.5">
-      <p className="text-center font-display font-extrabold text-[11px] text-white tracking-tight" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}>
+    <div className="relative h-full min-h-full flex flex-col p-2">
+      <p className="text-center font-display font-extrabold text-[10px] text-white tracking-tight mb-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}>
         THE 27 CLUB
       </p>
       {/* 2 columns (was 3) — one member dropped (10 remain) specifically
           so this grid could go 2x5 instead of 3+3+3+1, giving each card
           real size instead of a cramped thumbnail. */}
       <div className="flex-1 flex items-center">
-        <div className="grid grid-cols-2 gap-2.5 w-full">
+        <div className="grid grid-cols-2 gap-2 w-full">
           {ROSTER.map((m) => (
             <FlipCard key={m.name} member={m} />
           ))}

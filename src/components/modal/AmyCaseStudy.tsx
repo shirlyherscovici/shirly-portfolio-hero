@@ -146,7 +146,7 @@ export default function AmyCaseStudy({ onClose, dark = false }: { onClose: () =>
       <div className={`px-5 sm:px-8 pb-3 flex flex-wrap items-center gap-x-6 gap-y-2.5 border-b mb-3 ${dark ? 'border-white/10' : 'border-pearl-ink/10'}`}>
         <div className="flex items-center gap-2">
           <img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-6 h-6 object-contain shrink-0" />
-          <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/90 whitespace-nowrap" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.35)' }}>Campaign Impact</span>
+          <span className={`text-[10px] font-bold uppercase tracking-[0.14em] whitespace-nowrap ${dark ? 'text-white/90' : 'text-pearl-ink'}`}>Campaign Impact</span>
         </div>
         <StatStrip
           theme="light"
@@ -157,21 +157,21 @@ export default function AmyCaseStudy({ onClose, dark = false }: { onClose: () =>
             { icon: <Heart size={13} />, value: feedback, label: 'Positive Feedback' },
           ]}
         />
-        <div className="w-px h-6 bg-pearl-ink/15 hidden sm:block" />
+        <div className={`w-px h-6 hidden sm:block ${dark ? 'bg-white/15' : 'bg-pearl-ink/15'}`} />
         <div className="flex items-center gap-3">
-          <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/90 whitespace-nowrap" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.35)' }}>My Role</span>
-          <div className="flex items-center gap-3 text-white/90" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.35)' }}>
+          <span className={`text-[10px] font-bold uppercase tracking-[0.14em] whitespace-nowrap ${dark ? 'text-white/90' : 'text-pearl-ink'}`}>My Role</span>
+          <div className={`flex items-center gap-3 ${dark ? 'text-white/90' : 'text-pearl-ink'}`}>
             <span className="flex items-center gap-1">
               <PenTool size={14} />
-              <span className="text-[9px] font-bold uppercase tracking-wide text-white/80">Art Direction</span>
+              <span className={`text-[10px] font-bold uppercase tracking-wide ${dark ? 'text-white/80' : 'text-pearl-ink/80'}`}>Art Direction</span>
             </span>
             <span className="flex items-center gap-1">
               <Palette size={14} />
-              <span className="text-[9px] font-bold uppercase tracking-wide text-white/80">Visual Design</span>
+              <span className={`text-[10px] font-bold uppercase tracking-wide ${dark ? 'text-white/80' : 'text-pearl-ink/80'}`}>Visual Design</span>
             </span>
             <span className="flex items-center gap-1">
               <img src={asset('/assets/amy/arrow-amy.png')} alt="" className="w-3.5 h-3.5 object-contain" />
-              <span className="text-[9px] font-bold uppercase tracking-wide text-white/80">Campaign Strategy</span>
+              <span className={`text-[10px] font-bold uppercase tracking-wide ${dark ? 'text-white/80' : 'text-pearl-ink/80'}`}>Campaign Strategy</span>
             </span>
           </div>
         </div>
@@ -279,37 +279,37 @@ export function AmyCaseStudyBreakout() {
           note reads as escaping the frame rather than sitting flat inside
           the artwork, the same treatment the right-edge decor already
           gets. */}
-      <FloatingElement delay={0.7} distance={9} className="absolute top-[80%] -left-7 sm:-left-10 z-30 hidden sm:block">
+      {/* fleeTo — hovering any of these springs it away from the cursor
+          (toward the panel's outer edge, away from content), matching the
+          homepage's own coin-repulsion mechanic. */}
+      <FloatingElement delay={0.7} distance={9} fleeTo={{ x: -30, y: -12 }} className="absolute top-[80%] -left-7 sm:-left-10 z-30 hidden sm:block">
         <MusicNote size={38} />
       </FloatingElement>
-      <FloatingElement delay={0.5} distance={9} className="absolute top-[15%] -right-7 sm:-right-10 z-30 hidden sm:block">
+      <FloatingElement delay={0.5} distance={9} fleeTo={{ x: 30, y: -10 }} className="absolute top-[15%] -right-7 sm:-right-10 z-30 hidden sm:block">
         <MusicNote size={42} />
       </FloatingElement>
-      <FloatingElement delay={0.9} distance={10} className="absolute top-[38%] -right-10 sm:-right-14 z-30 hidden sm:block">
+      <FloatingElement delay={0.9} distance={10} fleeTo={{ x: 34, y: 10 }} className="absolute top-[38%] -right-10 sm:-right-14 z-30 hidden sm:block">
         <GoldCoin size={60} />
       </FloatingElement>
-      <FloatingElement delay={1.2} distance={9} className="absolute top-[73%] -right-10 sm:-right-14 z-30 hidden sm:block">
+      <FloatingElement delay={1.2} distance={9} fleeTo={{ x: 34, y: -10 }} className="absolute top-[73%] -right-10 sm:-right-14 z-30 hidden sm:block">
         <HeartIcon size={64} />
       </FloatingElement>
 
-      {/* "This is interactive, play with it" cue — the earlier version
-          lived INSIDE the rotated, overflow-clipped roster grid and was
-          effectively invisible. A real arcade-style arrow, breaking the
-          panel's own edge (guaranteed visible, same as the decor above),
-          bouncing horizontally toward the phone screen it's pointing at. */}
+      {/* "This is interactive, play with it" cue — enlarged again and
+          given a bigger, more obvious bounce (was still easy to miss). */}
       <motion.div
         aria-hidden
-        animate={{ x: [0, -8, 0] }}
-        transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-[54%] -right-9 sm:-right-12 z-30 hidden sm:flex flex-col items-center gap-1"
+        animate={{ x: [0, -16, 0], scale: [1, 1.08, 1] }}
+        transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-[54%] -right-12 sm:-right-16 z-30 hidden sm:flex flex-col items-center gap-1.5"
       >
         <span
-          className="flex items-center justify-center w-9 h-9 rounded-full text-white"
-          style={{ background: 'linear-gradient(135deg, #c9576b, #8f1f2d)', boxShadow: '0 3px 0 #5e1319, 0 6px 14px -2px rgba(143,31,45,0.55)' }}
+          className="flex items-center justify-center w-14 h-14 rounded-full text-white"
+          style={{ background: 'linear-gradient(135deg, #c9576b, #8f1f2d)', boxShadow: '0 4px 0 #5e1319, 0 10px 22px -2px rgba(143,31,45,0.65)' }}
         >
-          <ChevronLeft size={20} strokeWidth={3} />
+          <ChevronLeft size={30} strokeWidth={3.5} />
         </span>
-        <span className="text-[7px] font-display font-black uppercase tracking-widest text-pearl-red bg-white/90 px-1.5 py-0.5 rounded-full shadow-sm">
+        <span className="text-[9px] font-display font-black uppercase tracking-widest text-pearl-red bg-white px-2 py-1 rounded-full shadow-md">
           Play
         </span>
       </motion.div>

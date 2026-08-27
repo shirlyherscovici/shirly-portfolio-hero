@@ -153,22 +153,22 @@ export default function PeopleMotionCaseStudy({ onClose, dark = false }: { onClo
 export function PeopleMotionBreakout() {
   return (
     <>
-      <FloatingElement delay={0.2} distance={10} className="absolute top-[14%] -left-9 sm:-left-14 z-30 hidden sm:block">
+      <FloatingElement delay={0.2} distance={10} fleeTo={{ x: -30, y: -10 }} className="absolute top-[14%] -left-9 sm:-left-14 z-30 hidden sm:block">
         <MusicNote size={44} color="#b8863b" />
       </FloatingElement>
-      <FloatingElement delay={1.1} distance={8} className="absolute top-[44%] -left-8 sm:-left-14 z-30 hidden sm:block">
+      <FloatingElement delay={1.1} distance={8} fleeTo={{ x: -34, y: 10 }} className="absolute top-[44%] -left-8 sm:-left-14 z-30 hidden sm:block">
         <GoldCoin size={52} />
       </FloatingElement>
-      <FloatingElement delay={0.8} distance={9} className="absolute top-[74%] -left-9 sm:-left-14 z-30 hidden sm:block">
+      <FloatingElement delay={0.8} distance={9} fleeTo={{ x: -30, y: -10 }} className="absolute top-[74%] -left-9 sm:-left-14 z-30 hidden sm:block">
         <HeartIcon size={46} color="#c23b3b" />
       </FloatingElement>
-      <FloatingElement delay={0.6} distance={9} className="absolute top-[10%] -right-9 sm:-right-14 z-30 hidden sm:block">
+      <FloatingElement delay={0.6} distance={9} fleeTo={{ x: 30, y: -10 }} className="absolute top-[10%] -right-9 sm:-right-14 z-30 hidden sm:block">
         <GoldCoin size={40} />
       </FloatingElement>
-      <FloatingElement delay={1.5} distance={10} className="absolute top-[50%] -right-8 sm:-right-14 z-30 hidden sm:block">
+      <FloatingElement delay={1.5} distance={10} fleeTo={{ x: 30, y: 10 }} className="absolute top-[50%] -right-8 sm:-right-14 z-30 hidden sm:block">
         <HeartIcon size={40} color="#c23b3b" />
       </FloatingElement>
-      <FloatingElement delay={0.4} distance={8} className="absolute top-[80%] -right-9 sm:-right-14 z-30 hidden sm:block">
+      <FloatingElement delay={0.4} distance={8} fleeTo={{ x: 30, y: -10 }} className="absolute top-[80%] -right-9 sm:-right-14 z-30 hidden sm:block">
         <GoldCoin size={48} />
       </FloatingElement>
     </>

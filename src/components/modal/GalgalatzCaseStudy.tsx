@@ -113,7 +113,14 @@ function VictoryScreen({ img, rank, title, song }: { img: string; rank: string; 
           screen color (no painted bg-black) rather than cut or patched
           with a mismatched fill. */}
       <img src={img} alt={`${title} — ${song}`} className="absolute inset-0 w-full h-full object-contain" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/40" />
+      {/* Two SEPARATE, short gradient patches (top badge, bottom caption)
+          instead of one full-cover gradient — a full-inset-0 wash darkened
+          the letterboxed padding around the object-contain image too
+          (which now shows the phone's own screen color, not bg-black),
+          combining into a visible uneven band right at the image's real
+          edge instead of just legibility-darkening the badge/text. */}
+      <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/55 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/75 to-transparent" />
       <span className="absolute top-8 left-1/2 -translate-x-1/2 flex items-center gap-1 px-2.5 py-1 rounded-full bg-cine-gold text-[#4a2d0f] text-[9px] font-black uppercase">
         <Trophy size={10} /> #{rank}
       </span>
@@ -275,8 +282,16 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
             stacking the strip below a scene that would otherwise stretch
             to the full wide width. Below lg, there's no room for two
             columns, so it falls back to the original stacked layout. */}
-        <div className="lg:grid lg:grid-cols-[1.3fr_1fr] lg:gap-6 lg:items-start">
-        <div>
+        {/* lg:items-stretch (the default — no items-start override
+            anymore) so both columns share ONE height: the film strip
+            column's own natural content height. The artboard below then
+            sizes itself from THAT height (h-full + aspect-ratio, width
+            computed from height) instead of being width-capped — cabinet
+            and phone grow to fill whatever height the film strip needs,
+            landing them all visually aligned instead of the scene sitting
+            shorter than the strip beside it. */}
+        <div className="lg:grid lg:grid-cols-[1.3fr_1fr] lg:gap-6">
+        <div className="lg:h-full lg:flex lg:flex-col">
         {/* Fixed-aspect artboard (not flex-driven sizing) — cabinet and
             phone zones positioned at percentages pixel-measured directly
             from the reference file (cabinet's neon glow bounds ~9-49% of
@@ -284,11 +299,13 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
             converted to this scene's own coordinate space. Aspect ratio
             765/680 approximates the measured cabinet+phone scene's own
             bounding box within the card (excluding header/filmstrip/
-            metrics, which stay in normal flow above/below). Capped to a
-            max width so the extra room the wide shell provides goes to the
-            film strip column instead of just blowing this scene up bigger
-            (and taller). */}
-        <div className="relative w-full max-w-[520px] mx-auto lg:mx-0" style={{ aspectRatio: '765 / 680' }}>
+            metrics, which stay in normal flow above/below). Height-driven
+            on lg (h-full of the stretched row, width computed from the
+            aspect ratio) so it grows to match the film strip column's own
+            height instead of stopping at a fixed max-width. Still
+            width-driven below lg, where there's no second column to
+            match. */}
+        <div className="relative w-full max-w-[520px] mx-auto lg:mx-0 lg:w-auto lg:max-w-none lg:h-full" style={{ aspectRatio: '765 / 680' }}>
           <div className="absolute inset-y-0 left-0" style={{ width: '50%' }}>
             <GlassDisplayCase highlighted={active === 0} />
           </div>
@@ -296,10 +313,10 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
           {/* Two coins in the cabinet-phone gap — nudged left to stay in
               the (now narrower) gap after the phone was enlarged to reach
               the cabinet's own full height. */}
-          <FloatingElement delay={0.3} distance={8} className="absolute z-20" style={{ left: '51%', top: '22%' }}>
+          <FloatingElement delay={0.3} distance={8} fleeTo={{ x: -14, y: -18 }} className="absolute z-20" style={{ left: '51%', top: '22%' }}>
             <GoldCoin size={34} />
           </FloatingElement>
-          <FloatingElement delay={0.9} distance={9} className="absolute z-20" style={{ left: '55%', top: '51%' }}>
+          <FloatingElement delay={0.9} distance={9} fleeTo={{ x: 14, y: 18 }} className="absolute z-20" style={{ left: '55%', top: '51%' }}>
             <GoldCoin size={40} />
           </FloatingElement>
 
@@ -424,10 +441,10 @@ export default function GalgalatzCaseStudy({ onClose }: { onClose: () => void })
 export function GalgalatzBreakout() {
   return (
     <>
-      <FloatingElement delay={0.5} distance={9} className="absolute top-[24%] -right-8 sm:-right-12 z-30 hidden sm:block">
+      <FloatingElement delay={0.5} distance={9} fleeTo={{ x: 30, y: -10 }} className="absolute top-[24%] -right-8 sm:-right-12 z-30 hidden sm:block">
         <MusicNote size={36} />
       </FloatingElement>
-      <FloatingElement delay={1.2} distance={9} className="absolute top-[49%] -right-7 sm:-right-11 z-30 hidden sm:block">
+      <FloatingElement delay={1.2} distance={9} fleeTo={{ x: 30, y: 10 }} className="absolute top-[49%] -right-7 sm:-right-11 z-30 hidden sm:block">
         <MusicNote size={30} />
       </FloatingElement>
     </>

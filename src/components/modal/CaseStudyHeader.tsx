@@ -47,15 +47,19 @@ export default function CaseStudyHeader({ id, stageLabel, title, supportLabel, m
           type="button"
           onClick={onClose}
           className={`flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold uppercase tracking-wide transition-colors ${
-            // Amy (arcadeChrome) sits on a busier, more transparent glass
-            // panel than a plain light card — the usual muted gray read as
-            // swallowed there, so it gets full white instead.
-            arcadeChrome ? 'text-white/90 hover:text-white' : light ? 'text-pearl-sub hover:text-pearl-ink' : 'text-cine-sub hover:text-white'
+            // Now that `theme` genuinely tracks Amy's own light/dark mode
+            // (not always 'light'), plain theme-based color is correct
+            // again — light mode wants dark, readable ink; dark mode
+            // wants white. The earlier "always white" override was from
+            // before dark mode existed, when 'light' theme was Amy's only
+            // state and the busy transparent panel made muted gray hard
+            // to read — that panel is opaque-enough dark now instead.
+            light ? 'text-pearl-ink hover:text-pearl-ink/70' : 'text-cine-sub hover:text-white'
           }`}
         >
           <ChevronLeft size={13} />
           <span>
-            Portfolio / Works / <span className={light && !arcadeChrome ? 'text-pearl-ink' : 'text-white'}>{stageLabel} {title}</span>
+            Portfolio / Works / <span className={light ? 'text-pearl-ink' : 'text-white'}>{stageLabel} {title}</span>
           </span>
         </button>
       )}

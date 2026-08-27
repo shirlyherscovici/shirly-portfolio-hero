@@ -35,7 +35,7 @@ function useTiltRef() {
 /* Module 01 — AMY / Graphic Design                                       */
 /* ---------------------------------------------------------------------- */
 
-export function AmyModule({ onClick, hidden = false }: { onClick: () => void; hidden?: boolean }) {
+export function AmyModule({ onClick, hidden = false, dark = false }: { onClick: () => void; hidden?: boolean; dark?: boolean }) {
   const t = useTiltRef()
   const { spawn, field } = useParticleBurst(6)
 
@@ -67,9 +67,15 @@ export function AmyModule({ onClick, hidden = false }: { onClick: () => void; hi
     >
       <motion.div
         style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d' }}
-        className="relative w-full h-full rounded-[26px] overflow-visible glass-pearl glass-sheen border-2 border-white/70 shadow-2xl transition-all duration-300 group-hover:shadow-glow-gold group-hover:border-white"
+        className={`relative w-full h-full rounded-[26px] overflow-visible glass-sheen border-2 shadow-2xl transition-all duration-300 group-hover:shadow-glow-gold ${
+          dark ? 'border-white/10 group-hover:border-white/30' : 'glass-pearl border-white/70 group-hover:border-white'
+        }`}
       >
-        <div className="absolute inset-0 rounded-[26px] overflow-hidden bg-gradient-to-br from-stone-100 via-[#F9F6F0] to-amber-50" />
+        <div
+          className={`absolute inset-0 rounded-[26px] overflow-hidden ${
+            dark ? 'bg-gradient-to-br from-[#241522] to-[#120a12]' : 'bg-gradient-to-br from-stone-100 via-[#F9F6F0] to-amber-50'
+          }`}
+        />
 
         {/* Amy figure — large enough to break out of the card's own top/right
             edges (parent is overflow-visible), sitting on the right so the
@@ -115,12 +121,12 @@ export function AmyModule({ onClick, hidden = false }: { onClick: () => void; hi
         {field}
 
         <div className="relative z-10 flex flex-col h-full p-4 sm:p-5" style={{ transform: 'translateZ(24px)' }}>
-          <h3 className="font-display font-extrabold text-xl sm:text-[22px] leading-[1.05] text-pearl-ink">
+          <h3 className={`font-display font-extrabold text-xl sm:text-[22px] leading-[1.05] ${dark ? 'text-white' : 'text-pearl-ink'}`}>
             GRAPHIC
             <br />
             DESIGN
           </h3>
-          <p className="mt-1.5 text-[10.5px] font-semibold uppercase tracking-wide text-pearl-sub max-w-[9.5rem]">
+          <p className={`mt-1.5 text-[10.5px] font-semibold uppercase tracking-wide max-w-[9.5rem] ${dark ? 'text-white/60' : 'text-pearl-sub'}`}>
             Character Design · 3D Pop-Art Figure
           </p>
 
@@ -132,13 +138,17 @@ export function AmyModule({ onClick, hidden = false }: { onClick: () => void; hi
               >
                 +74%
               </p>
-              <p className="text-[10px] font-bold uppercase tracking-wide text-pearl-ink/80 mt-1.5">Active User Growth</p>
+              <p className={`text-[10px] font-bold uppercase tracking-wide mt-1.5 ${dark ? 'text-white/80' : 'text-pearl-ink/80'}`}>Active User Growth</p>
               {/* Tertiary metadata — kept (per the mockup) but dialed back
                   to a quiet, borderless label so the metric above stays the
                   clear visual anchor rather than competing with it. */}
               <span className="block mt-1 text-[8px] font-semibold uppercase tracking-wide text-pearl-gold2/70">Award-Winning Craft</span>
             </div>
-            <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/80 text-pearl-red opacity-0 group-hover:opacity-100 transition-opacity shadow-pearl-sm">
+            <span
+              className={`flex items-center justify-center w-8 h-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-pearl-sm ${
+                dark ? 'bg-white/10 text-white' : 'bg-white/80 text-pearl-red'
+              }`}
+            >
               <ArrowUpRight size={14} />
             </span>
           </div>
@@ -294,7 +304,13 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      className="group relative text-left w-full h-full min-h-[380px] sm:min-h-[420px] row-span-2"
+      // h-full dropped — with items-start and only 3 grid items now (no
+      // more row-span-2), h-full pinned this to the shared grid ROW's
+      // height (which CSS Grid always computes as one shared value across
+      // a row, even with items-start), so it silently stretched to match
+      // Motion's own min-height instead of using its own. min-h alone (no
+      // height) lets it size to its own content, independent of siblings.
+      className="group relative text-left w-full min-h-[560px] sm:min-h-[620px]"
       aria-label="Open case study 03 — AI Generative Pipeline"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
@@ -490,7 +506,7 @@ function FleeingCoin({
   )
 }
 
-export function MotionModule({ onClick, hidden = false }: { onClick: () => void; hidden?: boolean }) {
+export function MotionModule({ onClick, hidden = false, dark = false }: { onClick: () => void; hidden?: boolean; dark?: boolean }) {
   const t = useTiltRef()
   const [cardHover, setCardHover] = useState(false)
   return (
@@ -509,14 +525,21 @@ export function MotionModule({ onClick, hidden = false }: { onClick: () => void;
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      className="group relative text-left w-full h-full min-h-[420px] sm:min-h-[480px] row-span-2"
+      className="group relative text-left w-full min-h-[600px] sm:min-h-[680px]"
       aria-label="Open case study 04 — After Effects & Animation (People in Motion)"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
     >
       <motion.div
-        style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d', background: 'linear-gradient(135deg, #FFF0EB, #FCE7F3)' }}
-        className="relative w-full h-full rounded-[26px] overflow-visible glass-sheen backdrop-blur-xl border-2 border-white/70 shadow-2xl flex flex-col transition-all duration-300 group-hover:shadow-glow-gold group-hover:border-white"
+        style={{
+          rotateX: t.rotateX,
+          rotateY: t.rotateY,
+          transformStyle: 'preserve-3d',
+          background: dark ? 'linear-gradient(135deg, #241522, #150c17)' : 'linear-gradient(135deg, #FFF0EB, #FCE7F3)',
+        }}
+        className={`relative w-full h-full rounded-[26px] overflow-visible glass-sheen backdrop-blur-xl border-2 shadow-2xl flex flex-col transition-all duration-300 group-hover:shadow-glow-gold ${
+          dark ? 'border-white/10 group-hover:border-white/30' : 'border-white/70 group-hover:border-white'
+        }`}
       >
         {/* Fleeing coins & hearts — rest astride the card's own border,
             dodge the cursor, z-50 so they always read above the frame */}
@@ -532,11 +555,11 @@ export function MotionModule({ onClick, hidden = false }: { onClick: () => void;
         </div>
 
         <div className="relative z-10 p-4 sm:p-5 pb-2" style={{ transform: 'translateZ(24px)' }}>
-          <h3 className="font-display font-extrabold text-xl sm:text-[22px] leading-[1.05] text-pearl-ink">
+          <h3 className={`font-display font-extrabold text-xl sm:text-[22px] leading-[1.05] ${dark ? 'text-white' : 'text-pearl-ink'}`}>
             AFTER EFFECTS
             <br />& ANIMATION
           </h3>
-          <p className="mt-1.5 text-[10.5px] font-semibold uppercase tracking-wide text-pearl-sub">2D Worlds. Motion Design.</p>
+          <p className={`mt-1.5 text-[10.5px] font-semibold uppercase tracking-wide ${dark ? 'text-white/60' : 'text-pearl-sub'}`}>2D Worlds. Motion Design.</p>
         </div>
 
         {/* Bottom stage — a small computer-monitor mockup showing a static
