@@ -77,13 +77,13 @@ export function AmyModule({
     >
       <motion.div
         style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d' }}
-        className={`relative w-full h-full rounded-[26px] overflow-visible glass-sheen border-2 shadow-2xl transition-all duration-300 group-hover:shadow-glow-gold ${
-          dark ? 'border-white/10 group-hover:border-white/30' : 'glass-pearl border-white/70 group-hover:border-white'
+        className={`relative w-full h-full rounded-[26px] overflow-visible glass-sheen border-2 shadow-2xl transition-all duration-300 group-hover:shadow-glow-red ${
+          dark ? 'border-pearl-red/20 group-hover:border-pearl-red/50' : 'glass-pearl border-pearl-red/15 group-hover:border-pearl-red/40'
         }`}
       >
         <div
           className={`absolute inset-0 rounded-[26px] overflow-hidden ${
-            dark ? 'bg-gradient-to-br from-[#241522] to-[#120a12]' : 'bg-gradient-to-br from-stone-100 via-[#F9F6F0] to-amber-50'
+            dark ? 'bg-gradient-to-br from-[#2a1420] to-[#140a10]' : 'bg-gradient-to-br from-stone-100 via-[#F9F6F0] to-rose-50'
           }`}
         />
 
@@ -216,7 +216,7 @@ export function GalgalatzModule({ onClick, hidden = false, featured = false }: {
     >
       <motion.div
         style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d' }}
-        className="relative w-full h-full rounded-[26px] overflow-visible bg-[#171426] border-2 border-white/10 shadow-2xl transition-all duration-300 group-hover:shadow-glow-magenta group-hover:border-cine-magenta/60"
+        className="relative w-full h-full rounded-[26px] overflow-visible bg-[#171426] border-2 border-[#6d4fc9]/35 shadow-2xl transition-all duration-300 group-hover:shadow-glow-magenta group-hover:border-cine-magenta/60"
       >
         <div className="absolute inset-0 rounded-[26px] overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-[#0e0c1a] via-[#171426]/70 to-[#2a1f4d]/40" />
@@ -311,7 +311,7 @@ export function AiModule({ onClick, hidden = false, compact = false }: { onClick
     >
       <motion.div
         style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d' }}
-        className="relative w-full h-full rounded-[26px] overflow-visible bg-black border-2 border-white/10 shadow-2xl transition-all duration-300 group-hover:shadow-glow-cyan group-hover:border-cine-cyan/60"
+        className="relative w-full h-full rounded-[26px] overflow-visible bg-black border-2 border-cine-cyan/25 shadow-2xl transition-all duration-300 group-hover:shadow-glow-cyan group-hover:border-cine-cyan/60"
       >
         {/* Static poster (no autoplaying video on the hub — the real film
             plays inside the case study). Card art already carries the
@@ -542,11 +542,25 @@ export function MotionModule({
           rotateX: t.rotateX,
           rotateY: t.rotateY,
           transformStyle: 'preserve-3d',
-          background: dark ? 'linear-gradient(135deg, #241522, #150c17)' : 'linear-gradient(135deg, #FFF0EB, #FCE7F3)',
+          background: wide
+            ? dark
+              ? 'linear-gradient(135deg, #2b1d10, #1a1108)'
+              : 'linear-gradient(135deg, #FFF3E0, #FDE9C8)'
+            : dark
+              ? 'linear-gradient(135deg, #241522, #150c17)'
+              : 'linear-gradient(135deg, #FFF0EB, #FCE7F3)',
         }}
         className={`relative w-full h-full rounded-[26px] overflow-visible glass-sheen backdrop-blur-xl border-2 shadow-2xl transition-all duration-300 group-hover:shadow-glow-gold ${
           wide ? 'flex flex-col sm:flex-row sm:items-center' : 'flex flex-col'
-        } ${dark ? 'border-white/10 group-hover:border-white/30' : 'border-white/70 group-hover:border-white'}`}
+        } ${
+          wide
+            ? dark
+              ? 'border-pearl-gold2/30 group-hover:border-pearl-gold2/60'
+              : 'border-pearl-gold/40 group-hover:border-pearl-gold2/70'
+            : dark
+              ? 'border-white/10 group-hover:border-white/30'
+              : 'border-white/70 group-hover:border-white'
+        }`}
       >
         {/* Fleeing coins & hearts — rest astride the card's own border,
             dodge the cursor, z-50 so they always read above the frame.

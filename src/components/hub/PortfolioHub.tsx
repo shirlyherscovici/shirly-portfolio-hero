@@ -13,6 +13,17 @@ const NAV_ITEMS = [
   { label: 'AI Creation', icon: Sparkles, glow: 'rgba(185,140,255,0.6)' },
 ]
 
+// Top-nav links — anchor to real sections that already exist on the page
+// rather than inventing new ones. "About" jumps back to the hero's own
+// intro copy (the closest thing this single-page portfolio has to an About
+// blurb); "Contact" jumps to the footer's real mailto CTA; "Resume"
+// downloads the real resume file directly instead of scrolling.
+const HEADER_LINKS = [
+  { label: 'Work', href: '#work' },
+  { label: 'About', href: '#top' },
+  { label: 'Contact', href: '#contact' },
+]
+
 interface PortfolioHubProps {
   onOpen: (id: ProjectId) => void
   /** The project whose modal is currently open, if any — its own card is
@@ -31,60 +42,92 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
 
   return (
     <div className={`relative min-h-screen overflow-x-clip flex flex-col transition-colors duration-500 ${dark ? 'bg-cine' : 'bg-hub'}`}>
-      {/* Sticky wordmark header — brought back at the user's explicit
-          request after the mockup-fidelity pass removed it (the mockup's
-          own homepage shot has none, but she confirmed she wants it kept
-          regardless — it stays pinned above everything, z-50, so no card
-          art can ever obscure it). */}
+      {/* Immersive dark environment behind the hero + top of the grid — the
+          supplied hero-background artwork (a real image, not a CSS
+          gradient recreation), full-bleed and cover-fit, with a bottom
+          fade so it blends into the page's own dark background rather than
+          ending on a hard edge. Dark mode only: the image is a night/cosmic
+          scene that would fight the pearl-light palette, so light mode
+          keeps its existing plain background untouched. */}
+      {dark && (
+        <div className="absolute inset-x-0 top-0 h-[820px] sm:h-[900px] lg:h-[980px] z-0 pointer-events-none overflow-hidden" aria-hidden>
+          <img src={asset('/assets/hub/hero-background.png')} alt="" className="absolute inset-0 w-full h-full object-cover object-top" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0e0f18]" />
+        </div>
+      )}
+
+      {/* Header — transparent/integrated with the hero (no heavy solid
+          separating bar): backdrop-blur for legibility over the background
+          art, but no opaque fill of its own in dark mode. */}
       <header
         className={`sticky top-0 z-50 backdrop-blur-xl border-b transition-colors duration-500 ${
-          dark ? 'bg-[#0e0f18]/85 border-white/10' : 'bg-[#fdfaf7]/85 border-pearl-ink/5'
+          dark ? 'bg-[#0e0f18]/25 border-white/10' : 'bg-[#fdfaf7]/85 border-pearl-ink/5'
         }`}
       >
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10 py-3.5 sm:py-4 flex items-center justify-between">
           <a href="#top" className="flex items-center gap-2.5 group">
-            <span className="w-8 h-8 rounded-full bg-white/80 border border-white shadow-pearl-sm flex items-center justify-center font-display font-black text-[11px] text-pearl-red">
+            <span className="w-8 h-8 rounded-full bg-white/80 border border-white shadow-pearl-sm flex items-center justify-center font-display font-black text-[11px] text-pearl-red shrink-0">
               SH
             </span>
-            <span className={`text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors ${dark ? 'text-white/70 group-hover:text-white' : 'text-pearl-sub group-hover:text-pearl-ink'}`}>
-              Shirly Herscovici&apos;s Portfolio
+            <span className="leading-tight">
+              <span className={`block text-[11px] font-bold uppercase tracking-[0.1em] transition-colors ${dark ? 'text-white group-hover:text-white' : 'text-pearl-ink'}`}>
+                Shirly Herscovici
+              </span>
+              <span className={`block text-[9px] font-semibold uppercase tracking-[0.14em] transition-colors ${dark ? 'text-white/50' : 'text-pearl-sub'}`}>
+                Game UI / Motion Designer
+              </span>
             </span>
           </a>
-          <div className="flex items-center gap-1.5">
-            {/* Dark-mode toggle — a game-menu-style dark background with
-                real depth (soft glows, not a flat color swap), per
-                explicit request. */}
-            <button
-              type="button"
-              onClick={setDark}
-              aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-              aria-pressed={dark}
-              className={`flex items-center justify-center w-8 h-8 rounded-full border transition-colors ${
-                dark ? 'border-white/15 text-white/80 hover:bg-white/10' : 'border-transparent text-pearl-sub hover:border-pearl-sub/20 hover:text-pearl-ink'
-              }`}
-            >
-              {dark ? <Sun size={14} /> : <Moon size={14} />}
-            </button>
-            <a
-              href={asset('/resume.pdf')}
-              download
-              className={`flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide transition-colors px-3 py-1.5 rounded-full border border-transparent ${
-                dark ? 'text-white/70 hover:text-white hover:border-white/15' : 'text-pearl-sub hover:text-pearl-ink hover:border-pearl-sub/20'
-              }`}
-            >
-              <Download size={12} /> <span className="hidden sm:inline">Resume</span>
-            </a>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <nav className="hidden md:flex items-center gap-5 lg:gap-6">
+              {HEADER_LINKS.map(({ label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  className={`text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors ${
+                    dark ? 'text-white/65 hover:text-white' : 'text-pearl-sub hover:text-pearl-ink'
+                  }`}
+                >
+                  {label}
+                </a>
+              ))}
+            </nav>
+            <div className="flex items-center gap-1.5">
+              {/* Dark-mode toggle — a game-menu-style dark background with
+                  real depth (soft glows, not a flat color swap), per
+                  explicit request. */}
+              <button
+                type="button"
+                onClick={setDark}
+                aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+                aria-pressed={dark}
+                className={`flex items-center justify-center w-8 h-8 rounded-full border transition-colors ${
+                  dark ? 'border-white/15 text-white/80 hover:bg-white/10' : 'border-transparent text-pearl-sub hover:border-pearl-sub/20 hover:text-pearl-ink'
+                }`}
+              >
+                {dark ? <Sun size={14} /> : <Moon size={14} />}
+              </button>
+              <a
+                href={asset('/resume.pdf')}
+                download
+                className={`flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide transition-colors px-3 py-1.5 rounded-full border border-transparent ${
+                  dark ? 'text-white/70 hover:text-white hover:border-white/15' : 'text-pearl-sub hover:text-pearl-ink hover:border-pearl-sub/20'
+                }`}
+              >
+                <Download size={12} /> <span className="hidden sm:inline">Resume</span>
+              </a>
+            </div>
           </div>
         </div>
       </header>
 
-      <section id="top" className="relative z-10 mx-auto max-w-[1400px] w-full px-4 sm:px-6 lg:px-10 pt-10 sm:pt-14 lg:pt-16 pb-10 sm:pb-14">
-        <div className="flex flex-col lg:flex-row items-center lg:items-center gap-10 lg:gap-8">
-          {/* Left — copy. Left-aligned, compact, premium; no project art
-              duplicated here anymore (that used to live in the old
-              centered hero) — the diorama on the right carries the
+      <section id="top" className="relative z-10 mx-auto max-w-[1400px] w-full px-4 sm:px-6 lg:px-10 pt-8 sm:pt-10 lg:pt-12 pb-8 sm:pb-10 scroll-mt-20">
+        <div className="flex flex-col lg:flex-row items-center lg:items-center gap-10 lg:gap-6">
+          {/* Left — copy, ~45% width on desktop. Left-aligned, compact,
+              premium; no project art duplicated here (that used to live in
+              the old centered hero) — the diorama on the right carries the
               "this is a game-world designer" signal instead. */}
-          <div className="flex-1 min-w-0 text-center lg:text-left">
+          <div className="lg:w-[45%] min-w-0 text-center lg:text-left">
             <motion.p
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -98,7 +141,7 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.05 }}
-              className={`mt-3 font-display font-extrabold text-[2rem] sm:text-4xl lg:text-[2.75rem] leading-[1.05] tracking-tight transition-colors duration-500 ${dark ? 'text-white' : 'text-pearl-ink'}`}
+              className={`mt-4 font-display font-black text-[2.4rem] sm:text-5xl lg:text-[3.4rem] xl:text-[3.75rem] leading-[1.03] tracking-tight transition-colors duration-500 ${dark ? 'text-white' : 'text-pearl-ink'}`}
             >
               Playable Interfaces.
               <br />
@@ -143,12 +186,14 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
             </motion.div>
           </div>
 
-          {/* Right — the interactive game-level diorama. */}
+          {/* Right — the real supplied diorama artwork, floating free (no
+              card/container), ~52% of this row's width so it lands in the
+              ~38–46% of total page width the brief calls for. */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="shrink-0"
+            className="w-full lg:w-[52%] flex justify-center lg:justify-end"
           >
             <HeroDiorama />
           </motion.div>
@@ -180,11 +225,11 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
         </motion.div>
       </main>
 
-      {/* Footer — a flush, full-width dark bar directly under the grid (not
-          a floating inset/rounded HUD panel) — matches the mockup exactly:
-          sharp corners, no side margins, sits in normal document flow
-          rather than fixed-over-content. */}
-      <footer className="relative z-30 bg-[#0B0C10]">
+      {/* Footer — a slim, flush strip directly under the grid rather than a
+          heavy standalone black slab: a plain top border instead of a hard
+          color break, so it reads as the tail end of the same dark
+          interface rather than a separate section cutting the composition. */}
+      <footer id="contact" className="relative z-30 bg-[#0B0C10] border-t border-white/[0.06] scroll-mt-20">
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8 py-4 sm:py-5 flex flex-col lg:flex-row items-center lg:items-center justify-between gap-4">
           <div className="text-center lg:text-left">
             <p className="font-display font-extrabold text-base sm:text-lg text-white tracking-tight">SHIRLY HERSCOVICI</p>
