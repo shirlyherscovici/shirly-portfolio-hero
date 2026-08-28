@@ -77,12 +77,14 @@ interface ActivationProps {
 export function AmyModule({
   onClick,
   hidden = false,
+  dark = false,
   compact = false,
   onActivate,
   onDeactivate,
 }: {
   onClick: () => void
   hidden?: boolean
+  dark?: boolean
   compact?: boolean
 } & ActivationProps) {
   const t = useTiltRef()
@@ -118,15 +120,21 @@ export function AmyModule({
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
     >
-      {/* Fixed light/pastel identity regardless of the site-wide dark
-          toggle — matches the approved mockup, which keeps this card's own
-          gift-box world pale and warm no matter the page theme (same
-          treatment as Motion's card below). */}
+      {/* Follows the site-wide dark toggle again — reverted per explicit
+          feedback that the card had turned permanently white/light without
+          being asked; only the TEXT color needed to match the mockup, not
+          a forced-light card background. */}
       <motion.div
         style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d' }}
-        className="relative w-full h-full rounded-[26px] overflow-visible glass-sheen border-2 border-pearl-red/15 shadow-2xl transition-all duration-300 group-hover:shadow-glow-red group-hover:border-pearl-red/40"
+        className={`relative w-full h-full rounded-[26px] overflow-visible glass-sheen border-2 shadow-2xl transition-all duration-300 group-hover:shadow-glow-red ${
+          dark ? 'border-pearl-red/20 group-hover:border-pearl-red/50' : 'glass-pearl border-pearl-red/15 group-hover:border-pearl-red/40'
+        }`}
       >
-        <div className="absolute inset-0 rounded-[26px] overflow-hidden bg-gradient-to-br from-stone-100 via-[#F9F6F0] to-rose-50" />
+        <div
+          className={`absolute inset-0 rounded-[26px] overflow-hidden ${
+            dark ? 'bg-gradient-to-br from-[#2a1420] to-[#140a10]' : 'bg-gradient-to-br from-stone-100 via-[#F9F6F0] to-rose-50'
+          }`}
+        />
 
         {/* Amy figure — enlarged so she reads as the dominant visual (per
             explicit "more prominent, like the mockup" feedback), breaking
@@ -154,11 +162,11 @@ export function AmyModule({
 
         <div className="relative z-10 flex flex-col h-full p-4 sm:p-5" style={{ transform: 'translateZ(24px)' }}>
           <NumberBadge n="04" color="#ff5f7a" glow="rgba(255,95,122,0.5)" />
-          <h3 className={`mt-1 font-display font-extrabold leading-[1.05] text-pearl-ink ${compact ? 'text-lg sm:text-xl' : 'text-xl sm:text-[22px]'}`}>
+          <h3 className={`mt-1 font-display font-extrabold leading-[1.05] ${compact ? 'text-lg sm:text-xl' : 'text-xl sm:text-[22px]'} ${dark ? 'text-white' : 'text-pearl-ink'}`}>
             VISUAL SYSTEMS
             <br />& ART DIRECTION
           </h3>
-          <p className={`mt-1.5 text-pearl-sub ${compact ? 'text-[10px] max-w-[10.5rem]' : 'text-[10.5px] font-semibold uppercase tracking-wide'}`}>
+          <p className={`mt-1.5 ${compact ? 'text-[10px] max-w-[10.5rem]' : 'text-[10.5px] font-semibold uppercase tracking-wide'} ${dark ? 'text-white/60' : 'text-pearl-sub'}`}>
             {compact
               ? 'Crafting bold visual identities and cohesive art direction that bring worlds and brands to life.'
               : 'Character Design · 3D Pop-Art Figure'}
@@ -190,7 +198,7 @@ export function AmyModule({
 function GalgalatzArt() {
   return (
     <div className="relative w-full" style={{ aspectRatio: '765 / 680' }}>
-      <div className="absolute inset-y-0 left-0" style={{ width: '50%' }}>
+      <div className="absolute inset-y-0 left-0" style={{ width: '48%' }}>
         <img
           src={asset('/assets/galgalatz/neon-box-tight.png')}
           alt=""
@@ -198,9 +206,13 @@ function GalgalatzArt() {
           className="w-full h-full object-contain drop-shadow-2xl"
         />
       </div>
-      <div className="absolute" style={{ left: '60%', right: '0%', top: '0%', bottom: '0%' }}>
-        <div className="relative h-full">
-          <div className="relative w-full" style={{ aspectRatio: '617 / 1326' }}>
+      {/* Phone — pulled up and tilted diagonally (was flat/bottom-anchored,
+          which left the card's top-right corner empty) so it reaches
+          toward the top-right corner instead, matching the mockup's own
+          diagonal phone placement. */}
+      <div className="absolute" style={{ left: '54%', right: '16%', top: '-10%', bottom: '6%' }}>
+        <div className="relative h-full" style={{ transform: 'rotate(-5deg)' }}>
+          <div className="relative w-full h-full" style={{ aspectRatio: '617 / 1326' }}>
             <img
               src={asset('/assets/galgalatz/glaglatz-phones.png')}
               alt="A phone showing the Galgalatz key art, next to its real 3D glass display case with the same neon 'Music From The Screen' branding, popcorn, film strip and clapperboard"
@@ -258,7 +270,7 @@ export function GalgalatzModule({
     >
       <motion.div
         style={{ rotateX: t.rotateX, rotateY: t.rotateY, transformStyle: 'preserve-3d' }}
-        className="relative w-full h-full rounded-[26px] overflow-visible bg-[#171426] border-2 border-[#6d4fc9]/35 shadow-2xl transition-all duration-300 group-hover:shadow-glow-magenta group-hover:border-cine-magenta/60"
+        className="relative w-full h-full rounded-[26px] overflow-visible bg-[#171426] border-2 border-[#6d4fc9]/35 shadow-2xl transition-all duration-300 group-hover:shadow-glow-purple group-hover:border-[#8b5cf6]/70"
       >
         <div className="absolute inset-0 rounded-[26px] overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-[#0e0c1a] via-[#171426]/70 to-[#2a1f4d]/40" />
@@ -406,7 +418,7 @@ export function AiModule({
             PROTOTYPING
           </h3>
           <p
-            className={`mt-1.5 text-white/75 ${compact ? 'text-[10px] max-w-[12rem]' : 'text-[10px] max-w-[13rem]'}`}
+            className={`mt-1.5 text-white ${compact ? 'text-[10px] max-w-[12rem]' : 'text-[10px] max-w-[13rem]'}`}
             style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}
           >
             AI-powered cinematic prototypes with story, realism and emotional impact at scale.
@@ -614,7 +626,7 @@ export function MotionModule({
               </>
             )}
           </h3>
-          <p className={`mt-1.5 text-pearl-sub ${wide ? 'text-[10px] max-w-[13rem]' : 'text-[10.5px] font-semibold uppercase tracking-wide'}`}>
+          <p className={`mt-1.5 ${wide ? 'text-[10px] max-w-[13rem] text-[#42280f]/90 font-medium' : 'text-[10.5px] font-semibold uppercase tracking-wide text-pearl-sub'}`}>
             {wide ? 'Turning ideas into playable motion experiences that teach, reward and keep players coming back.' : '2D Worlds. Motion Design.'}
           </p>
           {wide && <ExploreButton tone="#b8863b" />}

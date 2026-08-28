@@ -14,6 +14,68 @@ const NAV_ITEMS = [
   { label: 'AI Creation', icon: Sparkles, glow: 'rgba(185,140,255,0.6)' },
 ]
 
+// A fixed, deterministic scatter of small twinkling stars — spans the
+// FULL page height (unlike the hero-background photo, which is capped to
+// the top section) so the same gentle starfield continues behind the grid
+// and the footer instead of stopping partway down the page. Reuses the
+// existing `animate-pulse-soft` keyframe (a slow opacity pulse) rather than
+// inventing a new one; it already respects the project's global
+// prefers-reduced-motion override in index.css.
+const STARS = [
+  { x: 6, y: 4, size: 2, delay: 0 },
+  { x: 18, y: 12, size: 1.5, delay: 0.8 },
+  { x: 32, y: 3, size: 1.5, delay: 1.6 },
+  { x: 47, y: 9, size: 2, delay: 0.4 },
+  { x: 61, y: 5, size: 1.5, delay: 1.2 },
+  { x: 78, y: 14, size: 2, delay: 0.2 },
+  { x: 91, y: 6, size: 1.5, delay: 1.8 },
+  { x: 9, y: 24, size: 1.5, delay: 1.0 },
+  { x: 26, y: 30, size: 2, delay: 0.6 },
+  { x: 41, y: 21, size: 1.5, delay: 1.4 },
+  { x: 55, y: 33, size: 1.5, delay: 0.3 },
+  { x: 70, y: 26, size: 2, delay: 1.1 },
+  { x: 85, y: 35, size: 1.5, delay: 0.7 },
+  { x: 4, y: 48, size: 2, delay: 1.5 },
+  { x: 22, y: 55, size: 1.5, delay: 0.5 },
+  { x: 38, y: 44, size: 1.5, delay: 1.3 },
+  { x: 52, y: 58, size: 2, delay: 0.9 },
+  { x: 67, y: 47, size: 1.5, delay: 0.1 },
+  { x: 82, y: 60, size: 1.5, delay: 1.7 },
+  { x: 95, y: 50, size: 2, delay: 0.4 },
+  { x: 13, y: 70, size: 1.5, delay: 1.2 },
+  { x: 30, y: 78, size: 2, delay: 0.6 },
+  { x: 46, y: 68, size: 1.5, delay: 1.6 },
+  { x: 63, y: 82, size: 1.5, delay: 0.2 },
+  { x: 79, y: 72, size: 2, delay: 1.0 },
+  { x: 92, y: 85, size: 1.5, delay: 0.8 },
+  { x: 8, y: 92, size: 2, delay: 1.4 },
+  { x: 35, y: 95, size: 1.5, delay: 0.3 },
+  { x: 58, y: 90, size: 1.5, delay: 1.1 },
+  { x: 88, y: 96, size: 2, delay: 0.5 },
+]
+
+function Starfield() {
+  return (
+    <div className="absolute inset-0 pointer-events-none" aria-hidden>
+      {STARS.map((s, i) => (
+        <span
+          key={i}
+          className="absolute rounded-full bg-white animate-pulse-soft"
+          style={{
+            left: `${s.x}%`,
+            top: `${s.y}%`,
+            width: s.size,
+            height: s.size,
+            animationDelay: `${s.delay}s`,
+            animationDuration: `${2.6 + (i % 3) * 0.5}s`,
+            boxShadow: '0 0 4px rgba(255,255,255,0.8)',
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
 // Top-nav links — anchor to real sections that already exist on the page
 // rather than inventing new ones. "About" jumps back to the hero's own
 // intro copy (the closest thing this single-page portfolio has to an About
@@ -49,17 +111,23 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
 
   return (
     <div className={`relative min-h-screen overflow-x-clip flex flex-col transition-colors duration-500 ${dark ? 'bg-cine' : 'bg-hub'}`}>
-      {/* Immersive dark environment behind the hero + top of the grid — the
-          supplied hero-background artwork (a real image, not a CSS
-          gradient recreation), full-bleed and cover-fit, with a bottom
-          fade so it blends into the page's own dark background rather than
-          ending on a hard edge. Dark mode only: the image is a night/cosmic
-          scene that would fight the pearl-light palette, so light mode
-          keeps its existing plain background untouched. */}
+      {/* Immersive dark environment — the supplied hero-background artwork
+          (a real image, not a CSS gradient recreation) covers the hero and
+          top of the grid, fading into the page's own dark gradient
+          (bg-cine, applied to this whole wrapper) rather than ending on a
+          hard edge. A full page-height starfield continues on top of that
+          same dark gradient all the way down, so the background now
+          genuinely reaches the footer instead of stopping partway down the
+          page. Dark mode only: the image is a night/cosmic scene that
+          would fight the pearl-light palette, so light mode keeps its
+          existing plain background untouched. */}
       {dark && (
-        <div className="absolute inset-x-0 top-0 h-[820px] sm:h-[900px] lg:h-[980px] z-0 pointer-events-none overflow-hidden" aria-hidden>
-          <img src={asset('/assets/hub/hero-background.png')} alt="" className="absolute inset-0 w-full h-full object-cover object-top" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0e0f18]" />
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden>
+          <div className="absolute inset-x-0 top-0 h-[820px] sm:h-[900px] lg:h-[980px]">
+            <img src={asset('/assets/hub/hero-background.png')} alt="" className="absolute inset-0 w-full h-full object-cover object-top" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0e0f18]" />
+          </div>
+          <Starfield />
         </div>
       )}
 
@@ -148,11 +216,16 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.05 }}
-              className={`mt-4 font-display font-black text-[2.4rem] sm:text-5xl lg:text-[3.4rem] xl:text-[3.75rem] leading-[1.03] tracking-tight transition-colors duration-500 ${dark ? 'text-white' : 'text-pearl-ink'}`}
+              className={`mt-4 font-display font-black text-[2.4rem] sm:text-5xl lg:text-[3.4rem] xl:text-[3.75rem] leading-[1.03] tracking-tight transition-colors duration-500 ${dark ? '' : 'text-pearl-ink'}`}
             >
-              Playable Interfaces.
-              <br />
-              Motion Systems.
+              {/* Dark mode: a subtle white-to-silver gradient fill (a soft
+                  metallic sheen) instead of flat white, matching the
+                  mockup — light mode keeps the plain solid ink color. */}
+              <span className={dark ? 'bg-gradient-to-b from-white via-[#e6e6ee] to-[#9d9dae] bg-clip-text text-transparent' : ''}>
+                Playable Interfaces.
+                <br />
+                Motion Systems.
+              </span>
               <br />
               <span className={dark ? 'text-gradient-cine' : 'text-pearl-red'}>Cinematic Experiences.</span>
             </motion.h1>
@@ -175,7 +248,7 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
                 href="#work"
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#8b5cf6] to-[#6d28d9] text-white text-xs font-display font-bold uppercase tracking-wide shadow-[0_0_24px_rgba(139,92,246,0.5),0_0_50px_rgba(139,92,246,0.22)]"
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-br from-[#c4a2ff] via-[#8b5cf6] to-[#5b21b6] text-white text-xs font-display font-bold uppercase tracking-wide shadow-[0_0_24px_rgba(139,92,246,0.5),0_0_50px_rgba(139,92,246,0.22)]"
               >
                 View Featured Work <ArrowRight size={14} />
               </motion.a>
@@ -248,6 +321,7 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
             <AmyModule
               onClick={() => onOpen('amy')}
               hidden={openId === 'amy'}
+              dark={dark}
               compact
               onActivate={() => setActiveProject(4)}
               onDeactivate={resetActive}
@@ -259,8 +333,12 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
       {/* Footer — a slim, flush strip directly under the grid rather than a
           heavy standalone black slab: a plain top border instead of a hard
           color break, so it reads as the tail end of the same dark
-          interface rather than a separate section cutting the composition. */}
-      <footer id="contact" className="relative z-30 bg-[#0B0C10] border-t border-white/[0.06] scroll-mt-20">
+          interface rather than a separate section cutting the composition.
+          Semi-transparent in dark mode so the starfield/background above
+          keeps showing straight through it, per explicit "I want the
+          background on the footer too" feedback; opaque in light mode,
+          where there is no background image to show. */}
+      <footer id="contact" className={`relative z-30 border-t border-white/[0.06] scroll-mt-20 ${dark ? 'bg-[#0B0C10]/55 backdrop-blur-sm' : 'bg-[#0B0C10]'}`}>
         <div className="mx-auto max-w-[1400px] px-5 sm:px-8 py-4 sm:py-5 flex flex-col lg:flex-row items-center lg:items-center justify-between gap-4">
           <div className="text-center lg:text-left">
             <p className="font-display font-extrabold text-base sm:text-lg text-white tracking-tight">SHIRLY HERSCOVICI</p>

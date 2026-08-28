@@ -52,6 +52,7 @@ export default {
         'glow-gold': '0 0 28px rgba(201,161,90,0.4), 0 0 68px rgba(201,161,90,0.18)',
         'glow-cyan': '0 0 24px rgba(79,216,255,0.45), 0 0 68px rgba(79,216,255,0.18)',
         'glow-magenta': '0 0 24px rgba(255,95,160,0.45), 0 0 68px rgba(255,95,160,0.18)',
+        'glow-purple': '0 0 28px rgba(139,92,246,0.5), 0 0 68px rgba(139,92,246,0.22)',
         'glow-red': '0 0 28px rgba(176,42,58,0.35), 0 8px 20px -6px rgba(176,42,58,0.3)',
       },
       animation: {
