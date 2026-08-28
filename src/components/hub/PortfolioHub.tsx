@@ -1,7 +1,8 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Download, Mail, PenTool, Film, Sparkles, Code2, Moon, Sun, Gamepad2, ArrowRight } from 'lucide-react'
 import { AmyModule, GalgalatzModule, AiModule, MotionModule } from './ProjectModules'
-import HeroDiorama from './HeroDiorama'
+import HeroDiorama, { type ActiveProject } from './HeroDiorama'
 import { useDarkMode } from '../../lib/darkMode'
 import type { ProjectId } from '../../types'
 import { asset } from '../../lib/asset'
@@ -39,6 +40,12 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
   // this can't live as local state here anymore now that Amy and After
   // Effects also follow it).
   const { dark, toggle: setDark } = useDarkMode()
+
+  // Which project the hero diorama's pawn is currently standing on —
+  // driven by whichever project card is hovered/focused, defaulting to 01
+  // (Game UI), the pawn's own resting tile in the source art.
+  const [activeProject, setActiveProject] = useState<ActiveProject>(1)
+  const resetActive = () => setActiveProject(1)
 
   return (
     <div className={`relative min-h-screen overflow-x-clip flex flex-col transition-colors duration-500 ${dark ? 'bg-cine' : 'bg-hub'}`}>
@@ -195,7 +202,7 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="w-full lg:w-[52%] flex justify-center lg:justify-end"
           >
-            <HeroDiorama />
+            <HeroDiorama activeProject={activeProject} />
           </motion.div>
         </div>
       </section>
@@ -215,12 +222,36 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
           className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-[auto_auto] gap-3 sm:gap-4"
         >
           <div className="lg:row-span-2">
-            <GalgalatzModule onClick={() => onOpen('galgalatz')} hidden={openId === 'galgalatz'} featured />
+            <GalgalatzModule
+              onClick={() => onOpen('galgalatz')}
+              hidden={openId === 'galgalatz'}
+              featured
+              onActivate={() => setActiveProject(1)}
+              onDeactivate={resetActive}
+            />
           </div>
-          <MotionModule onClick={() => onOpen('people-motion')} hidden={openId === 'people-motion'} dark={dark} wide />
+          <MotionModule
+            onClick={() => onOpen('people-motion')}
+            hidden={openId === 'people-motion'}
+            wide
+            onActivate={() => setActiveProject(2)}
+            onDeactivate={resetActive}
+          />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            <AiModule onClick={() => onOpen('ai-rescue')} hidden={openId === 'ai-rescue'} compact />
-            <AmyModule onClick={() => onOpen('amy')} hidden={openId === 'amy'} dark={dark} compact />
+            <AiModule
+              onClick={() => onOpen('ai-rescue')}
+              hidden={openId === 'ai-rescue'}
+              compact
+              onActivate={() => setActiveProject(3)}
+              onDeactivate={resetActive}
+            />
+            <AmyModule
+              onClick={() => onOpen('amy')}
+              hidden={openId === 'amy'}
+              compact
+              onActivate={() => setActiveProject(4)}
+              onDeactivate={resetActive}
+            />
           </div>
         </motion.div>
       </main>
