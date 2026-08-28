@@ -35,7 +35,17 @@ function useTiltRef() {
 /* Module 01 — AMY / Graphic Design                                       */
 /* ---------------------------------------------------------------------- */
 
-export function AmyModule({ onClick, hidden = false, dark = false }: { onClick: () => void; hidden?: boolean; dark?: boolean }) {
+export function AmyModule({
+  onClick,
+  hidden = false,
+  dark = false,
+  compact = false,
+}: {
+  onClick: () => void
+  hidden?: boolean
+  dark?: boolean
+  compact?: boolean
+}) {
   const t = useTiltRef()
   const { spawn, field } = useParticleBurst(6)
 
@@ -60,7 +70,7 @@ export function AmyModule({ onClick, hidden = false, dark = false }: { onClick: 
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      className="group relative text-left w-full h-full min-h-[220px] sm:min-h-[240px]"
+      className={`group relative text-left w-full h-full ${compact ? 'min-h-[240px] sm:min-h-[280px]' : 'min-h-[220px] sm:min-h-[240px]'}`}
       aria-label="Open case study 01 — Graphic Design (Amy)"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
@@ -87,63 +97,46 @@ export function AmyModule({ onClick, hidden = false, dark = false }: { onClick: 
           src={asset('/assets/amy/amy-figure-birds-gems.png')}
           alt=""
           aria-hidden
-          className="pointer-events-none absolute -top-8 -right-4 w-[58%] max-w-[186px] h-auto object-contain drop-shadow-xl transition-transform duration-300 group-hover:-translate-y-3 group-hover:scale-110"
+          className={`pointer-events-none absolute -top-8 -right-4 h-auto object-contain drop-shadow-xl transition-transform duration-300 group-hover:-translate-y-3 group-hover:scale-110 ${
+            compact ? 'w-[52%] max-w-[150px]' : 'w-[58%] max-w-[186px]'
+          }`}
         />
 
-        {/* Continuous floating ruby/sparkles — always animating, independent
-            of hover, distinct from the interaction particle burst below.
-            A red ruby (not the stock blue 💎) to match the gift box & roses. */}
+        {/* One quiet floating ruby (was 3 sparkles+heart) — "fewer floating
+            elements, clear depth" per explicit request; this one sits
+            behind the figure's own silhouette, low-key rather than busy. */}
         <motion.span
           aria-hidden
-          className="absolute top-[38%] right-[8%] text-base pointer-events-none"
+          className="absolute top-[42%] right-[10%] text-sm pointer-events-none z-0"
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
         >
           ❤️
         </motion.span>
-        <motion.span
-          aria-hidden
-          className="absolute top-[58%] right-[26%] text-sm pointer-events-none"
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-        >
-          ✨
-        </motion.span>
-        <motion.span
-          aria-hidden
-          className="absolute top-[10%] right-[32%] text-sm pointer-events-none"
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut', delay: 1.1 }}
-        >
-          ✨
-        </motion.span>
 
         {field}
 
         <div className="relative z-10 flex flex-col h-full p-4 sm:p-5" style={{ transform: 'translateZ(24px)' }}>
-          <h3 className={`font-display font-extrabold text-xl sm:text-[22px] leading-[1.05] ${dark ? 'text-white' : 'text-pearl-ink'}`}>
-            GRAPHIC
-            <br />
-            DESIGN
+          <span className={`text-[9px] font-bold ${dark ? 'text-white/50' : 'text-pearl-sub/70'}`}>04</span>
+          <h3 className={`mt-1 font-display font-extrabold leading-[1.05] ${compact ? 'text-lg sm:text-xl' : 'text-xl sm:text-[22px]'} ${dark ? 'text-white' : 'text-pearl-ink'}`}>
+            VISUAL SYSTEMS
+            <br />& ART DIRECTION
           </h3>
-          <p className={`mt-1.5 text-[10.5px] font-semibold uppercase tracking-wide max-w-[9.5rem] ${dark ? 'text-white/60' : 'text-pearl-sub'}`}>
-            Character Design · 3D Pop-Art Figure
-          </p>
+          {!compact && (
+            <p className={`mt-1.5 text-[10.5px] font-semibold uppercase tracking-wide max-w-[9.5rem] ${dark ? 'text-white/60' : 'text-pearl-sub'}`}>
+              Character Design · 3D Pop-Art Figure
+            </p>
+          )}
+          {compact && (
+            <p className={`mt-1.5 text-[10px] max-w-[10rem] ${dark ? 'text-white/60' : 'text-pearl-sub'}`}>
+              Crafting bold visual identities and cohesive art direction that bring worlds to life.
+            </p>
+          )}
 
           <div className="mt-auto flex items-end justify-between">
-            <div>
-              <p
-                className="font-display font-black text-4xl sm:text-5xl text-pearl-red leading-none"
-                style={{ textShadow: '0 0 20px rgba(176,42,58,0.45), 0 0 40px rgba(176,42,58,0.25)' }}
-              >
-                +74%
-              </p>
-              <p className={`text-[10px] font-bold uppercase tracking-wide mt-1.5 ${dark ? 'text-white/80' : 'text-pearl-ink/80'}`}>Active User Growth</p>
-              {/* Tertiary metadata — kept (per the mockup) but dialed back
-                  to a quiet, borderless label so the metric above stays the
-                  clear visual anchor rather than competing with it. */}
-              <span className="block mt-1 text-[8px] font-semibold uppercase tracking-wide text-pearl-gold2/70">Award-Winning Craft</span>
-            </div>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-display font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-all border border-pearl-red/30 text-pearl-red">
+              Explore <ArrowUpRight size={11} />
+            </span>
             <span
               className={`flex items-center justify-center w-8 h-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-pearl-sm ${
                 dark ? 'bg-white/10 text-white' : 'bg-white/80 text-pearl-red'
@@ -194,7 +187,7 @@ function EqualizerBars({ active }: { active: boolean }) {
   )
 }
 
-export function GalgalatzModule({ onClick, hidden = false }: { onClick: () => void; hidden?: boolean }) {
+export function GalgalatzModule({ onClick, hidden = false, featured = false }: { onClick: () => void; hidden?: boolean; featured?: boolean }) {
   const t = useTiltRef()
   const [cardHover, setCardHover] = useState(false)
   return (
@@ -212,11 +205,11 @@ export function GalgalatzModule({ onClick, hidden = false }: { onClick: () => vo
         t.onMouseLeave()
         setCardHover(false)
       }}
-      whileHover={hidden ? undefined : { y: -8, scale: 1.035 }}
+      whileHover={hidden ? undefined : { y: -8, scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      className="group relative text-left w-full h-full min-h-[220px] sm:min-h-[240px]"
+      className={`group relative text-left w-full h-full ${featured ? 'min-h-[420px] sm:min-h-[480px]' : 'min-h-[220px] sm:min-h-[240px]'}`}
       aria-label="Open case study 02 — Game UI UX Prototyping (Galgalatz)"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
@@ -238,11 +231,15 @@ export function GalgalatzModule({ onClick, hidden = false }: { onClick: () => vo
             overflow-visible), with a slow idle float plus an intense neon
             pulse on hover. Wrapped together with the equalizer overlay so
             the bars can be positioned as percentages of the console image's
-            own box, over its screen area. */}
+            own box, over its screen area. Scaled up further when featured
+            (the big bento card) so it still reads as the dominant visual
+            at that size, not a small icon lost in extra space. */}
         <motion.div
           animate={{ y: [0, -6, 0] }}
           transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-          className="pointer-events-none absolute -bottom-4 -right-3 w-[78%] max-w-[230px] aspect-[1002/1133] transition-transform duration-300 group-hover:scale-[1.04]"
+          className={`pointer-events-none absolute -bottom-4 -right-3 aspect-[1002/1133] transition-transform duration-300 group-hover:scale-[1.04] ${
+            featured ? 'w-[86%] max-w-[380px]' : 'w-[78%] max-w-[230px]'
+          }`}
         >
           <img
             src={asset('/assets/galgalatz/game-uiux-tight.png')}
@@ -253,34 +250,37 @@ export function GalgalatzModule({ onClick, hidden = false }: { onClick: () => vo
           <EqualizerBars active={cardHover} />
         </motion.div>
 
-        <div className="relative z-10 flex flex-col h-full p-4 sm:p-5 max-w-[47%]" style={{ transform: 'translateZ(24px)' }}>
-          <h3 className="font-display font-extrabold text-xl sm:text-[22px] leading-[1.05] text-white">
-            GAME UI UX
+        <div className={`relative z-10 flex flex-col h-full p-4 sm:p-5 ${featured ? 'lg:p-7 max-w-[62%] sm:max-w-[52%]' : 'max-w-[47%]'}`} style={{ transform: 'translateZ(24px)' }}>
+          <span className="inline-flex items-center gap-1.5 self-start text-[9px] font-bold text-cine-cyan/80">
+            <Gamepad2 size={11} /> 01
+          </span>
+          <h3 className={`mt-1.5 font-display font-extrabold leading-[1.05] text-white ${featured ? 'text-2xl sm:text-3xl lg:text-[2.1rem]' : 'text-xl sm:text-[22px]'}`}>
+            GAME UI &amp; UX
             <br />
             PROTOTYPING
           </h3>
-          <p className="mt-1.5 text-[10.5px] font-semibold uppercase tracking-wide text-cine-sub">Tap. Play. Engage.</p>
+          <p className={`mt-1.5 text-cine-sub ${featured ? 'text-[11px] sm:text-xs max-w-[15rem]' : 'text-[10.5px] font-semibold uppercase tracking-wide'}`}>
+            {featured
+              ? 'Designing intuitive, delightful and data-driven game interfaces that drive engagement and retention.'
+              : 'Tap. Play. Engage.'}
+          </p>
 
-          <div className="mt-auto flex items-end justify-between">
-            <div>
-              <p
-                className="font-display font-black text-4xl sm:text-5xl text-gradient-cine leading-none"
-                style={{ filter: 'drop-shadow(0 0 16px rgba(79,216,255,0.55)) drop-shadow(0 0 32px rgba(255,95,160,0.3))' }}
-              >
-                +700%
-              </p>
-              <p className="text-[10px] font-bold uppercase tracking-wide text-white/90 mt-1.5">Mobile Engagement</p>
-              <span className="inline-flex items-center gap-1 mt-1 text-[8px] font-semibold uppercase tracking-wide text-cine-cyan/70">
-                <Gamepad2 size={8} /> Interactive Console
-              </span>
-            </div>
-            <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 text-white opacity-0 group-hover:opacity-100 transition-opacity border border-white/20">
-              <ArrowUpRight size={14} />
+          <div className="mt-auto">
+            <p
+              className={`font-display font-black text-gradient-cine leading-none ${featured ? 'text-5xl sm:text-6xl' : 'text-4xl sm:text-5xl'}`}
+              style={{ filter: 'drop-shadow(0 0 16px rgba(79,216,255,0.55)) drop-shadow(0 0 32px rgba(255,95,160,0.3))' }}
+            >
+              +700%
+            </p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-white/90 mt-1.5">Mobile Engagement Boost</p>
+
+            <span className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/10 border border-white/20 text-white text-[10px] font-display font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 group-hover:bg-white/15 transition-all">
+              Explore Project <ArrowUpRight size={12} />
             </span>
           </div>
         </div>
 
-        <MusicNote size={18} className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" color="#4fd8ff" />
+        <MusicNote size={featured ? 22 : 18} className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" color="#4fd8ff" />
       </motion.div>
     </motion.button>
   )
@@ -290,7 +290,7 @@ export function GalgalatzModule({ onClick, hidden = false }: { onClick: () => vo
 /* Module 03 — AI RESCUE / Generative Pipeline (tall centerpiece)         */
 /* ---------------------------------------------------------------------- */
 
-export function AiModule({ onClick, hidden = false }: { onClick: () => void; hidden?: boolean }) {
+export function AiModule({ onClick, hidden = false, compact = false }: { onClick: () => void; hidden?: boolean; compact?: boolean }) {
   const t = useTiltRef()
   return (
     <motion.button
@@ -304,7 +304,7 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      className="group relative text-left w-full h-full min-h-[380px] sm:min-h-[420px] row-span-2"
+      className={`group relative text-left w-full h-full ${compact ? 'min-h-[240px] sm:min-h-[280px]' : 'min-h-[380px] sm:min-h-[420px] row-span-2'}`}
       aria-label="Open case study 03 — AI Generative Pipeline"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
@@ -367,32 +367,35 @@ export function AiModule({ onClick, hidden = false }: { onClick: () => void; hid
           animate={{ x: '-50%', y: [0, -5, 0] }}
           whileHover={{ x: '-53%', rotate: -3, y: 0 }}
           transition={{ y: { duration: 2.6, repeat: Infinity, ease: 'easeInOut' }, x: { type: 'spring', stiffness: 220, damping: 16 }, rotate: { type: 'spring', stiffness: 220, damping: 16 } }}
-          className="absolute left-1/2 bottom-[-3%] z-20 h-[72%] w-auto max-w-none object-contain opacity-100"
+          className={`absolute left-1/2 bottom-[-3%] z-20 w-auto max-w-none object-contain opacity-100 ${compact ? 'h-[58%]' : 'h-[72%]'}`}
           style={{
             filter:
               'contrast(1.15) brightness(1.08) drop-shadow(0 12px 20px rgba(0,0,0,0.65)) drop-shadow(0 2px 6px rgba(0,0,0,0.8))',
           }}
         />
 
-        <div className="relative z-10 flex flex-col h-full p-4 sm:p-6" style={{ transform: 'translateZ(24px)' }}>
-          {/* "AI / Generative Pipeline / Cinematic Simulation" — the mockup's
-              own 3-line hierarchy (big label, big label, smaller caption)
-              rather than a single collapsed headline. */}
+        <div className={`relative z-10 flex flex-col h-full ${compact ? 'p-4' : 'p-4 sm:p-6'}`} style={{ transform: 'translateZ(24px)' }}>
+          <span className="inline-flex items-center gap-1.5 self-start text-[9px] font-bold text-cine-cyan/80">03</span>
           <h3
-            className="font-display font-extrabold text-lg sm:text-xl leading-[1.05] text-white tracking-tight"
+            className={`mt-1 font-display font-extrabold leading-[1.05] text-white tracking-tight ${compact ? 'text-base sm:text-lg' : 'text-lg sm:text-xl'}`}
             style={{ textShadow: '0 2px 10px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.9)' }}
           >
-            AI
+            CINEMATIC AI
             <br />
-            GENERATIVE PIPELINE
+            PROTOTYPING
           </h3>
-          <p
-            className="mt-1 text-[10.5px] font-semibold uppercase tracking-wide text-white/80"
-            style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}
-          >
-            Cinematic Simulation
-          </p>
+          {!compact && (
+            <p
+              className="mt-1.5 text-[10px] text-white/75 max-w-[13rem]"
+              style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}
+            >
+              AI-powered cinematic prototypes with story, realism and emotional impact at scale.
+            </p>
+          )}
 
+          <span className="mt-auto self-start inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-white text-[9px] font-display font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 group-hover:bg-white/15 transition-all">
+            Explore <ArrowUpRight size={11} />
+          </span>
         </div>
       </motion.div>
     </motion.button>
@@ -500,7 +503,17 @@ function FleeingCoin({
   )
 }
 
-export function MotionModule({ onClick, hidden = false, dark = false }: { onClick: () => void; hidden?: boolean; dark?: boolean }) {
+export function MotionModule({
+  onClick,
+  hidden = false,
+  dark = false,
+  wide = false,
+}: {
+  onClick: () => void
+  hidden?: boolean
+  dark?: boolean
+  wide?: boolean
+}) {
   const t = useTiltRef()
   const [cardHover, setCardHover] = useState(false)
   return (
@@ -515,11 +528,11 @@ export function MotionModule({ onClick, hidden = false, dark = false }: { onClic
         t.onMouseLeave()
         setCardHover(false)
       }}
-      whileHover={hidden ? undefined : { y: -8, scale: 1.025 }}
+      whileHover={hidden ? undefined : { y: -8, scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 300, damping: 22 }}
       animate={{ opacity: hidden ? 0 : 1 }}
       style={{ perspective: 1000, pointerEvents: hidden ? 'none' : 'auto' }}
-      className="group relative text-left w-full h-full min-h-[420px] sm:min-h-[480px] row-span-2"
+      className={`group relative text-left w-full h-full ${wide ? 'min-h-[200px] sm:min-h-[220px]' : 'min-h-[420px] sm:min-h-[480px] row-span-2'}`}
       aria-label="Open case study 04 — After Effects & Animation (People in Motion)"
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
@@ -531,13 +544,15 @@ export function MotionModule({ onClick, hidden = false, dark = false }: { onClic
           transformStyle: 'preserve-3d',
           background: dark ? 'linear-gradient(135deg, #241522, #150c17)' : 'linear-gradient(135deg, #FFF0EB, #FCE7F3)',
         }}
-        className={`relative w-full h-full rounded-[26px] overflow-visible glass-sheen backdrop-blur-xl border-2 shadow-2xl flex flex-col transition-all duration-300 group-hover:shadow-glow-gold ${
-          dark ? 'border-white/10 group-hover:border-white/30' : 'border-white/70 group-hover:border-white'
-        }`}
+        className={`relative w-full h-full rounded-[26px] overflow-visible glass-sheen backdrop-blur-xl border-2 shadow-2xl transition-all duration-300 group-hover:shadow-glow-gold ${
+          wide ? 'flex flex-col sm:flex-row sm:items-center' : 'flex flex-col'
+        } ${dark ? 'border-white/10 group-hover:border-white/30' : 'border-white/70 group-hover:border-white'}`}
       >
         {/* Fleeing coins & hearts — rest astride the card's own border,
-            dodge the cursor, z-50 so they always read above the frame */}
-        {COINS.map((c, i) => (
+            dodge the cursor, z-50 so they always read above the frame.
+            Trimmed to 3 (was 5) for the wide layout — "fewer floating
+            elements, clear depth" per explicit request. */}
+        {(wide ? COINS.slice(0, 3) : COINS).map((c, i) => (
           <FleeingCoin key={i} mx={t.mx} my={t.my} base={c.base} size={c.size} delay={c.delay} glyph={c.glyph} />
         ))}
 
@@ -548,24 +563,54 @@ export function MotionModule({ onClick, hidden = false, dark = false }: { onClic
           <TetrisRain active={cardHover} />
         </div>
 
-        <div className="relative z-10 p-4 sm:p-5 pb-2" style={{ transform: 'translateZ(24px)' }}>
-          <h3 className={`font-display font-extrabold text-xl sm:text-[22px] leading-[1.05] ${dark ? 'text-white' : 'text-pearl-ink'}`}>
-            AFTER EFFECTS
-            <br />& ANIMATION
+        <div className={`relative z-10 ${wide ? 'p-4 sm:p-5 sm:w-[34%] sm:shrink-0' : 'p-4 sm:p-5 pb-2'}`} style={{ transform: 'translateZ(24px)' }}>
+          <span className={`text-[9px] font-bold ${dark ? 'text-white/50' : 'text-pearl-sub/70'}`}>02</span>
+          <h3 className={`mt-1 font-display font-extrabold leading-[1.05] ${wide ? 'text-lg sm:text-xl' : 'text-xl sm:text-[22px]'} ${dark ? 'text-white' : 'text-pearl-ink'}`}>
+            {wide ? (
+              <>
+                PLAYABLE MOTION
+                <br />& GAMIFICATION
+              </>
+            ) : (
+              <>
+                AFTER EFFECTS
+                <br />& ANIMATION
+              </>
+            )}
           </h3>
-          <p className={`mt-1.5 text-[10.5px] font-semibold uppercase tracking-wide ${dark ? 'text-white/60' : 'text-pearl-sub'}`}>2D Worlds. Motion Design.</p>
+          <p className={`mt-1.5 ${wide ? 'text-[10px] max-w-[13rem]' : 'text-[10.5px] font-semibold uppercase tracking-wide'} ${dark ? 'text-white/60' : 'text-pearl-sub'}`}>
+            {wide ? 'Turning ideas into playable motion experiences that teach, reward and keep players coming back.' : '2D Worlds. Motion Design.'}
+          </p>
+          {wide && (
+            <span className="hidden sm:inline-flex mt-3 items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-display font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-all border border-pearl-gold2/40 text-pearl-gold2">
+              Explore Project <ArrowUpRight size={11} />
+            </span>
+          )}
         </div>
 
-        {/* Bottom stage — a small computer-monitor mockup showing a static
-            preview frame from the real "ACA ANASHIM" motion piece (the same
-            video the case study plays), whose top-right corner deliberately
-            pokes past the card's own edge (negative margins here, parent is
-            overflow-visible) rather than sitting fully inset like a normal
-            panel. */}
-        <div className="relative z-10 flex-1 ml-3 mb-3 -mr-1.5 sm:ml-4 sm:mb-4 sm:-mr-2 rounded-2xl overflow-hidden bg-gradient-to-b from-[#e88a9a] to-[#c9576b] border border-white/50 shadow-lg flex items-center px-3 sm:px-4">
-          <ComputerMonitorFrame compact>
-            <img src={asset('/assets/motion/aca-anashim-poster.jpg')} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover" />
-          </ComputerMonitorFrame>
+        {/* The real "ACA ANASHIM" motion piece poster — full-bleed banner
+            filling the rest of the wide card (was a small inset monitor
+            mockup in the tall layout; here it IS the dominant visual,
+            matching the mockup's own full-width desert/brand-logos scene). */}
+        <div
+          className={
+            wide
+              ? 'relative z-10 flex-1 h-full min-h-[140px] sm:min-h-0 mx-3 mb-3 sm:mx-0 sm:my-3 sm:mr-3 rounded-2xl overflow-hidden border border-white/50 shadow-lg'
+              : 'relative z-10 flex-1 ml-3 mb-3 -mr-1.5 sm:ml-4 sm:mb-4 sm:-mr-2 rounded-2xl overflow-hidden bg-gradient-to-b from-[#e88a9a] to-[#c9576b] border border-white/50 shadow-lg flex items-center px-3 sm:px-4'
+          }
+        >
+          {wide ? (
+            <img
+              src={asset('/assets/motion/aca-anashim-poster.jpg')}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          ) : (
+            <ComputerMonitorFrame compact>
+              <img src={asset('/assets/motion/aca-anashim-poster.jpg')} alt="" aria-hidden className="absolute inset-0 w-full h-full object-cover" />
+            </ComputerMonitorFrame>
+          )}
         </div>
       </motion.div>
     </motion.button>
