@@ -149,7 +149,7 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
                 Shirly Herscovici
               </span>
               <span className={`block text-[9px] font-semibold uppercase tracking-[0.14em] transition-colors ${dark ? 'text-white/50' : 'text-pearl-sub'}`}>
-                Game UI / Motion Designer
+                Game UI / Motion Designer · 8+ Years
               </span>
             </span>
           </a>
@@ -210,7 +210,7 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
               className={`flex items-center justify-center lg:justify-start gap-1.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.22em] transition-colors duration-500 ${dark ? 'text-white/60' : 'text-pearl-sub'}`}
             >
               <Gamepad2 size={13} className={dark ? 'text-cine-magenta' : 'text-pearl-red'} />
-              Shirly Herscovici · Game UI / Motion Designer
+              Shirly Herscovici · Game UI / Motion Designer · 8+ Years
             </motion.p>
             <motion.h1
               initial={{ opacity: 0, y: 10 }}
