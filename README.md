@@ -29,8 +29,8 @@ npm run preview  # preview the production build
 
 ## Deployment
 
-Pushing to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds the site and deploys `dist/` to GitHub Pages at `https://shirlyherscovici.github.io/shirly-portfolio-hero/`. This requires the repo's **Settings → Pages → Build and deployment → Source** to be set to **GitHub Actions**.
+Pushing to `main` triggers [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), which builds the site and deploys `dist/` to GitHub Pages at `https://shirlyherscovici.github.io/shirly-portfolio/`. This requires the repo's **Settings → Pages → Build and deployment → Source** to be set to **GitHub Actions**.
 
 ## Notes
 
-- All public assets referenced via string literals (not bundler imports) must be wrapped in the `asset()` helper from `src/lib/asset.ts` so they resolve correctly under the `/shirly-portfolio-hero/` base path on GitHub Pages.
+- All public assets referenced via string literals (not bundler imports) must be wrapped in the `asset()` helper from `src/lib/asset.ts` so they resolve correctly under the `/shirly-portfolio/` base path on GitHub Pages.
