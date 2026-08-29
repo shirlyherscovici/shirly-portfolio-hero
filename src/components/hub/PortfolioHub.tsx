@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Download, Mail, PenTool, Film, Sparkles, Code2, Moon, Sun, Gamepad2, ArrowRight } from 'lucide-react'
+import { Download, Mail, PenTool, Film, Sparkles, Code2, Moon, Sun, Gamepad2, ArrowRight, TrendingUp } from 'lucide-react'
 import { AmyModule, GalgalatzModule, AiModule, MotionModule } from './ProjectModules'
 import HeroDiorama, { type ActiveProject } from './HeroDiorama'
 import { useDarkMode } from '../../lib/darkMode'
@@ -263,6 +263,26 @@ export default function PortfolioHub({ onOpen, openId }: PortfolioHubProps) {
               >
                 <Download size={13} /> Resume
               </motion.a>
+            </motion.div>
+
+            {/* Credibility line — surfaces the one hard number on the whole
+                site (+700%, already shown inside the Galgalatz card) and
+                the real client names visible in the Motion card's own
+                artwork, right in the first 5 seconds instead of only below
+                the fold. Deliberately small/quiet — a trust line, not a
+                second headline — so it doesn't compete with the hero copy
+                above it. */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className={`mt-5 flex items-center justify-center lg:justify-start gap-2 flex-wrap text-[11px] font-medium ${dark ? 'text-white/55' : 'text-pearl-sub'}`}
+            >
+              <span className={`inline-flex items-center gap-1 font-display font-extrabold ${dark ? 'text-cine-cyan' : 'text-pearl-red'}`}>
+                <TrendingUp size={13} /> +700% Engagement
+              </span>
+              <span aria-hidden className="opacity-50">·</span>
+              <span>Real shipped work for Waze, Teva, WIX &amp; Mobileye</span>
             </motion.div>
           </div>
 
